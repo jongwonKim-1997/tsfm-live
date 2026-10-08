@@ -11,7 +11,7 @@ function render(id:string){
   const document=new JSDOM('').window.document;
   return Plot.plot({document,width:900,height:280,marginLeft:64,
     style:{background:'transparent',color:'currentColor',fontFamily:'inherit'},
-    x:{label:null,tickFormat:(v:any)=>new Intl.DateTimeFormat(locale,{month:'short',day:'numeric',timeZone:'UTC'}).format(v)},y:{grid:true,label:points[0]?.unit||'y'},
+    x:{label:null,tickFormat:(v:any)=>new Intl.DateTimeFormat(locale,{month:'2-digit',day:'numeric',timeZone:'UTC'}).format(v)},y:{grid:true,label:points[0]?.unit||'y'},
     color:{domain:[t('interval80'),t('median'),t('realised')],range:['#365a92','#85afff','currentColor'],legend:true},
     marks:[Plot.ruleY([0],{strokeOpacity:.25}),
       Plot.areaY(points,{x:'date',y1:'q10',y2:'q90',fill:()=>t('interval80'),fillOpacity:.48}),
