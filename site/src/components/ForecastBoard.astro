@@ -24,7 +24,7 @@ const json=JSON.stringify(data).replace(/</g,'\\u003c');
   <script type="application/json" data-forecast-data set:html={json}/>
 </section>
 <script>
-  import {panelMarkup,chartMarkup,asViewed} from '../lib/forecast-view.mjs';
+  import {panelMarkup,chartMarkup,asViewed,highlightForecast} from '../lib/forecast-view.mjs';
   import en from '../i18n/en.json';
   import ko from '../i18n/ko.json';
   const board=document.querySelector<HTMLElement>('[data-forecast-board]');
@@ -34,11 +34,16 @@ const json=JSON.stringify(data).replace(/</g,'\\u003c');
     const panel=board.querySelector<HTMLElement>('[data-forecast-panel]')!;
     let selected=data.indicators.find((row:any)=>row.id===board.dataset.selected);
     let period='today';
+    let pinnedModel:string|null=null;
     const width=()=>Math.max(310,panel.clientWidth-40);
     function render(){
       if(!selected)return;
       selected=asViewed(selected);
       panel.innerHTML=panelMarkup(selected,period,locale,words,width());
+      let found=false;
+      panel.querySelectorAll<HTMLElement>('[data-highlight-model]').forEach(button=>{const active=button.dataset.highlightModel===pinnedModel;button.setAttribute('aria-pressed',String(active));found=found||active;});
+      if(!found)pinnedModel=null;
+      highlightForecast(panel,pinnedModel);
       board!.querySelectorAll<HTMLButtonElement>('[data-indicator]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.indicator===selected.id)));
       board!.querySelector<HTMLSelectElement>('[data-indicator-select]')!.value=selected.id;
       board!.querySelectorAll<HTMLButtonElement>('[data-history-period]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.historyPeriod===period)));
@@ -51,17 +56,26 @@ const json=JSON.stringify(data).replace(/</g,'\\u003c');
       if(button.dataset.historyPeriod){period=button.dataset.historyPeriod;render();}
       if(button.dataset.highlightModel){
         const active=button.getAttribute('aria-pressed')!=='true', id=button.dataset.highlightModel;
+        pinnedModel=active?id:null;
         panel.querySelectorAll<HTMLElement>('[data-highlight-model]').forEach(row=>{row.setAttribute('aria-pressed',String(active&&row.dataset.highlightModel===id));});
-        panel.querySelectorAll<SVGElement>('[data-forecast-mark]').forEach(mark=>mark.classList.toggle('is-dim',active&&mark.dataset.forecastMark!==id));
+        highlightForecast(panel,pinnedModel);
       }
+    });
+    for(const eventName of ['pointerover','focusin'])panel.addEventListener(eventName,event=>{
+      const button=(event.target as HTMLElement).closest<HTMLElement>('[data-highlight-model]');
+      if(button)highlightForecast(panel,button.dataset.highlightModel);
+    });
+    for(const eventName of ['pointerout','focusout'])panel.addEventListener(eventName,event=>{
+      const next=(event as PointerEvent|FocusEvent).relatedTarget;
+      const button=next instanceof HTMLElement?next.closest<HTMLElement>('[data-highlight-model]'):null;
+      highlightForecast(panel,button?.dataset.highlightModel||pinnedModel);
     });
     board.querySelector('[data-indicator-select]')?.addEventListener('change',event=>{selected=data.indicators.find((row:any)=>row.id===(event.target as HTMLSelectElement).value);render();});
     let previousWidth=0;
     new ResizeObserver(()=>{
       const current=width();if(Math.abs(current-previousWidth)<2||!selected)return;previousWidth=current;
       const plot=panel.querySelector('.forecast-plot');if(plot)plot.innerHTML=chartMarkup(selected,period,locale,words,current);
-      const highlighted=panel.querySelector<HTMLElement>('[data-highlight-model][aria-pressed="true"]')?.dataset.highlightModel;
-      if(highlighted)panel.querySelectorAll<SVGElement>('[data-forecast-mark]').forEach(mark=>mark.classList.toggle('is-dim',mark.dataset.forecastMark!==highlighted));
+      highlightForecast(panel,pinnedModel);
     }).observe(panel);
     render();
     setInterval(()=>{if(selected&&asViewed(selected).status!==selected.status)render();},60000);

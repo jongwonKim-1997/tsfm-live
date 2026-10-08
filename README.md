@@ -11,6 +11,11 @@ model, mathematical, and operational decisions are documented under `docs/`.
 ## Current evidence and release status
 
 The public preview is [tsfm-live.pages.dev](https://tsfm-live.pages.dev/).
+The homepage opens with a date-axis line plot: confirmed observations followed
+by a separate line to each model's next-session median. Today / last 7 days
+controls the observation history, and selecting a model emphasizes its line.
+Model values retain their 80% intervals and exact market target dates. Before
+the first public lock-in the chart honestly shows an unavailable state.
 Seven pinned TSFMs have completed real-weight CPU inference on this computer.
 A three-indicator historical integration took **254.18 seconds**, with 30
 successful outputs and zero failures; see [measured evidence](docs/integration-smoke.md).

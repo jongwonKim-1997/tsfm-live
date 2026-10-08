@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {JSDOM} from 'jsdom';
-import {asViewed,chartMarkup,chooseIndicator,historyFor,panelMarkup,usableForecast} from '../src/lib/forecast-view.mjs';
+import {asViewed,chartMarkup,chooseIndicator,historyFor,panelMarkup,usableForecast,highlightForecast} from '../src/lib/forecast-view.mjs';
 const words=JSON.parse(fs.readFileSync(new URL('../src/i18n/en.json',import.meta.url),'utf8'));
 const model={id:'test-model',name:'Model A',kind:'tsfm',status:'ok',availability:'available',lower:0,median:1,upper:2,next_session_date:'2026-10-09',next_close_ts:'2026-10-09T16:00:00Z'};
 const last={session_date:'2026-10-08',value:1,origin:'actual'};
@@ -65,4 +65,33 @@ test('default selection prefers active evidence and duplicate daily points do no
   const duplicate={...indicator,history:{last7days:[last,last]}};
   assert.equal(historyFor(duplicate,'last7days').length,1);
   assert.doesNotMatch(chartMarkup(duplicate,'last7days','en',words),/NaN/);
+});
+test('forecast lines use date coordinates: equal targets align and later sessions move right',()=>{
+  const actual={...last,close_ts:'2026-10-08T16:00:00Z'};
+  const rows=[model,{...model,id:'second',median:1.5},
+    {...model,id:'later',median:.5,next_close_ts:'2026-10-10T16:00:00Z',next_session_date:'2026-10-10'}];
+  const doc=document(chartMarkup({...indicator,history:{today:[actual]},entrants:rows},'today','en',words));
+  const marks=[...doc.querySelectorAll('.forecast-mark')];
+  const endpoints=marks.map(mark=>Number(mark.querySelector('.forecast-endpoint').getAttribute('cx')));
+  assert.equal(marks.length,3);
+  assert.equal(endpoints[0],endpoints[1]);
+  assert.ok(endpoints[2]>endpoints[0]);
+  const paths=marks.map(mark=>mark.querySelector('.forecast-model-line').getAttribute('d'));
+  const starts=paths.map(path=>path.match(/^M([^ ]+)/)[1]);
+  assert.equal(new Set(starts).size,1);
+  const actualX=Number(starts[0].split(',')[0]);
+  assert.ok(Math.abs((endpoints[2]-actualX)/(endpoints[0]-actualX)-2)<1e-10);
+  assert.ok([...doc.querySelectorAll('.forecast-date-tick')].every(tick=>/^\d{2}\/\d{2}$/.test(tick.textContent)));
+  assert.equal(doc.querySelectorAll('.forecast-mark rect').length,0);
+});
+test('the history line joins only actual observations and model highlight is reversible',()=>{
+  const doc=document(panelMarkup({...indicator,entrants:[model,{...model,id:'second',median:1.5}]},'last7days','en',words));
+  assert.ok(doc.querySelector('.forecast-actual-line'));
+  assert.equal(doc.querySelectorAll('.forecast-model-line').length,2);
+  highlightForecast(doc,'second');
+  assert.equal(doc.querySelectorAll('.forecast-mark.is-focused').length,1);
+  assert.equal(doc.querySelector('.forecast-mark.is-focused').dataset.forecastMark,'second');
+  assert.equal(doc.querySelectorAll('.forecast-mark.is-dim').length,1);
+  highlightForecast(doc,null);
+  assert.equal(doc.querySelectorAll('.is-focused,.is-dim').length,0);
 });
