@@ -1,0 +1,97 @@
+{
+  "$defs": {
+    "ActualRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "indicator_id": {
+          "title": "Indicator Id",
+          "type": "string"
+        },
+        "close_ts": {
+          "format": "date-time",
+          "title": "Close Ts",
+          "type": "string"
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Value"
+        },
+        "y": {
+          "title": "Y",
+          "type": "number"
+        },
+        "source_id": {
+          "title": "Source Id",
+          "type": "string"
+        },
+        "source_fingerprint": {
+          "title": "Source Fingerprint",
+          "type": "string"
+        },
+        "published_ts": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Published Ts"
+        },
+        "fetched_ts_utc": {
+          "format": "date-time",
+          "title": "Fetched Ts Utc",
+          "type": "string"
+        }
+      },
+      "required": [
+        "indicator_id",
+        "close_ts",
+        "value",
+        "y",
+        "source_id",
+        "source_fingerprint",
+        "fetched_ts_utc"
+      ],
+      "title": "ActualRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "run_date": {
+      "format": "date",
+      "title": "Run Date",
+      "type": "string"
+    },
+    "records": {
+      "items": {
+        "$ref": "#/$defs/ActualRecord"
+      },
+      "title": "Records",
+      "type": "array"
+    }
+  },
+  "required": [
+    "run_date",
+    "records"
+  ],
+  "title": "ActualFile",
+  "type": "object"
+}

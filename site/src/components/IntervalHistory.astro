@@ -1,0 +1,27 @@
+---
+import * as Plot from '@observablehq/plot';
+import {JSDOM} from 'jsdom';
+import {language,meta} from '../lib/data';
+const {rows=[],locale='en'}=Astro.props;
+const t=language(locale);
+const entrants=meta.entrants.filter((m:any)=>rows.some((r:any)=>r.entrant_id===m.id));
+const selected=entrants.find((m:any)=>m.id==='ensemble-median')?.id||entrants[0]?.id;
+function render(id:string){
+  const points=rows.filter((r:any)=>r.entrant_id===id).slice(-60).map((r:any)=>({...r,date:new Date(r.next_close_ts)}));
+  const document=new JSDOM('').window.document;
+  return Plot.plot({document,width:900,height:280,marginLeft:64,
+    style:{background:'transparent',color:'currentColor',fontFamily:'inherit'},
+    x:{label:null,tickFormat:(v:any)=>new Intl.DateTimeFormat(locale,{month:'2-digit',day:'numeric',timeZone:'UTC'}).format(v)},y:{grid:true,label:points[0]?.unit||'y'},
+    color:{domain:[t('interval80'),t('median'),t('realised')],range:['#365a92','#85afff','currentColor'],legend:true},
+    marks:[Plot.ruleY([0],{strokeOpacity:.25}),
+      Plot.areaY(points,{x:'date',y1:'q10',y2:'q90',fill:()=>t('interval80'),fillOpacity:.48}),
+      Plot.lineY(points,{x:'date',y:'q50',stroke:()=>t('median'),strokeWidth:2}),
+      Plot.dot(points.filter((r:any)=>r.actual_y!=null),{x:'date',y:'actual_y',stroke:()=>t('realised'),r:3})]
+  }).outerHTML;
+}
+---
+{entrants.length?<div class="interval-history">
+  <label class="chart-selector">{t('entrant')}<select data-interval-select>{entrants.map((m:any)=><option value={m.id} selected={m.id===selected}>{m.name}</option>)}</select></label>
+  {entrants.map((m:any)=><div data-interval-panel={m.id} hidden={m.id!==selected}><figure class="chart" aria-label={`${m.name}: ${t('outputHistory')}`} set:html={render(m.id)}/></div>)}
+  <p class="protocol-note">{t('intervalHistoryNote')}</p>
+</div>:<div class="chart-empty"><span class="mini-line" aria-hidden="true"></span><p>{t('noObservations')}</p></div>}

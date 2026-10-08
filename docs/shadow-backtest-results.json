@@ -1,0 +1,7290 @@
+{
+  "schema_version": "1.0",
+  "kind": "partial_baseline_calendar_shadow_validation",
+  "warning": "NOT A LIVE RECORD. Historical observations were retrieved later and may include revisions; past publication availability is unverified. This validates calendars, eligibility, transforms and two baselines only, not TSFM models or the full MVP Definition of Done.",
+  "is_live": false,
+  "ledger_written": false,
+  "start_date": "2025-10-08",
+  "end_date": "2026-10-07",
+  "run_count": 365,
+  "as_of": "2026-10-07",
+  "generated_ts_utc": "2026-10-07T23:34:23.922233+00:00",
+  "seed": 20261008,
+  "models_executed": [
+    "rw0",
+    "volnaive"
+  ],
+  "tsfm_models_executed": [],
+  "pi_scale_validated": false,
+  "indicators": [
+    {
+      "id": "kospi",
+      "enabled": false,
+      "counts": {
+        "disabled": 365
+      },
+      "baseline_metrics": {
+        "rw0": {
+          "n": 0,
+          "mean_crps": null,
+          "rmse": null,
+          "mean_coverage80": null
+        },
+        "volnaive": {
+          "n": 0,
+          "mean_crps": null,
+          "rmse": null,
+          "mean_coverage80": null
+        }
+      }
+    },
+    {
+      "id": "kosdaq",
+      "enabled": false,
+      "counts": {
+        "disabled": 365
+      },
+      "baseline_metrics": {
+        "rw0": {
+          "n": 0,
+          "mean_crps": null,
+          "rmse": null,
+          "mean_coverage80": null
+        },
+        "volnaive": {
+          "n": 0,
+          "mean_crps": null,
+          "rmse": null,
+          "mean_coverage80": null
+        }
+      }
+    },
+    {
+      "id": "spx",
+      "enabled": false,
+      "counts": {
+        "disabled": 365
+      },
+      "baseline_metrics": {
+        "rw0": {
+          "n": 0,
+          "mean_crps": null,
+          "rmse": null,
+          "mean_coverage80": null
+        },
+        "volnaive": {
+          "n": 0,
+          "mean_crps": null,
+          "rmse": null,
+          "mean_coverage80": null
+        }
+      }
+    },
+    {
+      "id": "ndq",
+      "enabled": false,
+      "counts": {
+        "disabled": 365
+      },
+      "baseline_metrics": {
+        "rw0": {
+          "n": 0,
+          "mean_crps": null,
+          "rmse": null,
+          "mean_coverage80": null
+        },
+        "volnaive": {
+          "n": 0,
+          "mean_crps": null,
+          "rmse": null,
+          "mean_coverage80": null
+        }
+      }
+    },
+    {
+      "id": "usdkrw",
+      "enabled": false,
+      "counts": {
+        "disabled": 365
+      },
+      "baseline_metrics": {
+        "rw0": {
+          "n": 0,
+          "mean_crps": null,
+          "rmse": null,
+          "mean_coverage80": null
+        },
+        "volnaive": {
+          "n": 0,
+          "mean_crps": null,
+          "rmse": null,
+          "mean_coverage80": null
+        }
+      }
+    },
+    {
+      "id": "eurusd",
+      "enabled": true,
+      "counts": {
+        "eligible": 255,
+        "scored": 255,
+        "outside_horizon": 110
+      },
+      "baseline_metrics": {
+        "rw0": {
+          "n": 255,
+          "mean_crps": 0.25603687785792617,
+          "rmse": 0.34518946630434083,
+          "mean_coverage80": 0.011764705882352941
+        },
+        "volnaive": {
+          "n": 255,
+          "mean_crps": 0.16291381115948933,
+          "rmse": 0.34518946630434083,
+          "mean_coverage80": 0.8117647058823529
+        }
+      }
+    },
+    {
+      "id": "usdjpy",
+      "enabled": true,
+      "counts": {
+        "eligible": 255,
+        "scored": 255,
+        "outside_horizon": 110
+      },
+      "baseline_metrics": {
+        "rw0": {
+          "n": 255,
+          "mean_crps": 0.33643155089487664,
+          "rmse": 0.49828291749492104,
+          "mean_coverage80": 0.0
+        },
+        "volnaive": {
+          "n": 255,
+          "mean_crps": 0.22276414364245253,
+          "rmse": 0.49828291749492104,
+          "mean_coverage80": 0.8627450980392157
+        }
+      }
+    },
+    {
+      "id": "ktb3y",
+      "enabled": false,
+      "counts": {
+        "disabled": 365
+      },
+      "baseline_metrics": {
+        "rw0": {
+          "n": 0,
+          "mean_crps": null,
+          "rmse": null,
+          "mean_coverage80": null
+        },
+        "volnaive": {
+          "n": 0,
+          "mean_crps": null,
+          "rmse": null,
+          "mean_coverage80": null
+        }
+      }
+    },
+    {
+      "id": "ktb10y",
+      "enabled": false,
+      "counts": {
+        "disabled": 365
+      },
+      "baseline_metrics": {
+        "rw0": {
+          "n": 0,
+          "mean_crps": null,
+          "rmse": null,
+          "mean_coverage80": null
+        },
+        "volnaive": {
+          "n": 0,
+          "mean_crps": null,
+          "rmse": null,
+          "mean_coverage80": null
+        }
+      }
+    },
+    {
+      "id": "ust10y",
+      "enabled": true,
+      "counts": {
+        "eligible": 250,
+        "scored": 249,
+        "outside_horizon": 115,
+        "actual_unavailable_in_snapshot": 1
+      },
+      "baseline_metrics": {
+        "rw0": {
+          "n": 249,
+          "mean_crps": 3.35341365461847,
+          "rmse": 4.242167363004781,
+          "mean_coverage80": 0.0642570281124498
+        },
+        "volnaive": {
+          "n": 249,
+          "mean_crps": 2.0159378432466264,
+          "rmse": 4.242167363004781,
+          "mean_coverage80": 0.7991967871485943
+        }
+      }
+    },
+    {
+      "id": "wti",
+      "enabled": false,
+      "counts": {
+        "disabled": 365
+      },
+      "baseline_metrics": {
+        "rw0": {
+          "n": 0,
+          "mean_crps": null,
+          "rmse": null,
+          "mean_coverage80": null
+        },
+        "volnaive": {
+          "n": 0,
+          "mean_crps": null,
+          "rmse": null,
+          "mean_coverage80": null
+        }
+      }
+    },
+    {
+      "id": "gold",
+      "enabled": false,
+      "counts": {
+        "disabled": 365
+      },
+      "baseline_metrics": {
+        "rw0": {
+          "n": 0,
+          "mean_crps": null,
+          "rmse": null,
+          "mean_coverage80": null
+        },
+        "volnaive": {
+          "n": 0,
+          "mean_crps": null,
+          "rmse": null,
+          "mean_coverage80": null
+        }
+      }
+    },
+    {
+      "id": "vix",
+      "enabled": false,
+      "counts": {
+        "disabled": 365
+      },
+      "baseline_metrics": {
+        "rw0": {
+          "n": 0,
+          "mean_crps": null,
+          "rmse": null,
+          "mean_coverage80": null
+        },
+        "volnaive": {
+          "n": 0,
+          "mean_crps": null,
+          "rmse": null,
+          "mean_coverage80": null
+        }
+      }
+    },
+    {
+      "id": "btcusd",
+      "enabled": false,
+      "counts": {
+        "disabled": 365
+      },
+      "baseline_metrics": {
+        "rw0": {
+          "n": 0,
+          "mean_crps": null,
+          "rmse": null,
+          "mean_coverage80": null
+        },
+        "volnaive": {
+          "n": 0,
+          "mean_crps": null,
+          "rmse": null,
+          "mean_coverage80": null
+        }
+      }
+    }
+  ],
+  "daily": [
+    {
+      "run_date": "2025-10-08",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-10-09",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-10-10",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-10-11",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-10-12",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-10-13",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-10-14",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-10-15",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-10-16",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-10-17",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-10-18",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-10-19",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-10-20",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-10-21",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-10-22",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-10-23",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-10-24",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-10-25",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-10-26",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-10-27",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-10-28",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-10-29",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-10-30",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-10-31",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-01",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-02",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-03",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-04",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-05",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-06",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-07",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-08",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-09",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-10",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-11",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-12",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-13",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-14",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-15",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-16",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-17",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-18",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-19",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-20",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-21",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-22",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-23",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-24",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-25",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-26",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-27",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-28",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-29",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-11-30",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-01",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-02",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-03",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-04",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-05",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-06",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-07",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-08",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-09",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-10",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-11",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-12",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-13",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-14",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-15",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-16",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-17",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-18",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-19",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-20",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-21",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-22",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-23",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-24",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-25",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-26",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-27",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-28",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-29",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-30",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2025-12-31",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-01",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-02",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-03",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-04",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-05",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-06",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-07",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-08",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-09",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-10",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-11",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-12",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-13",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-14",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-15",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-16",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-17",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-18",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-19",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-20",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-21",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-22",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-23",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-24",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-25",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-26",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-27",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-28",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-29",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-30",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-01-31",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-01",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-02",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-03",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-04",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-05",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-06",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-07",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-08",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-09",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-10",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-11",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-12",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-13",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-14",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-15",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-16",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-17",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-18",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-19",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-20",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-21",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-22",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-23",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-24",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-25",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-26",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-27",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-02-28",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-01",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-02",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-03",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-04",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-05",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-06",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-07",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-08",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-09",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-10",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-11",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-12",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-13",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-14",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-15",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-16",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-17",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-18",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-19",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-20",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-21",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-22",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-23",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-24",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-25",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-26",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-27",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-28",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-29",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-30",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-03-31",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-01",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-02",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-03",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-04",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-05",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-06",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-07",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-08",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-09",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-10",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-11",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-12",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-13",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-14",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-15",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-16",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-17",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-18",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-19",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-20",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-21",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-22",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-23",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-24",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-25",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-26",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-27",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-28",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-29",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-04-30",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-01",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-02",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-03",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-04",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-05",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-06",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-07",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-08",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-09",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-10",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-11",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-12",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-13",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-14",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-15",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-16",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-17",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-18",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-19",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-20",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-21",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-22",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-23",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-24",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-25",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-26",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-27",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-28",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-29",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-30",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-05-31",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-01",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-02",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-03",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-04",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-05",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-06",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-07",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-08",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-09",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-10",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-11",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-12",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-13",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-14",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-15",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-16",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-17",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-18",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-19",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-20",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-21",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-22",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-23",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-24",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-25",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-26",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-27",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-28",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-29",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-06-30",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-01",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-02",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-03",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-04",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-05",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-06",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-07",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-08",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-09",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-10",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-11",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-12",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-13",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-14",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-15",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-16",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-17",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-18",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-19",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-20",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-21",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-22",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-23",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-24",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-25",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-26",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-27",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-28",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-29",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-30",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-07-31",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-01",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-02",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-03",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-04",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-05",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-06",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-07",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-08",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-09",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-10",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-11",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-12",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-13",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-14",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-15",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-16",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-17",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-18",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-19",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-20",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-21",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-22",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-23",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-24",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-25",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-26",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-27",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-28",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-29",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-30",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-08-31",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-01",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-02",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-03",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-04",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-05",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-06",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-07",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-08",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-09",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-10",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-11",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-12",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-13",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-14",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-15",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-16",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-17",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-18",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-19",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-20",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-21",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-22",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-23",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-24",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-25",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-26",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-27",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-28",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-29",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-09-30",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-10-01",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-10-02",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-10-03",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-10-04",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "outside_horizon",
+        "usdjpy": "outside_horizon",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "outside_horizon",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-10-05",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-10-06",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    },
+    {
+      "run_date": "2026-10-07",
+      "states": {
+        "kospi": "disabled",
+        "kosdaq": "disabled",
+        "spx": "disabled",
+        "ndq": "disabled",
+        "usdkrw": "disabled",
+        "eurusd": "eligible",
+        "usdjpy": "eligible",
+        "ktb3y": "disabled",
+        "ktb10y": "disabled",
+        "ust10y": "eligible",
+        "wti": "disabled",
+        "gold": "disabled",
+        "vix": "disabled",
+        "btcusd": "disabled"
+      }
+    }
+  ],
+  "source_evidence": [
+    {
+      "source_id": "ustreasury",
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2024",
+      "fetched_ts_utc": "2026-10-07T15:38:31.616468+00:00",
+      "body_sha256": "47f9e2042e2128210ad5d53fd6ee89bfcff661334e2f793782a1a39ca8db8dd4"
+    },
+    {
+      "source_id": "ustreasury",
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2025",
+      "fetched_ts_utc": "2026-10-07T15:38:32.915195+00:00",
+      "body_sha256": "305c51b74da9fb4aec2685e715229d966f0e06ea1968c6b7431860b84cae3795"
+    },
+    {
+      "source_id": "ustreasury",
+      "url": "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=2026",
+      "fetched_ts_utc": "2026-10-07T15:38:34.099841+00:00",
+      "body_sha256": "fe3a112f3dd99d6f4c6d97e4a80eb64132afe98318acdfae2d02e60547580732"
+    },
+    {
+      "source_id": "ecb",
+      "url": "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml",
+      "fetched_ts_utc": "2026-10-07T15:40:21.073894+00:00",
+      "body_sha256": "85cd6e7589b6b05b023d764964d66792e775dddb2fc639713ed400a75ac95ccd"
+    }
+  ],
+  "history_rows": {
+    "eurusd": 815,
+    "usdjpy": 815,
+    "ust10y": 691
+  }
+}

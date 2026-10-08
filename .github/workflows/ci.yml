@@ -1,0 +1,66 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  pipeline:
+    name: pipeline
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4, verified 2026-10-08
+        with: {fetch-depth: 0, persist-credentials: false}
+      - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e # v6
+        with: {version: '0.12.23', enable-cache: true, cache-dependency-glob: 'pipeline/uv.lock'}
+      - run: uv sync --project pipeline --frozen --python 3.12
+      - run: uv run --project pipeline ruff check --config pipeline/pyproject.toml pipeline/tsfm_live pipeline/tests ops
+      - run: uv run --project pipeline pytest pipeline/tests ops/tests
+      - run: uv run --project pipeline tsfm-live validate
+      - name: Enforce append-only ledger
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        shell: bash
+        run: |
+          if [[ -n "$BASE" && "$BASE" != "0000000000000000000000000000000000000000" ]]; then
+            uv run --project pipeline tsfm-live check-immutability "$BASE"
+          elif git rev-parse HEAD^ >/dev/null 2>&1; then
+            uv run --project pipeline tsfm-live check-immutability HEAD^
+          else
+            echo 'First commit: no earlier ledger exists; schema/hash validation still applies.'
+          fi
+  site:
+    name: site
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with: {persist-credentials: false}
+      - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e
+        with: {version: '0.12.23', enable-cache: true, cache-dependency-glob: 'pipeline/uv.lock'}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with: {node-version: '24', cache: npm, cache-dependency-path: site/package-lock.json}
+      - run: uv sync --project pipeline --frozen --python 3.12
+      - run: uv run --project pipeline tsfm-live export-site
+      - run: npm ci
+        working-directory: site
+      - run: npm test
+        working-directory: site
+      - run: npm run build
+        working-directory: site
+      - name: Mobile performance and accessibility
+        run: npm exec -- lhci autorun --config=../ops/lighthouserc.cjs
+        working-directory: site
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: always()
+        with:
+          name: site-audit
+          path: site/.lighthouseci
+          if-no-files-found: ignore
+          retention-days: 30

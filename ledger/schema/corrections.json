@@ -1,0 +1,91 @@
+{
+  "$defs": {
+    "CorrectionAffect": {
+      "additionalProperties": false,
+      "properties": {
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "record_selector": {
+          "additionalProperties": true,
+          "title": "Record Selector",
+          "type": "object"
+        }
+      },
+      "required": [
+        "file",
+        "record_selector"
+      ],
+      "title": "CorrectionAffect",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "created_ts_utc": {
+      "format": "date-time",
+      "title": "Created Ts Utc",
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "actual_revision",
+        "void",
+        "entrant_disqualified",
+        "other"
+      ],
+      "title": "Type",
+      "type": "string"
+    },
+    "affects": {
+      "items": {
+        "$ref": "#/$defs/CorrectionAffect"
+      },
+      "title": "Affects",
+      "type": "array"
+    },
+    "reason": {
+      "minLength": 5,
+      "title": "Reason",
+      "type": "string"
+    },
+    "replacement": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Replacement"
+    },
+    "author": {
+      "title": "Author",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "created_ts_utc",
+    "type",
+    "affects",
+    "reason",
+    "author"
+  ],
+  "title": "CorrectionFile",
+  "type": "object"
+}

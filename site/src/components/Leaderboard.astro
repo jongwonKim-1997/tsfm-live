@@ -1,0 +1,23 @@
+---
+import {language, number, percent, href, meta} from '../lib/data';
+const {rows = [], locale = 'en', window = '90d'} = Astro.props;
+const t = language(locale);
+const catalog = Object.fromEntries(meta.entrants.map((m:any)=>[m.id,m]));
+const ciMin=Math.min(0,...rows.map((r:any)=>r.ci_low??0));
+const ciMax=Math.max(.05,...rows.map((r:any)=>r.ci_high??0));
+const pos=(value:number)=>(value-ciMin)/(ciMax-ciMin)*100;
+---
+<div class="table-scroll" tabindex="0" role="region" aria-label={t('modelsTitle')}>
+<table class="data-table leaderboard" data-role="leaderboard" data-locale={locale}>
+  <thead><tr>{['rank','entrant','skill','tier','rankChange','winRate','direction','cov80','cov95','liveDays','bestWorst'].map(key=><th scope="col">{t(key)}</th>)}</tr></thead>
+  <tbody>{rows.map((row:any)=><tr class:list={{'baseline-row':row.kind==='baseline'}}>
+    <td class="rank-cell">{['7d','30d'].includes(window) ? '—' : row.rank ?? '—'}</td>
+    <th scope="row"><a href={href(locale,'/models/'+row.id)}>{catalog[row.id]?.name || row.id}</a><span class="row-badges"><span class="kind">{t(row.kind)}</span>{row.status!=='ranked'&&<span class="badge muted">{t('probation')}</span>}</span></th>
+    <td class="skill-cell"><strong class:list={{positive:row.skill_overall>0,negative:row.skill_overall<0}}>{percent(row.skill_overall,locale)}{row.sig_vs_volnaive?' ✓':''}</strong>{row.ci_low!=null&&<span class="ci-bar" aria-hidden="true" style={`--ci-start:${pos(row.ci_low)}%;--ci-end:${pos(row.ci_high)}%;--ci-zero:${pos(0)}%`}><i/><b/></span>}<small>{row.ci_low!=null?`${percent(row.ci_low,locale)} … ${percent(row.ci_high,locale)}`:'—'} · n={number(row.n || row.paired_n_total || row.n_total || 0,locale,0)}</small></td>
+    <td><span class={`tier tier-${row.tier||'none'}`}>{row.tier||'—'}</span></td><td>{number(row.rank_change,locale,0)}</td>
+    <td>{percent(row.win_rate ?? row.win_rate_overall,locale)}</td><td>{percent(row.hit_rate,locale)}<small>n={number(row.hit_n||0,locale,0)}</small></td>
+    <td>{percent(row.cov80,locale)}</td><td>{percent(row.cov95,locale)}</td><td>{number(row.live_days,locale,0)}</td>
+    <td class="muted-text">{row.best_indicator||'—'} / {row.worst_indicator||'—'}</td>
+  </tr>)}</tbody>
+</table>
+</div>

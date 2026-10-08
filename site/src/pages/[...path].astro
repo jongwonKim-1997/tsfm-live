@@ -1,0 +1,128 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+import Layout from '../components/Layout.astro';
+import Leaderboard from '../components/Leaderboard.astro';
+import Outputs from '../components/Outputs.astro';
+import Chart from '../components/Chart.astro';
+import IntervalHistory from '../components/IntervalHistory.astro';
+import {read,meta,routes,language,number,percent,href,translationStale} from '../lib/data';
+import {Content as EnMethodology} from '../../../docs/methodology.md';
+import {Content as KoMethodology} from '../../../docs/methodology.ko.md';
+export const getStaticPaths = routes;
+const {locale,route}=Astro.props;
+const t=language(locale);
+const parts=route.split('/');
+const section=parts[0]||'board';
+const detail=parts[1];
+const latest=read('latest');
+const status=read('status');
+const ranking=read('leaderboard/90d');
+const predictability=read('predictability');
+const matrix=read('matrix/90d');
+const ledger=read('ledger_index');
+const m=section==='models'&&detail?read('models/'+detail):null;
+const i=section==='indicators'&&detail?read('indicators/'+detail):null;
+const scorecard=section==='scorecard'&&detail?read('scorecards/'+detail):null;
+const title=m?.model.name || i?.indicator.name || (section==='board'?t('board'):t(section));
+const top=ranking.entrants.find((r:any)=>r.status==='ranked');
+const piItems=predictability.indicators;
+const piFor=(id:string)=>piItems.find((x:any)=>(x.id||x.indicator_id)===id);
+const scored=Object.values(matrix.counts?.all||{}).reduce((sum:number,r:any)=>sum+Object.values(r||{}).reduce((n:number,x:any)=>n+(Number(x)||0),0),0);
+const link=(p:string)=>href(locale,p);
+const showTime=(value:any)=>value?new Intl.DateTimeFormat(locale==='ko'?'ko-KR':'en-US',{dateStyle:'medium',timeStyle:'medium',timeZone:'Asia/Seoul'}).format(new Date(value)):'—';
+const cellTable=(data:any)=>Object.entries(data||{});
+const rowName=(id:string)=>[...meta.entrants,...meta.indicators].find((x:any)=>x.id===id)?.name||id;
+const activePI=piItems.filter((x:any)=>x.n>=30);
+const previous=ledger.lockins.filter((r:any)=>r.date!==latest.run_date).at(-1);
+---
+<Layout locale={locale} route={route} title={title}>
+{section==='board'&&<>
+  <div class="eyebrow"><span class="status-dot"></span>{t('live')} <span class="slash">/</span> {t('board')}</div>
+  <div class="page-heading"><div><h1>{t('boardTitle')}</h1><p>{t('boardIntro')}</p></div><a class="button subtle" href={link('/ledger')}>{t('viewLedger')} ↗</a></div>
+  <div class="lock-strip"><span class="lock-icon" aria-hidden="true">▣</span><span><b>{latest.state==='locked'?t('lockedOutputs'):t(latest.state==='awaiting'?'awaiting':latest.state)}</b><small>{t('runDate')}: {latest.run_date||'—'} <span>·</span> {t('lockedAt')}: {showTime(latest.lockin_ts_utc)}</small></span>
+    <button class="hash-button" data-copy={latest.hash||''} disabled={!latest.hash} aria-label={t('copyHash')}>{latest.hash?latest.hash.slice(0,14)+'…':'SHA-256 · —'}<span aria-hidden="true">⧉</span></button>
+  </div>
+  <div class="stat-grid">
+    <div><span>{t('configuredIndicators')}</span><strong>{number(meta.indicators.length,locale,0)}<small>/ {meta.indicators.filter((x:any)=>x.enabled).length} {t('enabled')}</small></strong></div>
+    <div><span>{t('models')}</span><strong>{meta.entrants.filter((x:any)=>x.kind==='tsfm').length}<small>+ 2 {t('baseline')}</small></strong></div>
+    <div><span>{t('observedRuns')}</span><strong>{number(status.requirements.observed_live_runs,locale,0)}<small>/ 90</small></strong></div>
+    <div><span>{t('nextDeadline')}</span><strong>08:50<small>{t('kst')}</small></strong></div>
+  </div>
+  <div class="summary-grid"><a class="summary-card" href={link('/models')}><div class="card-kicker">01 <span>{t('leaderTitle')}</span><b aria-hidden="true">↗</b></div><h2>{top?rowName(top.id):t('noRank')}</h2>{top?<p>{percent(top.skill_overall,locale)} · {top.tier} · n={top.n}</p>:<p>{t('minimumRank')}</p>}<span class="text-link">{t('viewModels')} →</span></a>
+  <a class="summary-card" href={link('/indicators')}><div class="card-kicker">02 <span>{t('piTitle')}</span><b aria-hidden="true">↗</b></div><h2>{activePI.length?rowName(activePI[0].id||activePI[0].indicator_id):t('noPI')}</h2><p>{activePI.length?`${t('PI')}: ${number(activePI[0].PI,locale)} · n=${activePI[0].n}`:t('minimumPI')}</p><span class="text-link">{t('viewIndicators')} →</span></a></div>
+  <section class="panel matrix-panel"><div class="section-heading"><div><h2>{t('matrixTitle')}</h2><p>{t('matrixIntro')}</p></div><span class="badge">90d</span></div>
+    <div class="table-scroll" tabindex="0" role="region" aria-label={t('matrixTitle')}><table class="heatmap"><caption class="sr-only">{t('matrixCaption')}</caption><thead><tr><th scope="col">{t('indicators')}</th>{meta.entrants.map((model:any)=><th scope="col" title={model.name}><a href={link('/models/'+model.id)}>{model.name.replace('Chronos-','C-').replace('TimesFM ','TFM ')}</a><small>{t(model.kind)}</small></th>)}</tr></thead><tbody>
+    {meta.indicators.map((indicator:any)=><tr><th scope="row"><a href={link('/indicators/'+indicator.id)}>{indicator.name}</a><small>{t(indicator.group)}</small></th>{meta.entrants.map((model:any)=>{const cell=matrix.regimes.all[indicator.id]?.[model.id];return <td><a class:list={['heat-cell',cell?(cell.skill_crps>0?'cell-positive':'cell-negative'):'cell-empty']} href={link('/indicators/'+indicator.id)} aria-label={`${indicator.name}, ${model.name}: ${cell?percent(cell.skill_crps,locale)+', n='+cell.n:t('insufficient')}`} title={cell?`n=${cell.n}; CRPS=${cell.crps_mean}`:t('insufficient')}>{cell?percent(cell.skill_crps,locale):'—'}{cell&&<small>n={cell.n}</small>}</a></td>})}</tr>)}
+    </tbody></table></div><div class="matrix-footer"><span>{t('matrixCaption')}</span><div class="legend"><i class="negative-swatch"></i>{t('worse')}<i class="positive-swatch"></i>{t('better')}<i class="empty-swatch"></i>{t('insufficient')}</div></div>
+  </section>
+  <section class="panel"><div class="section-heading"><div><h2>{t('outputsTitle')}</h2><p>{t('outputsIntro')}</p></div><a class="text-link" href={link('/today')}>{t('allQuantiles')} →</a></div><Outputs locale={locale} records={latest.records}/></section>
+  <section class="scorecard-summary"><div><span class="eyebrow">{t('scorecard')}</span><h2>{t('scorecardTitle')}</h2><p>{previous?previous.date:t('scorecardEmpty')}</p></div>{previous&&<a class="button" href={link('/scorecard/'+previous.date)}>{t('detail')} →</a>}</section>
+</>}
+
+{section==='models'&&!detail&&<>
+  <div class="eyebrow">{t('leaderTitle')}</div><div class="page-heading"><div><h1>{t('modelsTitle')}</h1><p>{t('modelsIntro')}</p></div><span class="badge">CRPS</span></div>
+  <div class="controls"><div class="window-tabs" role="group" aria-label={t('window')}>{['7d','30d','90d','all'].map(w=><button data-window={w} aria-pressed={w==='90d'}>{w==='all'?t('all'):w}</button>)}</div><label>{t('regime')}<select id="regime-select"><option value="all">{t('allDays')}</option><option value="normal">{t('normal')}</option><option value="high_vol">{t('high_vol')}</option></select></label></div>
+  <div class="panel"><Leaderboard locale={locale} rows={ranking.entrants}/></div><p class="protocol-note">{t('modelNote')} <a href={link('/methodology')}>{t('methodLink')} ↗</a></p><p class="protocol-note" id="small-window-note" hidden>{t('smallWindowNote')}</p>
+</>}
+
+{section==='indicators'&&!detail&&<>
+  <div class="eyebrow">{t('piTitle')}</div><div class="page-heading"><div><h1>{t('indicatorsTitle')}</h1><p>{t('indicatorsIntro')}</p></div><div class="window-tabs" role="group" aria-label={t('indicators')}><button data-view="grid" aria-pressed="true">{t('grid')}</button><button data-view="list" aria-pressed="false">{t('list')}</button></div></div>
+  <div class="indicator-grid" id="indicator-grid">{[...meta.indicators].sort((a:any,b:any)=>(piFor(b.id)?.PI??-1)-(piFor(a.id)?.PI??-1)).map((cfg:any)=>{const p=piFor(cfg.id); const output=latest.records.find((r:any)=>r.indicator_id===cfg.id&&r.entrant_id==='ensemble-median'&&r.status==='ok');return <article class="indicator-card"><div class="indicator-card-top"><span class="group-label">{t(cfg.group)}</span><span class:list={['badge',cfg.enabled?'':'muted']}>{cfg.enabled?t('configured'):t('disabled')}</span></div><h2><a href={link('/indicators/'+cfg.id)}>{cfg.name}</a></h2><div class="pi-row"><strong class:list={{'pi-dim':!p||p.n<30}}>{number(p?.PI,locale,0)}</strong><span class="badge muted">{t(p?.label||'insufficient data')}</span></div>
+    <div class="spark-area"><Chart locale={locale} rows={(p?.pi_history||[]).map((r:any)=>({date:r.as_of||r.date,value:r.PI}))} label={t('PI')}/></div>
+    <div class="metric-pairs"><span>{t('n')}<b>{p?.n||0}</b></span><span>{t('piChange')}<b>{number(p?.pi_change_30d,locale)}</b></span><span>{t('cov80')}<b>{percent(p?.cov80,locale)}</b></span><span>{t('direction')}<b>{percent(p?.hit_rate,locale)}</b></span><span>{t('pValue')}<b>{number(p?.hit_p,locale,3)}</b></span></div>
+    <p class="card-best" title={t('posthoc')}>{t('bestEntrant')}<b>{p?.best_entrant?rowName(p.best_entrant):'—'}</b></p><p class="ensemble-output">{t('ensembleLabel').replace('{n}',String(output?.contributors?.length||0))}<b>{output?`${number((output.display_q||output.q)['0.5'],locale,3)} [${number((output.display_q||output.q)['0.1'],locale,3)}, ${number((output.display_q||output.q)['0.9'],locale,3)}]`:'—'}</b></p><a class="text-link card-detail" href={link('/indicators/'+cfg.id)}>{t('detail')} →</a></article>})}</div>
+</>}
+
+{(m||i)&&<>
+  <a class="back-link" href={link('/'+section)}>← {t(section)}</a><div class="page-heading"><div><span class="eyebrow">{t(m?'modelDetails':'indicatorDetails')}</span><h1>{title}</h1><p>{m?m.model.vendor:t(i.indicator.group)}</p></div><span class="badge">{m?t(m.model.kind):t(i.indicator.enabled?'enabled':'disabled')}</span></div>
+  <div class="detail-grid"><section class="panel detail-info"><h2>{t(m?'modelDetails':'indicatorDetails')}</h2><dl>{m?<><dt>{t('version')}</dt><dd class="mono">{m.model.package}<br/>{m.model.hf_revision||'builtin'}</dd><dt>{t('licence')}</dt><dd>{m.model.license}</dd><dt>{t('runtime')}</dt><dd>{t(m.model.runtime_verified?'verified':'notVerified')}</dd>{m.model.required_attribution&&<><dt>{t('attribution')}</dt><dd>{m.model.required_attribution}</dd></>}</>:<><dt>{t('PI')}</dt><dd>{number(i.predictability?.PI,locale)} · {t(i.predictability?.label||'insufficient data')} · n={i.predictability?.n||0}</dd><dt>{t('source')}</dt><dd>{i.indicator.source.adapter}</dd><dt>{t('closeDefinition')}</dt><dd>{i.indicator.close_time_local} · {i.indicator.tz}<br/>{i.indicator.calendar}</dd><dt>{t('attribution')}</dt><dd>{i.indicator.attribution}</dd></>}</dl>{i?.indicator.display_policy==='return_only'&&<p class="protocol-note">{t('returnOnly')}</p>}{i&&!i.indicator.enabled&&<details><summary>{t('reason')}</summary><p>{i.indicator.disabled_reason}</p></details>}</section>
+  <section class="panel detail-chart"><h2>{t(m?'calibration':'piHistory')}</h2>{m?<Chart locale={locale} type="dot" rows={Object.values(m.windows['90d']).filter(Boolean).flatMap((r:any)=>[{nominal:.8,empirical:r.cov80},{nominal:.95,empirical:r.cov95}])} x="nominal" y="empirical" label={t('calibration')}/>:<Chart locale={locale} rows={(i.predictability?.pi_history||[]).map((r:any)=>({date:r.as_of||r.date,value:r.PI}))} label={t('PI')}/>}</section></div>
+  <section class="panel"><div class="section-heading"><h2>{t(m?'perIndicator':'perModel')}</h2><label>{t('window')}<select id="detail-window" data-section={section} data-id={detail}>{['7d','30d','90d','all'].map(w=><option value={w} selected={w==='90d'}>{w==='all'?t('all'):w}</option>)}</select></label></div><div class="table-scroll" tabindex="0" role="region" aria-label={t(m?'perIndicator':'perModel')}><table class="data-table" id="detail-table"><thead><tr>{[m?'indicators':'entrant','skill','crps','direction','cov80','cov95','n'].map(k=><th>{t(k)}</th>)}</tr></thead><tbody>{cellTable((m||i).windows['90d']).map(([id,cell]:any)=><tr><th scope="row"><a href={link('/'+(m?'indicators':'models')+'/'+id)}>{rowName(id)}</a></th><td>{percent(cell?.skill_crps,locale)}</td><td>{number(cell?.crps_mean,locale,4)}</td><td>{percent(cell?.hit_rate,locale)}</td><td>{percent(cell?.cov80,locale)}</td><td>{percent(cell?.cov95,locale)}</td><td>{cell?.n??(m||i).window_counts?.['90d']?.[id]?.n??0}</td></tr>)}</tbody></table></div></section>
+  {m?<section class="panel chart-panel"><h2>{t('lossHistory')}</h2>{m.series.length?meta.indicators.filter((cfg:any)=>m.series.some((r:any)=>r.indicator_id===cfg.id)).map((cfg:any)=><div><h3>{cfg.name}</h3><Chart locale={locale} rows={m.series.filter((r:any)=>r.indicator_id===cfg.id).map((s:any)=>({date:s.forecast_run_date,value:s.crps,entrant:rowName(s.entrant_id)}))} group="entrant" label={t('crps')}/></div>):<Chart locale={locale} rows={[]} label={t('crps')}/>}</section>:<section class="panel chart-panel"><h2>{t('outputHistory')}</h2><IntervalHistory locale={locale} rows={i.distributions||[]}/></section>}
+  {i&&<section class="panel detail-info"><h2>{t('regime')}</h2><dl class="regime-pairs">{['normal','high_vol'].map(r=><div><dt>{t(r)}</dt><dd>PI {number(i.predictability?.regime_pi?.[r],locale)} · n={i.predictability?.regime_n?.[r]||0}</dd></div>)}</dl><p class="protocol-note">{i.indicator.license_note}</p></section>}
+  {m&&<section class="panel detail-info"><h2>{t('versions')}</h2>{m.versions.length?<ul>{m.versions.map((v:string)=><li class="mono">{v}</li>)}</ul>:<p class="muted-text">{t('empty')}</p>}</section>}
+</>}
+
+{(section==='today'||scorecard)&&<>
+  <div class="eyebrow">{scorecard?detail:t('today')}</div><div class="page-heading"><div><h1>{scorecard?t('scorecard'):t('lockedOutputs')}</h1><p>{t('outputsIntro')}</p></div><div class="download-links"><a class="button subtle" href={scorecard?`/api/v1/scorecards/${detail}.json`:'/api/v1/latest.json'} download>{t('downloadJSON')} ↓</a>{!scorecard&&<a class="button subtle" href="/api/v1/latest.csv" download>{t('downloadCSV')} ↓</a>}</div></div>
+  <div class="lock-strip"><b>{(scorecard||latest).run_date||t('awaiting')}</b><code>{(scorecard||latest).hash||'—'}</code><a href={link('/ledger')}>{t('viewLedger')} ↗</a></div>
+  <section class="panel"><Outputs locale={locale} records={(scorecard||latest).records} full/></section>
+  {scorecard&&<section class="panel"><div class="section-heading"><h2>{t('scorecard')}</h2></div><div class="table-scroll" tabindex="0" role="region" aria-label={t('scorecard')}><table class="data-table"><thead><tr>{['indicators','entrant','realised','crps','direction','cov80','cov95'].map(k=><th>{t(k)}</th>)}</tr></thead><tbody>{scorecard.scores.map((s:any)=><tr><th>{rowName(s.indicator_id)}</th><td>{rowName(s.entrant_id)}</td><td>{number(s.y,locale,3)}</td><td>{number(s.crps,locale,4)}</td><td>{s.hit??'—'}</td><td>{s.covered80??'—'}</td><td>{s.covered95??'—'}</td></tr>)}</tbody></table></div></section>}
+</>}
+
+{section==='ledger'&&<>
+  <div class="eyebrow">{t('ledger')}</div><div class="page-heading"><div><h1>{t('ledgerTitle')}</h1><p>{t('ledgerIntro')}</p></div></div>
+  <section class="verification-block"><div class="verification-mark" aria-hidden="true">#</div><div><h2>{t('verifyTitle')}</h2><p>{t('verifyStep')}</p><code>sha256sum ledger/forecasts/YYYY/YYYY-MM-DD.json</code>{ledger.repository_url&&<p><a href={ledger.repository_url+'/tree/main/ledger'}>GitHub ↗</a></p>}</div></section>
+  <section class="panel"><div class="table-scroll" tabindex="0" role="region" aria-label={t('ledger')}><table class="data-table"><thead><tr>{['date','hash','commit','deadlineMet','proof'].map(k=><th>{t(k)}</th>)}</tr></thead><tbody>{ledger.lockins.length?ledger.lockins.map((r:any)=><tr><th><a href={`/api/v1/forecasts/${r.date}.json`}>{r.date}</a></th><td class="mono">{r.hash}</td><td>{ledger.repository_url?<a href={ledger.repository_url+'/commit/'+r.commit}>{r.commit.slice(0,8)}</a>:r.commit?.slice(0,8)||'—'}</td><td>{t(r.deadline_met?'yes':'no')}</td><td>{r.ots?<a href={r.ots}>OTS</a>:t('pending')}</td></tr>):<tr><td colspan="5" class="empty-cell">{t('noLockins')}</td></tr>}</tbody></table></div></section>
+  <section class="panel detail-info"><h2>{t('corrections')}</h2>{ledger.corrections.length?ledger.corrections.map((c:any)=><p><b>{c.id}</b> {c.reason}</p>):<p class="muted-text">{t('noCorrections')}</p>}</section>
+</>}
+
+{section==='status'&&<>
+  <div class="eyebrow">{t('status')}</div><div class="page-heading"><div><h1>{t('statusTitle')}</h1><p>{t('statusIntro')}</p></div><span class="badge muted">{t(status.state)}</span></div>
+  <div class="readiness-banner"><span aria-hidden="true">◷</span><div><b>{t('notLaunchReady')}</b><p>{t('observedRuns')}: {status.requirements.observed_live_runs} / {status.requirements.required_live_days} · {t('runtime')}: {status.requirements.runtime_verified_models} / 6</p></div></div>
+  <div class="stat-grid"><div><span>{t('lastRun')}</span><strong class="small-stat">{status.last_run?status.last_run.run_date:'—'}</strong></div><div><span>{t('deadlineMisses')}</span><strong>{status.deadline_misses.length}</strong></div><div><span>{t('failed')}</span><strong>{status.failed.length}</strong></div><div><span>{t('unscorable')}</span><strong>{status.unscorable.length}</strong></div></div>
+  <section class="panel"><div class="section-heading"><h2>{t('sourceHealth')}</h2></div><div class="table-scroll" tabindex="0" role="region" aria-label={t('sourceHealth')}><table class="data-table"><thead><tr><th>{t('indicators')}</th><th>{t('source')}</th><th>{t('status')}</th><th>{t('reason')}</th></tr></thead><tbody>{meta.indicators.map((cfg:any)=><tr><th><a href={link('/indicators/'+cfg.id)}>{cfg.name}</a></th><td>{cfg.source.adapter}</td><td><span class="badge muted">{t(status.sources.find((s:any)=>s.id===cfg.id)?.status||'pending')}</span></td><td class="reason-cell">{cfg.disabled_reason||'—'}</td></tr>)}</tbody></table></div></section>
+  {['deadline_misses','skipped','failed','unscorable','corrections'].map(key=><details class="panel detail-info"><summary>{t(({deadline_misses:'deadlineMisses',skipped:'skipped',failed:'failed',unscorable:'unscorable',corrections:'corrections'} as any)[key])} · {status[key].length}</summary>{status[key].length?<pre>{JSON.stringify(status[key],null,2)}</pre>:<p>{t('empty')}</p>}</details>)}
+</>}
+
+{section==='methodology'&&<>
+  <div class="eyebrow">{t('methodology')}</div>{locale==='ko'&&translationStale&&<p class="protocol-note">{t('translationStale')}</p>}<div class="prose">{locale==='ko'?<KoMethodology/>:<EnMethodology/>}</div>
+  <section class="panel detail-info"><h2>{t('constants')}</h2><pre>{JSON.stringify(meta.constants,null,2)}</pre></section>
+</>}
+
+{section==='about'&&<>
+  <div class="eyebrow">{t('about')}</div><div class="page-heading"><div><h1>{t('aboutTitle')}</h1><p>{t('aboutIntro')}</p></div></div>
+  <section class="panel detail-info prose"><h2>{t('operator')}</h2><p>{meta.operator}</p><h2>{t('contact')}</h2>{meta.contact?<a href={'mailto:'+meta.contact}>{meta.contact}</a>:<p>{t('contactPending')}</p>}<h2>{t('licence')}</h2><p>CC BY 4.0 · Apache-2.0</p><p>{t('privacy')}</p></section>
+  <section class="panel detail-info"><h2>{t('attribution')}</h2>{meta.indicators.map((cfg:any)=><p><b>{cfg.name}</b> — {cfg.attribution}</p>)}<p>Built with technology from NXAI · <a href="/licenses/tirex.txt">TiRex {t('licence')} ↗</a></p></section>
+</>}
+
+{section==='api'&&<>
+  <div class="eyebrow">{t('api')}</div><div class="page-heading"><div><h1>{t('apiTitle')}</h1><p>{t('apiIntro')}</p></div><span class="badge">v1 · JSON</span></div>
+  <section class="panel"><div class="table-scroll" tabindex="0" role="region" aria-label={t('api')}><table class="data-table"><thead><tr><th>{t('endpoint')}</th><th>{t('description')}</th></tr></thead><tbody>{[['latest.json','today'],['forecasts/YYYY-MM-DD.json','lockedOutputs'],['scorecards/YYYY-MM-DD.json','scorecard'],['leaderboard/90d.json','modelsTitle'],['matrix/90d.json','matrixTitle'],['predictability.json','piTitle'],['indicators/eurusd.json','indicatorDetails'],['models/chronos-2.json','modelDetails'],['ledger_index.json','ledger'],['status.json','status'],['meta.json','constants']].map(([p,key])=><tr><th class="mono">{p.includes('YYYY')?`/api/v1/${p}`:<a href={'/api/v1/'+p}>{'/api/v1/'+p}</a>}</th><td>{t(key)}</td></tr>)}</tbody></table></div></section>
+  <section class="panel detail-info"><h2>{t('apiExample')}</h2><pre>curl -s {meta.public_origin||'http://localhost:4321'}/api/v1/latest.json</pre><p>Cache-Control: public, max-age=300<br/>Access-Control-Allow-Origin: *</p>{!meta.public_origin&&<p class="muted-text">{t('apiOriginPending')}</p>}</section>
+</>}
+<script>
+  import '../lib/client';
+</script>
+</Layout>

@@ -1,0 +1,213 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "run_date": {
+      "format": "date",
+      "title": "Run Date",
+      "type": "string"
+    },
+    "run_ts_utc": {
+      "format": "date-time",
+      "title": "Run Ts Utc",
+      "type": "string"
+    },
+    "scheduled_ts": {
+      "format": "date-time",
+      "title": "Scheduled Ts",
+      "type": "string"
+    },
+    "actual_start_ts": {
+      "format": "date-time",
+      "title": "Actual Start Ts",
+      "type": "string"
+    },
+    "code_commit": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Code Commit"
+    },
+    "uv_lock_sha256": {
+      "title": "Uv Lock Sha256",
+      "type": "string"
+    },
+    "python_version": {
+      "title": "Python Version",
+      "type": "string"
+    },
+    "hardware": {
+      "title": "Hardware",
+      "type": "string"
+    },
+    "entrants": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Entrants",
+      "type": "array"
+    },
+    "sources": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Sources",
+      "type": "array"
+    },
+    "steps": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Steps",
+      "type": "array"
+    },
+    "lockin_ts_utc": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Lockin Ts Utc"
+    },
+    "deadline_met": {
+      "title": "Deadline Met",
+      "type": "boolean"
+    },
+    "forecasts_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Forecasts Sha256"
+    },
+    "forecasts_commit": {
+      "anyOf": [
+        {
+          "pattern": "^(?:[0-9a-f]{40}|[0-9a-f]{64})$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Forecasts Commit"
+    },
+    "ots_file": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Ots File"
+    },
+    "ots_status": {
+      "anyOf": [
+        {
+          "enum": [
+            "disabled",
+            "not_eligible",
+            "unavailable",
+            "pending",
+            "anchored",
+            "failed"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Ots Status"
+    },
+    "counts": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Counts",
+      "type": "object"
+    },
+    "entrant_counts": {
+      "additionalProperties": {
+        "additionalProperties": {
+          "type": "integer"
+        },
+        "type": "object"
+      },
+      "title": "Entrant Counts",
+      "type": "object"
+    },
+    "alerts": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Alerts",
+      "type": "array"
+    },
+    "mode": {
+      "default": "live",
+      "enum": [
+        "live",
+        "dry-run"
+      ],
+      "title": "Mode",
+      "type": "string"
+    },
+    "resumed_after_lockin": {
+      "default": false,
+      "title": "Resumed After Lockin",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "run_id",
+    "run_date",
+    "run_ts_utc",
+    "scheduled_ts",
+    "actual_start_ts",
+    "uv_lock_sha256",
+    "python_version",
+    "hardware",
+    "entrants",
+    "sources",
+    "steps",
+    "deadline_met",
+    "counts"
+  ],
+  "title": "ManifestFile",
+  "type": "object"
+}

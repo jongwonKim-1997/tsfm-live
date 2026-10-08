@@ -1,0 +1,66 @@
+---
+import '../styles/global.css';
+import {language, href, meta, read} from '../lib/data';
+const {locale, route, title} = Astro.props;
+const t = language(locale);
+const latest = read('latest');
+const card = route.startsWith('models') ? 'leaderboard' : route.startsWith('indicators') ? 'predictability' : route.startsWith('scorecard') ? 'scorecard' : 'board';
+const cardDate = latest.run_date || 'bootstrap';
+const origin = meta.public_origin || Astro.site?.origin || 'http://localhost:4321';
+const otherLocale = locale === 'ko' ? 'en' : 'ko';
+---
+<!doctype html>
+<html lang={locale}>
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>{title} · TSFM Live</title><meta name="description" content={t('boardIntro')}/>
+  <meta name="theme-color" content="#080c13"/>
+  <meta name="robots" content="noindex,nofollow"/>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+  <link rel="canonical" href={new URL(href(locale,'/'+route),origin).href}/>
+  <link rel="alternate" hreflang="en" href={new URL('/'+route,origin).href}/>
+  <link rel="alternate" hreflang="ko" href={new URL('/ko/'+route,origin).href}/>
+  <meta property="og:title" content={`${title} · TSFM Live`}/><meta property="og:description" content={t('boardIntro')}/>
+  <meta property="og:type" content="website"/><meta property="og:image" content={`${origin}/cards/${cardDate}/${card}.png`}/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <script is:inline>
+    try {const v=localStorage.getItem('tsfm-theme'); if(v)document.documentElement.dataset.theme=v;} catch {}
+  </script>
+</head>
+<body>
+  {meta.fixture&&<div class="fixture-banner" role="status">SYNTHETIC FIXTURE · TEST ONLY · 실제 예측 기록이 아닙니다</div>}
+  <a class="skip-link" href="#content">{t('skipContent')}</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href={href(locale,'/')} aria-label="TSFM Live"><img src="/favicon.svg" width="30" height="30" alt=""/><span>TSFM <b>Live</b></span></a>
+      <nav class="primary-nav" aria-label={t('tagline')}>
+        {[['', 'board'],['models','models'],['indicators','indicators']].map(([path,key]) => <a href={href(locale,'/'+path)} aria-current={route === path || (path && route.startsWith(path+'/')) ? 'page':undefined}>{t(key)}</a>)}
+      </nav>
+      <div class="header-tools"><a class="status-pill" href={href(locale,'/status')}><span></span>{t('shadow')}</a>
+        <button class="icon-button" id="theme-toggle" aria-label={t('theme')} title={t('theme')}>◐</button>
+        <a id="language-switch" data-locale={otherLocale} class="locale-link" href={href(otherLocale,'/'+route)} aria-label={t('language')}>{otherLocale === 'ko' ? '한국어' : 'EN'}</a>
+      </div>
+    </div>
+  </header>
+  <div class="utility-nav"><div><span>{t('tagline')}</span><nav>{['today','ledger','methodology','status','api','about'].map(key=><a href={href(locale,'/'+key)} aria-current={route === key ? 'page':undefined}>{t(key)}</a>)}</nav></div></div>
+  <main id="content" class="page"><slot/></main>
+  <footer class="site-footer"><div class="footer-top"><a class="brand" href={href(locale,'/')}>TSFM <b>Live</b></a><span>{meta.operator} · {t('researchOnly')}</span><a href={href(locale,'/methodology')}>{t('methodLink')} ↗</a></div>
+    <p class="disclaimer">{t('disclaimer')}</p><div class="footer-bottom"><span>Data · CC BY 4.0 &nbsp; Code · Apache-2.0</span><span>{t('privacy')}</span></div>
+  </footer>
+  <script is:inline>
+    document.querySelector('#theme-toggle')?.addEventListener('click',()=>{
+      const dark=document.documentElement.dataset.theme!=='light';
+      const next=dark?'light':'dark'; document.documentElement.dataset.theme=next;try{localStorage.setItem('tsfm-theme',next)}catch{}
+    });
+    document.querySelector('#language-switch')?.addEventListener('click',(event)=>{try{localStorage.setItem('tsfm-locale',event.currentTarget.dataset.locale)}catch{}});
+    // Static pages cannot read HTTP Accept-Language; navigator.languages is the browser equivalent.
+    try {
+      if (!sessionStorage.getItem('tsfm-language-seen')) {
+        sessionStorage.setItem('tsfm-language-seen','1');
+        const choice=localStorage.getItem('tsfm-locale')||navigator.languages?.[0]||'en';
+        if (location.pathname==='/' && choice.startsWith('ko')) location.replace('/ko/');
+      }
+    } catch {}
+  </script>
+</body>
+</html>
