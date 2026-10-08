@@ -1,0 +1,51 @@
+{
+  "mode": "local_dry_run",
+  "run_date": "2026-10-08",
+  "timezone": "Asia/Seoul",
+  "device": "cpu",
+  "threads": 4,
+  "worker_profiles": 6,
+  "models": [
+    {
+      "id": "chronos-2",
+      "revision": "29ec3766d36d6f73f0696f85560a422f50e8498c",
+      "weight_files": 1
+    },
+    {
+      "id": "chronos-bolt-base",
+      "revision": "5d9f166d69f47aef3401367a7b842e78fe97b121",
+      "weight_files": 1
+    },
+    {
+      "id": "timesfm-2.5-200m",
+      "revision": "1d952420fba87f3c6dee4f240de0f1a0fbc790e3",
+      "weight_files": 1
+    },
+    {
+      "id": "moirai-2.0-r-small",
+      "revision": "30f43ff08c8494f4943ae1521e9d4e94a0fbb389",
+      "weight_files": 1
+    },
+    {
+      "id": "toto-open-base-1.0",
+      "revision": "0411ceb27bdf7fc3e4892e99edc8ad08192dc3c5",
+      "weight_files": 1
+    },
+    {
+      "id": "tirex",
+      "revision": "63c740922493f5fbe60b277609ec62babfba2762",
+      "weight_files": 1
+    },
+    {
+      "id": "sundial-base-128m",
+      "revision": "3212e42564493f520593e5414af4367fc4b49226",
+      "weight_files": 1
+    }
+  ],
+  "live_publication": false,
+  "checked_at_utc": "2026-10-08T10:22:44.646604+00:00",
+  "runtime_env_location": "private workspace, outside public repository",
+  "powershell_check_only_exit_code": 0,
+  "full_inference_run": false,
+  "scope": "Existing interpreter versions and pinned cached weight file presence; separate model-smoke evidence covers inference."
+}

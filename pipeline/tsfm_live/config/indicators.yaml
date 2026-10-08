@@ -1,0 +1,211 @@
+- id: kospi
+  name: KOSPI
+  group: kr_equity
+  source: {adapter: ecos, params: {stat_code: "802Y001", item_code: "0001000", series_verified: false}}
+  calendar: XKRX
+  close_time_local: "15:30"
+  tz: Asia/Seoul
+  target_transform: log_return_pct
+  display_policy: return_only
+  decimals: 2
+  min_history: 300
+  license_note: docs/data-sources.md#ecos
+  attribution: "Candidate source: Bank of Korea ECOS; series not verified."
+  enabled: false
+  disabled_reason: ECOS key, exact series, publication timing and underlying KRX redistribution rights remain unverified.
+- id: kosdaq
+  name: KOSDAQ
+  group: kr_equity
+  source: {adapter: ecos, params: {stat_code: null, item_code: null, series_verified: false}}
+  calendar: XKRX
+  close_time_local: "15:30"
+  tz: Asia/Seoul
+  target_transform: log_return_pct
+  display_policy: return_only
+  decimals: 2
+  min_history: 300
+  license_note: docs/data-sources.md#ecos
+  attribution: "Candidate source: Bank of Korea ECOS; series not verified."
+  enabled: false
+  disabled_reason: ECOS key, exact series, publication timing and underlying KRX redistribution rights remain unverified.
+- id: spx
+  name: S&P 500
+  group: us_equity
+  source: {adapter: pending_vendor, params: {}}
+  calendar: XNYS
+  close_time_local: "16:00"
+  tz: America/New_York
+  target_transform: log_return_pct
+  display_policy: return_only
+  decimals: 2
+  min_history: 300
+  license_note: docs/data-sources.md#equities-and-commodities
+  attribution: No data source enabled.
+  enabled: false
+  disabled_reason: No verified vendor permits this automated retrieval and public derived-data use within the publication window.
+- id: ndq
+  name: NASDAQ Composite
+  group: us_equity
+  source: {adapter: pending_vendor, params: {}}
+  calendar: XNYS
+  close_time_local: "16:00"
+  tz: America/New_York
+  target_transform: log_return_pct
+  display_policy: return_only
+  decimals: 2
+  min_history: 300
+  license_note: docs/data-sources.md#equities-and-commodities
+  attribution: No data source enabled.
+  enabled: false
+  disabled_reason: No verified vendor permits this automated retrieval and public derived-data use within the publication window.
+- id: usdkrw
+  name: USD/KRW (Seoul close)
+  group: fx
+  source: {adapter: ecos, params: {stat_code: null, item_code: null, series_verified: false}}
+  calendar: XKRX
+  close_time_local: "15:30"
+  tz: Asia/Seoul
+  target_transform: log_return_pct
+  display_policy: return_only
+  decimals: 2
+  min_history: 300
+  license_note: docs/data-sources.md#ecos
+  attribution: "Candidate source: Bank of Korea ECOS; series not verified."
+  enabled: false
+  disabled_reason: Must verify the Seoul closing rate and current session definition, not a next-day base rate; ECOS key and rights also pending.
+- id: eurusd
+  name: EUR/USD (ECB reference)
+  group: fx
+  source: {adapter: ecb, params: {pair: EURUSD}}
+  calendar: ECB
+  close_time_local: "16:00"
+  tz: Europe/Berlin
+  target_transform: log_return_pct
+  display_policy: level
+  decimals: 4
+  min_history: 300
+  license_note: docs/data-sources.md#ecb
+  attribution: "Source: European Central Bank. Log changes and model outputs calculated by TSFM Live."
+  enabled: true
+  disabled_reason: null
+- id: usdjpy
+  name: USD/JPY (derived ECB reference)
+  group: fx
+  source: {adapter: ecb, params: {pair: USDJPY, derivation: EURJPY_divided_by_EURUSD}}
+  calendar: ECB
+  close_time_local: "16:00"
+  tz: Europe/Berlin
+  target_transform: log_return_pct
+  display_policy: level
+  decimals: 4
+  min_history: 300
+  license_note: docs/data-sources.md#ecb
+  attribution: "Source: European Central Bank; USD/JPY calculated as EUR/JPY divided by EUR/USD. Changes and model outputs calculated by TSFM Live."
+  enabled: true
+  disabled_reason: null
+- id: ktb3y
+  name: Korea Treasury Bond 3Y yield
+  group: rates
+  source: {adapter: ecos, params: {stat_code: null, item_code: null, series_verified: false}}
+  calendar: XKRX
+  close_time_local: "15:30"
+  tz: Asia/Seoul
+  target_transform: diff_bp
+  display_policy: return_only
+  decimals: 3
+  min_history: 300
+  license_note: docs/data-sources.md#ecos
+  attribution: "Candidate source: Bank of Korea ECOS; series not verified."
+  enabled: false
+  disabled_reason: ECOS key, final bond-yield series, session time, publication timing and redistribution terms remain unverified.
+- id: ktb10y
+  name: Korea Treasury Bond 10Y yield
+  group: rates
+  source: {adapter: ecos, params: {stat_code: null, item_code: null, series_verified: false}}
+  calendar: XKRX
+  close_time_local: "15:30"
+  tz: Asia/Seoul
+  target_transform: diff_bp
+  display_policy: return_only
+  decimals: 3
+  min_history: 300
+  license_note: docs/data-sources.md#ecos
+  attribution: "Candidate source: Bank of Korea ECOS; series not verified."
+  enabled: false
+  disabled_reason: ECOS key, final bond-yield series, session time, publication timing and redistribution terms remain unverified.
+- id: ust10y
+  name: US Treasury 10Y par yield
+  group: rates
+  source: {adapter: ustreasury, params: {field: BC_10YEAR}}
+  calendar: UST
+  close_time_local: "15:30"
+  tz: America/New_York
+  target_transform: diff_bp
+  display_policy: level
+  decimals: 2
+  min_history: 300
+  license_note: docs/data-sources.md#us-treasury
+  attribution: "Source: U.S. Department of the Treasury. Basis-point changes and model outputs calculated by TSFM Live."
+  enabled: true
+  disabled_reason: null
+- id: wti
+  name: WTI crude front-month settlement (source pending)
+  group: commodities
+  source: {adapter: pending_vendor, params: {}}
+  calendar: CMES
+  close_time_local: "14:30"
+  tz: America/New_York
+  target_transform: log_return_pct
+  display_policy: return_only
+  decimals: 2
+  min_history: 300
+  license_note: docs/data-sources.md#equities-and-commodities
+  attribution: No data source enabled; settlement and roll rules are pending.
+  enabled: false
+  disabled_reason: Automated access, redistribution, exact settlement calendar and a continuous-contract roll convention require a verified source.
+- id: gold
+  name: Gold USD/oz (source pending)
+  group: commodities
+  source: {adapter: pending_vendor, params: {}}
+  calendar: XLON
+  close_time_local: "15:00"
+  tz: Europe/London
+  target_transform: log_return_pct
+  display_policy: return_only
+  decimals: 2
+  min_history: 300
+  license_note: docs/data-sources.md#equities-and-commodities
+  attribution: No data source enabled; benchmark definition is pending.
+  enabled: false
+  disabled_reason: LBMA benchmark rights or an alternative spot-feed licence, publication timing and exact calendar require verification.
+- id: vix
+  name: Cboe VIX
+  group: volatility
+  source: {adapter: cboe, params: {series: VIX}}
+  calendar: XNYS
+  calendar_close_offset_minutes: 15
+  close_time_local: "16:15"
+  tz: America/New_York
+  target_transform: log_return_pct
+  display_policy: return_only
+  decimals: 2
+  min_history: 300
+  license_note: docs/data-sources.md#cboe
+  attribution: "Candidate source: Cboe VIX history. Redistribution not verified."
+  enabled: false
+  disabled_reason: CSV access does not establish public redistribution or derived-data rights; daily final-publication time remains unverified.
+- id: btcusd
+  name: Bitcoin / USDT (USD proxy)
+  group: crypto
+  source: {adapter: binance, params: {symbol: BTCUSDT, interval: 1h, synthetic_close_utc: "23:00"}}
+  calendar: CRYPTO_UTC23
+  close_time_local: "23:00"
+  tz: UTC
+  target_transform: log_return_pct
+  display_policy: return_only
+  decimals: 2
+  min_history: 300
+  license_note: docs/data-sources.md#binance
+  attribution: "Candidate source: Binance BTCUSDT; a USDT-quoted proxy, not a USD market."
+  enabled: false
+  disabled_reason: BTCUSDT is a USDT proxy; public redistribution and derived-data terms have not been cleared for this benchmark.

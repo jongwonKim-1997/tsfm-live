@@ -1,0 +1,65 @@
+# Replace REPLACE_* values; never put credential values in this file.
+# Cloud Run ephemeral disk is beta and a 50Gi per-instance quota is required.
+apiVersion: run.googleapis.com/v1
+kind: Job
+metadata:
+  name: tsfm-live-daily
+  annotations:
+    run.googleapis.com/launch-stage: BETA
+spec:
+  template:
+    spec:
+      taskCount: 1
+      parallelism: 1
+      template:
+        spec:
+          serviceAccountName: tsfm-runtime@REPLACE_PROJECT.iam.gserviceaccount.com
+          timeoutSeconds: 2400
+          maxRetries: 0
+          containers:
+            - image: REPLACE_REGION-docker.pkg.dev/REPLACE_PROJECT/tsfm/runner@sha256:REPLACE_IMAGE_DIGEST
+              resources:
+                limits:
+                  cpu: '4'
+                  memory: 16Gi
+              env:
+                - name: TSFM_LIVE_ENABLED
+                  value: '0'
+                - name: TSFM_REPOSITORY_URL
+                  value: https://github.com/REPLACE_OWNER/REPLACE_REPOSITORY
+                - name: TSFM_PUBLIC_ORIGIN
+                  value: https://REPLACE_DOMAIN
+                - name: TSFM_CONTACT_EMAIL
+                  value: jdk12987@gmail.com
+                - name: TSFM_DATA_BUCKET
+                  value: REPLACE_RAW_BUCKET
+                - name: TSFM_CACHE_BUNDLE_OBJECT
+                  value: model-cache/REPLACE_BUNDLE.tar.gz
+                - name: TSFM_CACHE_BUNDLE_SHA256
+                  value: REPLACE_64_CHARACTER_SHA256
+                - name: ECOS_API_KEY
+                  valueFrom:
+                    secretKeyRef: {name: tsfm-ecos-key, key: 'REPLACE_SECRET_VERSION'}
+                - name: GIT_PUSH_TOKEN
+                  valueFrom:
+                    secretKeyRef: {name: tsfm-github-token, key: 'REPLACE_SECRET_VERSION'}
+                - name: WEBHOOK_URL
+                  valueFrom:
+                    secretKeyRef: {name: tsfm-webhook, key: 'REPLACE_SECRET_VERSION'}
+              volumeMounts:
+                - {name: scratch, mountPath: /scratch}
+                - {name: model-cache, mountPath: /durable-models}
+                - {name: raw-cache, mountPath: /durable-raw}
+          volumes:
+            - name: scratch
+              emptyDir: {medium: Disk, sizeLimit: 50Gi}
+            - name: model-cache
+              csi:
+                driver: gcsfuse.run.googleapis.com
+                readOnly: true
+                volumeAttributes: {bucketName: REPLACE_MODEL_BUCKET}
+            - name: raw-cache
+              csi:
+                driver: gcsfuse.run.googleapis.com
+                readOnly: false
+                volumeAttributes: {bucketName: REPLACE_RAW_BUCKET}

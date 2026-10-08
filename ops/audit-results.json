@@ -1,0 +1,176 @@
+{
+  "kind": "local_static_site_lighthouse_audit",
+  "hosted_deployment_verified": false,
+  "form_factor": "mobile",
+  "phase": "black_blue_default_dark",
+  "runs": [
+    {
+      "requested_url": "http://localhost:62317/",
+      "final_url": "http://localhost:62317/",
+      "performance": 1,
+      "accessibility": 1,
+      "fetch_time": "2026-10-08T09:46:13.673Z",
+      "lighthouse_version": "12.6.1"
+    },
+    {
+      "requested_url": "http://localhost:62317/",
+      "final_url": "http://localhost:62317/",
+      "performance": 1,
+      "accessibility": 1,
+      "fetch_time": "2026-10-08T09:46:26.842Z",
+      "lighthouse_version": "12.6.1"
+    },
+    {
+      "requested_url": "http://localhost:62317/",
+      "final_url": "http://localhost:62317/",
+      "performance": 1,
+      "accessibility": 1,
+      "fetch_time": "2026-10-08T09:46:39.052Z",
+      "lighthouse_version": "12.6.1"
+    },
+    {
+      "requested_url": "http://localhost:62317/models/",
+      "final_url": "http://localhost:62317/models/",
+      "performance": 1,
+      "accessibility": 1,
+      "fetch_time": "2026-10-08T09:46:51.256Z",
+      "lighthouse_version": "12.6.1"
+    },
+    {
+      "requested_url": "http://localhost:62317/models/",
+      "final_url": "http://localhost:62317/models/",
+      "performance": 1,
+      "accessibility": 1,
+      "fetch_time": "2026-10-08T09:47:03.359Z",
+      "lighthouse_version": "12.6.1"
+    },
+    {
+      "requested_url": "http://localhost:62317/models/",
+      "final_url": "http://localhost:62317/models/",
+      "performance": 1,
+      "accessibility": 1,
+      "fetch_time": "2026-10-08T09:47:15.437Z",
+      "lighthouse_version": "12.6.1"
+    },
+    {
+      "requested_url": "http://localhost:62317/indicators/",
+      "final_url": "http://localhost:62317/indicators/",
+      "performance": 1,
+      "accessibility": 1,
+      "fetch_time": "2026-10-08T09:47:27.520Z",
+      "lighthouse_version": "12.6.1"
+    },
+    {
+      "requested_url": "http://localhost:62317/indicators/",
+      "final_url": "http://localhost:62317/indicators/",
+      "performance": 1,
+      "accessibility": 1,
+      "fetch_time": "2026-10-08T09:47:39.542Z",
+      "lighthouse_version": "12.6.1"
+    },
+    {
+      "requested_url": "http://localhost:62317/indicators/",
+      "final_url": "http://localhost:62317/indicators/",
+      "performance": 1,
+      "accessibility": 1,
+      "fetch_time": "2026-10-08T09:47:51.589Z",
+      "lighthouse_version": "12.6.1"
+    }
+  ],
+  "thresholds": {
+    "performance": 0.9,
+    "accessibility": 0.95
+  },
+  "prior_phase": {
+    "kind": "local_static_site_lighthouse_audit",
+    "hosted_deployment_verified": false,
+    "form_factor": "mobile",
+    "phase": "initial_local_build",
+    "runs": [
+      {
+        "requested_url": "http://localhost:57001/",
+        "final_url": "http://localhost:57001/ko/",
+        "performance": 1,
+        "accessibility": 1,
+        "fetch_time": "2026-10-07T23:44:57.185Z",
+        "lighthouse_version": "12.6.1"
+      },
+      {
+        "requested_url": "http://localhost:57001/",
+        "final_url": "http://localhost:57001/ko/",
+        "performance": 1,
+        "accessibility": 1,
+        "fetch_time": "2026-10-07T23:45:11.287Z",
+        "lighthouse_version": "12.6.1"
+      },
+      {
+        "requested_url": "http://localhost:57001/",
+        "final_url": "http://localhost:57001/ko/",
+        "performance": 1,
+        "accessibility": 1,
+        "fetch_time": "2026-10-07T23:45:24.465Z",
+        "lighthouse_version": "12.6.1"
+      },
+      {
+        "requested_url": "http://localhost:57001/models/",
+        "final_url": "http://localhost:57001/models/",
+        "performance": 1,
+        "accessibility": 0.96,
+        "fetch_time": "2026-10-07T23:45:36.937Z",
+        "lighthouse_version": "12.6.1"
+      },
+      {
+        "requested_url": "http://localhost:57001/models/",
+        "final_url": "http://localhost:57001/models/",
+        "performance": 1,
+        "accessibility": 0.96,
+        "fetch_time": "2026-10-07T23:45:49.465Z",
+        "lighthouse_version": "12.6.1"
+      },
+      {
+        "requested_url": "http://localhost:57001/models/",
+        "final_url": "http://localhost:57001/models/",
+        "performance": 1,
+        "accessibility": 0.96,
+        "fetch_time": "2026-10-07T23:46:01.789Z",
+        "lighthouse_version": "12.6.1"
+      },
+      {
+        "requested_url": "http://localhost:57001/indicators/",
+        "final_url": "http://localhost:57001/indicators/",
+        "performance": 1,
+        "accessibility": 1,
+        "fetch_time": "2026-10-07T23:46:14.507Z",
+        "lighthouse_version": "12.6.1"
+      },
+      {
+        "requested_url": "http://localhost:57001/indicators/",
+        "final_url": "http://localhost:57001/indicators/",
+        "performance": 1,
+        "accessibility": 1,
+        "fetch_time": "2026-10-07T23:46:27.114Z",
+        "lighthouse_version": "12.6.1"
+      },
+      {
+        "requested_url": "http://localhost:57001/indicators/",
+        "final_url": "http://localhost:57001/indicators/",
+        "performance": 1,
+        "accessibility": 1,
+        "fetch_time": "2026-10-07T23:46:39.816Z",
+        "lighthouse_version": "12.6.1"
+      }
+    ],
+    "thresholds": {
+      "performance": 0.9,
+      "accessibility": 0.95
+    },
+    "notes": [
+      "Root first visit respected the local Korean browser language and redirected to /ko/.",
+      "All nine initial runs passed thresholds; models accessibility was0.96 due to missing underline on a prose link."
+    ]
+  },
+  "notes": [
+    "English browser locale forced for default-route measurement.",
+    "Site was held constant during all nine runs."
+  ]
+}

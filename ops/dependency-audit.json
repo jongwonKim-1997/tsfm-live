@@ -1,0 +1,222 @@
+{
+  "as_of": "2026-10-08",
+  "generated_ts_utc": "2026-10-08T09:58:55.683312+00:00",
+  "all_dependencies": {
+    "info": 0,
+    "low": 2,
+    "moderate": 4,
+    "high": 11,
+    "critical": 0,
+    "total": 17
+  },
+  "production_dependencies": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  },
+  "findings": [
+    {
+      "name": "@lhci/cli",
+      "severity": "high",
+      "direct": true,
+      "fix_available": {
+        "name": "@lhci/cli",
+        "version": "0.1.0",
+        "isSemVerMajor": true
+      },
+      "advisory_urls": []
+    },
+    {
+      "name": "@lhci/utils",
+      "severity": "high",
+      "direct": false,
+      "fix_available": {
+        "name": "@lhci/cli",
+        "version": "0.1.0",
+        "isSemVerMajor": true
+      },
+      "advisory_urls": []
+    },
+    {
+      "name": "@puppeteer/browsers",
+      "severity": "high",
+      "direct": false,
+      "fix_available": {
+        "name": "@lhci/cli",
+        "version": "0.1.0",
+        "isSemVerMajor": true
+      },
+      "advisory_urls": []
+    },
+    {
+      "name": "argparse",
+      "severity": "moderate",
+      "direct": false,
+      "fix_available": {
+        "name": "@lhci/cli",
+        "version": "0.1.0",
+        "isSemVerMajor": true
+      },
+      "advisory_urls": []
+    },
+    {
+      "name": "basic-ftp",
+      "severity": "high",
+      "direct": false,
+      "fix_available": {
+        "name": "@lhci/cli",
+        "version": "0.1.0",
+        "isSemVerMajor": true
+      },
+      "advisory_urls": [
+        "https://github.com/advisories/GHSA-c475-qrg2-pj4r"
+      ]
+    },
+    {
+      "name": "external-editor",
+      "severity": "low",
+      "direct": false,
+      "fix_available": {
+        "name": "@lhci/cli",
+        "version": "0.1.0",
+        "isSemVerMajor": true
+      },
+      "advisory_urls": []
+    },
+    {
+      "name": "extract-zip",
+      "severity": "high",
+      "direct": false,
+      "fix_available": {
+        "name": "@lhci/cli",
+        "version": "0.1.0",
+        "isSemVerMajor": true
+      },
+      "advisory_urls": [
+        "https://github.com/advisories/GHSA-jmr9-qjv8-65gv",
+        "https://github.com/advisories/GHSA-7pqw-9j4j-h8q3"
+      ]
+    },
+    {
+      "name": "get-uri",
+      "severity": "high",
+      "direct": false,
+      "fix_available": {
+        "name": "@lhci/cli",
+        "version": "0.1.0",
+        "isSemVerMajor": true
+      },
+      "advisory_urls": []
+    },
+    {
+      "name": "inquirer",
+      "severity": "low",
+      "direct": false,
+      "fix_available": {
+        "name": "@lhci/cli",
+        "version": "0.1.0",
+        "isSemVerMajor": true
+      },
+      "advisory_urls": []
+    },
+    {
+      "name": "js-yaml",
+      "severity": "moderate",
+      "direct": false,
+      "fix_available": {
+        "name": "@lhci/cli",
+        "version": "0.1.0",
+        "isSemVerMajor": true
+      },
+      "advisory_urls": []
+    },
+    {
+      "name": "lighthouse",
+      "severity": "high",
+      "direct": false,
+      "fix_available": {
+        "name": "@lhci/cli",
+        "version": "0.1.0",
+        "isSemVerMajor": true
+      },
+      "advisory_urls": []
+    },
+    {
+      "name": "pac-proxy-agent",
+      "severity": "high",
+      "direct": false,
+      "fix_available": {
+        "name": "@lhci/cli",
+        "version": "0.1.0",
+        "isSemVerMajor": true
+      },
+      "advisory_urls": []
+    },
+    {
+      "name": "proxy-agent",
+      "severity": "high",
+      "direct": false,
+      "fix_available": {
+        "name": "@lhci/cli",
+        "version": "0.1.0",
+        "isSemVerMajor": true
+      },
+      "advisory_urls": []
+    },
+    {
+      "name": "puppeteer-core",
+      "severity": "high",
+      "direct": false,
+      "fix_available": {
+        "name": "@lhci/cli",
+        "version": "0.1.0",
+        "isSemVerMajor": true
+      },
+      "advisory_urls": []
+    },
+    {
+      "name": "sprintf-js",
+      "severity": "moderate",
+      "direct": false,
+      "fix_available": {
+        "name": "@lhci/cli",
+        "version": "0.1.0",
+        "isSemVerMajor": true
+      },
+      "advisory_urls": [
+        "https://github.com/advisories/GHSA-hp3w-g68c-fv3c"
+      ]
+    },
+    {
+      "name": "tmp",
+      "severity": "high",
+      "direct": false,
+      "fix_available": {
+        "name": "@lhci/cli",
+        "version": "0.1.0",
+        "isSemVerMajor": true
+      },
+      "advisory_urls": [
+        "https://github.com/advisories/GHSA-52f5-9888-hmc6",
+        "https://github.com/advisories/GHSA-ph9p-34f9-6g65"
+      ]
+    },
+    {
+      "name": "uuid",
+      "severity": "moderate",
+      "direct": false,
+      "fix_available": {
+        "name": "@lhci/cli",
+        "version": "0.1.0",
+        "isSemVerMajor": true
+      },
+      "advisory_urls": [
+        "https://github.com/advisories/GHSA-w5hq-g745-h8pq"
+      ]
+    }
+  ],
+  "decision": "No force fix: npm proposes incompatible @lhci/cli downgrade to0.1.0. Auditing tooling runs in read-only-secretless CI, not the deployed static site. Replace/update tooling in a reviewed compatibility change."
+}

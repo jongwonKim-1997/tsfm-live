@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /
+# Shadow period. Remove only after documented launch-readiness review.

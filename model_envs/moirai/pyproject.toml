@@ -1,0 +1,23 @@
+[project]
+name = "tsfm-live-moirai"
+version = "0.1.0"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+  "uni2ts==2.0.0",
+  "torch==2.4.1",
+  "numpy==1.26.4",
+  "scipy==1.11.4",
+  "pandas==2.2.3",
+  "PyYAML==6.0.2"
+]
+
+[tool.uv]
+package = false
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }

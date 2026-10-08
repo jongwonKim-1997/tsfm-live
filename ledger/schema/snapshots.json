@@ -1,0 +1,21 @@
+{
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "as_of": {
+      "format": "date",
+      "title": "As Of",
+      "type": "string"
+    }
+  },
+  "required": [
+    "as_of"
+  ],
+  "title": "SnapshotFile",
+  "type": "object"
+}

@@ -1,0 +1,14 @@
+---
+import {language, number, meta, href} from '../lib/data';
+const {records=[],locale='en',full=false}=Astro.props;
+const t=language(locale);
+const names=Object.fromEntries([...meta.indicators,...meta.entrants].map((x:any)=>[x.id,x.name]));
+---
+{records.length ? <div class="table-scroll" tabindex="0" role="region" aria-label={t('outputsTitle')}><table class="data-table outputs-table">
+  <thead><tr><th>{t('indicators')}</th><th>{t('entrant')}</th><th>{t('status')}</th><th>{t('units')}</th>{full?meta.constants.QUANTILES.map((q:any)=><th>q{number(q*100,locale,1)}</th>):<><th>{t('median')}</th><th>{t('interval80')}</th></>}<th>{t('levelUnits')}</th></tr></thead>
+  <tbody>{records.map((r:any)=><tr><th scope="row"><a href={href(locale,'/indicators/'+r.indicator_id)}>{names[r.indicator_id]}</a></th>
+  <td><a href={href(locale,'/models/'+r.entrant_id)}>{r.entrant_id==='ensemble-median'?t('ensembleLabel').replace('{n}',String(r.contributors?.length||0)):names[r.entrant_id]}</a></td>
+  <td><span class="badge muted">{t(r.status)}</span>{r.skip_reason&&<small>{r.skip_reason}</small>}{r.corrected&&<span class="badge">{t('corrected')}</span>}</td>
+  <td>{r.target_transform==='diff_bp'?'bp':'%'}</td>{full?meta.constants.QUANTILES.map((q:any)=><td>{r.status==='ok'?number(r.q?.[String(q)],locale,3):'—'}{r.display_q&&<small title={t('levelUnits')}>{number(r.display_q[String(q)],locale,3)}</small>}</td>):<><td>{r.status==='ok'?number(r.q?.['0.5'],locale,3):'—'}</td><td>{r.status==='ok'?`${number(r.q?.['0.1'],locale,3)} … ${number(r.q?.['0.9'],locale,3)}`:'—'}</td></>}
+  <td>{r.display_q?`${number(r.display_q['0.5'],locale,2)} [${number(r.display_q['0.1'],locale,2)}, ${number(r.display_q['0.9'],locale,2)}]`:'—'}</td></tr>)}</tbody>
+  </table></div> : <div class="empty-panel"><span class="empty-symbol" aria-hidden="true">⌁</span><h3>{t('awaiting')}</h3><p>{t('awaitingBody')}</p></div>}

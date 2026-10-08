@@ -1,0 +1,23 @@
+---
+import * as Plot from '@observablehq/plot';
+import { JSDOM } from 'jsdom';
+import { language } from '../lib/data';
+const {rows = [], x = 'date', y = 'value', group, label, locale = 'en', type = 'line'} = Astro.props;
+const t = language(locale);
+let svg = '';
+if (rows.length) {
+  const document = new JSDOM('').window.document;
+  const points = rows.filter((r: any) => r[x] != null && r[y] != null)
+    .map((r: any) => ({...r, [x]: x === 'date' ? new Date(r[x]) : r[x]}));
+  if (points.length) {
+    const plot = Plot.plot({document, width: 780, height: 240, marginLeft: 60,
+      style: {background:'transparent', color:'currentColor', fontFamily:'inherit'},
+      x: {label:null, ...(x==='date'?{tickFormat:(v:any)=>new Intl.DateTimeFormat(locale,{month:'short',day:'numeric',timeZone:'UTC'}).format(v)}:{}), ...(type === 'dot' ? {domain:[0,1]} : {})}, y: {label, grid:true, ...(type === 'dot' ? {domain:[0,1]} : {})}, color: {legend: Boolean(group), range:['#85afff','#d6deee']},
+      marks:[Plot.ruleY([0], {strokeOpacity:.2}), ...(type === 'dot' ? [Plot.line([{x:0,y:0},{x:1,y:1}],{x:'x',y:'y',strokeDasharray:'4,4',strokeOpacity:.4})] : []), type === 'dot' ?
+        Plot.dot(points,{x,y,stroke:group || '#75a7ff',r:4}) :
+        Plot.lineY(points,{x,y,stroke:group || '#75a7ff',strokeWidth:2})]});
+    svg = plot.outerHTML;
+  }
+}
+---
+{svg ? <figure class="chart" aria-label={label} set:html={svg}/> : <div class="chart-empty"><span class="mini-line" aria-hidden="true"></span><p>{t('noObservations')}</p></div>}

@@ -1,0 +1,265 @@
+{
+  "$defs": {
+    "ForecastRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "indicator_id": {
+          "title": "Indicator Id",
+          "type": "string"
+        },
+        "entrant_id": {
+          "title": "Entrant Id",
+          "type": "string"
+        },
+        "entrant_version": {
+          "title": "Entrant Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "ok",
+            "skipped",
+            "failed",
+            "void"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "skip_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Skip Reason"
+        },
+        "target_transform": {
+          "enum": [
+            "log_return_pct",
+            "diff_bp"
+          ],
+          "title": "Target Transform",
+          "type": "string"
+        },
+        "last_close_ts": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Close Ts"
+        },
+        "last_close_value": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Close Value"
+        },
+        "next_close_ts": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Next Close Ts"
+        },
+        "context_len": {
+          "default": 0,
+          "title": "Context Len",
+          "type": "integer"
+        },
+        "context_hash": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Context Hash"
+        },
+        "regime": {
+          "anyOf": [
+            {
+              "enum": [
+                "normal",
+                "high_vol"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Regime"
+        },
+        "sigma_ewma": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sigma Ewma"
+        },
+        "q": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Q",
+          "type": "object"
+        },
+        "mean": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mean"
+        },
+        "quantile_method": {
+          "anyOf": [
+            {
+              "enum": [
+                "native",
+                "sampled",
+                "interpolated"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Quantile Method"
+        },
+        "n_samples": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "N Samples"
+        },
+        "seed": {
+          "title": "Seed",
+          "type": "integer"
+        },
+        "inference_seconds": {
+          "default": 0,
+          "title": "Inference Seconds",
+          "type": "number"
+        },
+        "contributors": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Contributors",
+          "type": "array"
+        }
+      },
+      "required": [
+        "indicator_id",
+        "entrant_id",
+        "entrant_version",
+        "status",
+        "target_transform",
+        "seed"
+      ],
+      "title": "ForecastRecord",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "default": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "run_date": {
+      "format": "date",
+      "title": "Run Date",
+      "type": "string"
+    },
+    "run_ts_utc": {
+      "format": "date-time",
+      "title": "Run Ts Utc",
+      "type": "string"
+    },
+    "lockin_deadline_utc": {
+      "format": "date-time",
+      "title": "Lockin Deadline Utc",
+      "type": "string"
+    },
+    "horizon_sessions": {
+      "const": 1,
+      "default": 1,
+      "title": "Horizon Sessions",
+      "type": "integer"
+    },
+    "quantiles": {
+      "items": {
+        "type": "number"
+      },
+      "title": "Quantiles",
+      "type": "array"
+    },
+    "records": {
+      "items": {
+        "$ref": "#/$defs/ForecastRecord"
+      },
+      "title": "Records",
+      "type": "array"
+    }
+  },
+  "required": [
+    "run_id",
+    "run_date",
+    "run_ts_utc",
+    "lockin_deadline_utc",
+    "records"
+  ],
+  "title": "ForecastFile",
+  "type": "object"
+}
