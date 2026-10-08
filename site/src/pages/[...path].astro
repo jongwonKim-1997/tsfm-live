@@ -6,6 +6,7 @@ import Leaderboard from '../components/Leaderboard.astro';
 import Outputs from '../components/Outputs.astro';
 import Chart from '../components/Chart.astro';
 import IntervalHistory from '../components/IntervalHistory.astro';
+import ForecastBoard from '../components/ForecastBoard.astro';
 import {read,meta,routes,language,number,percent,href,translationStale} from '../lib/data';
 import {Content as EnMethodology} from '../../../docs/methodology.md';
 import {Content as KoMethodology} from '../../../docs/methodology.ko.md';
@@ -38,10 +39,9 @@ const previous=ledger.lockins.filter((r:any)=>r.date!==latest.run_date).at(-1);
 ---
 <Layout locale={locale} route={route} title={title}>
 {section==='board'&&<>
-  <div class="eyebrow"><span class="status-dot"></span>{t('live')} <span class="slash">/</span> {t('board')}</div>
-  <div class="page-heading"><div><h1>{t('boardTitle')}</h1><p>{t('boardIntro')}</p></div><a class="button subtle" href={link('/ledger')}>{t('viewLedger')} ↗</a></div>
+  <ForecastBoard locale={locale}/>
   <div class="lock-strip"><span class="lock-icon" aria-hidden="true">▣</span><span><b>{latest.state==='locked'?t('lockedOutputs'):t(latest.state==='awaiting'?'awaiting':latest.state)}</b><small>{t('runDate')}: {latest.run_date||'—'} <span>·</span> {t('lockedAt')}: {showTime(latest.lockin_ts_utc)}</small></span>
-    <button class="hash-button" data-copy={latest.hash||''} disabled={!latest.hash} aria-label={t('copyHash')}>{latest.hash?latest.hash.slice(0,14)+'…':'SHA-256 · —'}<span aria-hidden="true">⧉</span></button>
+    <button class="hash-button" data-copy={latest.hash||''} disabled={!latest.hash} aria-label={`${t('copyHash')} · ${latest.hash?latest.hash.slice(0,14)+'…':'SHA-256 · —'}`}>{latest.hash?latest.hash.slice(0,14)+'…':'SHA-256 · —'}<span aria-hidden="true">⧉</span></button>
   </div>
   <div class="stat-grid">
     <div><span>{t('configuredIndicators')}</span><strong>{number(meta.indicators.length,locale,0)}<small>/ {meta.indicators.filter((x:any)=>x.enabled).length} {t('enabled')}</small></strong></div>

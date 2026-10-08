@@ -36,7 +36,7 @@ export function checkCopy(directory='src'){
     for(const phrase of violations(value))errors.push(`${locale}.${key}: ${phrase}`);
   }
   const walk=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(d=>d.isDirectory()?walk(path.join(dir,d.name)):[path.join(dir,d.name)]);
-  for(const file of walk(directory).filter(f=>/\.(astro|ts|css)$/.test(f))){
+  for(const file of walk(directory).filter(f=>/\.(astro|ts|mjs|css)$/.test(f))){
     const source=fs.readFileSync(file,'utf8');
     // Technical identifiers are not rendered product copy. Check literal text nodes
     // and human strings; word boundaries do not match e.g. strokeWidth or longitude.

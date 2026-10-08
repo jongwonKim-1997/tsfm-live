@@ -1,0 +1,36 @@
+{
+  "kind": "local_static_forecast_homepage_lighthouse_audit",
+  "hosted_deployment_verified": false,
+  "fixture_data_used": false,
+  "requested_url": "http://localhost:58701/",
+  "final_url": "http://localhost:58701/",
+  "fetch_time": "2026-10-08T11:03:11.497Z",
+  "lighthouse_version": "12.6.1",
+  "performance": 1,
+  "accessibility": 1,
+  "form_factor": "mobile",
+  "screen_emulation": {
+    "mobile": true,
+    "width": 390,
+    "height": 844,
+    "deviceScaleFactor": 1,
+    "disabled": false
+  },
+  "failed_accessibility_audits": [
+    {
+      "id": "label-content-name-mismatch",
+      "title": "Elements with visible text labels do not have matching accessible names."
+    }
+  ],
+  "post_audit_fixes": [
+    "Visible language-switch and hash-button text included in accessible names.",
+    "Model buttons use their visible text as accessible names and reference the interval/unit legend.",
+    "Model highlighting survives viewport resizing."
+  ],
+  "post_fix_validation": {
+    "site_tests_passed": 12,
+    "production_pages_verified": 69,
+    "lighthouse_repeated": false,
+    "note": "The recorded 100/100 scores precede these small accessibility/interaction fixes; scheduled CI retains its standard three-run audits."
+  }
+}

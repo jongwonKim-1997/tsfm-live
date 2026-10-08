@@ -58,7 +58,7 @@ document.querySelectorAll<HTMLButtonElement>('[data-view]').forEach(button=>butt
   document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
 }));
 document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach(button=>button.addEventListener('click',async()=>{
-  try{await navigator.clipboard.writeText(button.dataset.copy!);button.setAttribute('aria-label',t('copied'));button.querySelector('span')!.textContent='✓';}catch{}
+  try{await navigator.clipboard.writeText(button.dataset.copy!);button.setAttribute('aria-label',`${t('copied')} · ${button.dataset.copy!.slice(0,14)}…`);button.querySelector('span')!.textContent='✓';}catch{}
 }));
 document.querySelector<HTMLSelectElement>('#detail-window')?.addEventListener('change',async event=>{
   const select=event.target as HTMLSelectElement;

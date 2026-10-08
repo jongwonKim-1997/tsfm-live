@@ -1,0 +1,70 @@
+---
+import {language,read,href} from '../lib/data';
+import en from '../i18n/en.json';
+import ko from '../i18n/ko.json';
+import {chooseIndicator,panelMarkup,formatValue,asViewed} from '../lib/forecast-view.mjs';
+const {locale}=Astro.props;
+const t=language(locale), words=locale==='ko'?ko:en;
+const data=read('forecast_view');
+const indicators=(data.indicators||[]).map((row:any)=>asViewed(row));
+const selected=chooseIndicator(indicators);
+const featured=indicators.filter((row:any)=>row.enabled).slice(0,3);
+const json=JSON.stringify(data).replace(/</g,'\\u003c');
+---
+<section class="forecast-board" data-forecast-board data-selected={selected?.id} aria-labelledby="forecast-title">
+  <div class="forecast-heading"><div><span class="eyebrow"><span class="status-dot"></span>{t('forecastEyebrow')}</span><h1 id="forecast-title">{t('forecastTitle')}</h1></div>
+    <div class="forecast-history-control"><span>{t('forecastHistoryRange')}</span><div class="window-tabs" role="group" aria-label={t('forecastHistoryRange')}><button type="button" data-history-period="today" aria-pressed="true">{t('forecastToday')}</button><button type="button" data-history-period="last7days" aria-pressed="false">{t('forecastSevenDays')}</button></div></div>
+  </div>
+  <div class="forecast-market-bar"><div class="forecast-featured" role="group" aria-label={t('forecastChooseIndicator')}>{featured.map((row:any)=><button type="button" class="forecast-market" data-indicator={row.id} aria-pressed={row.id===selected?.id}><span>{row.name}</span><strong>{formatValue(row.last_observation?.value,locale,row.decimals??3)}<small>{row.unit}</small></strong></button>)}</div>
+    <label class="forecast-all-indicators"><span>{t('forecastAllIndicators')}</span><select data-indicator-select aria-label={t('forecastChooseIndicator')}>{indicators.map((row:any)=><option value={row.id} selected={row.id===selected?.id}>{row.name}{!row.enabled?' · '+t('disabled'):''}</option>)}</select></label>
+  </div>
+  <div class="forecast-stage panel" data-forecast-panel set:html={selected?panelMarkup(selected,'today',locale,words):''}/>
+  <div class="forecast-record-note"><span>{t('forecastSessionNote')}</span><a class="text-link" href={href(locale,'/today')}>{t('allQuantiles')} ↗</a></div>
+  <p class="sr-only" data-forecast-announcement aria-live="polite" aria-atomic="true"></p>
+  <script type="application/json" data-forecast-data set:html={json}/>
+</section>
+<script>
+  import {panelMarkup,chartMarkup,asViewed} from '../lib/forecast-view.mjs';
+  import en from '../i18n/en.json';
+  import ko from '../i18n/ko.json';
+  const board=document.querySelector<HTMLElement>('[data-forecast-board]');
+  if(board){
+    const data=JSON.parse(board.querySelector('[data-forecast-data]')!.textContent!);
+    const locale=document.documentElement.lang, words=locale==='ko'?ko:en;
+    const panel=board.querySelector<HTMLElement>('[data-forecast-panel]')!;
+    let selected=data.indicators.find((row:any)=>row.id===board.dataset.selected);
+    let period='today';
+    const width=()=>Math.max(310,panel.clientWidth-40);
+    function render(){
+      if(!selected)return;
+      selected=asViewed(selected);
+      panel.innerHTML=panelMarkup(selected,period,locale,words,width());
+      board!.querySelectorAll<HTMLButtonElement>('[data-indicator]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.indicator===selected.id)));
+      board!.querySelector<HTMLSelectElement>('[data-indicator-select]')!.value=selected.id;
+      board!.querySelectorAll<HTMLButtonElement>('[data-history-period]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.historyPeriod===period)));
+      board!.querySelector('[data-forecast-announcement]')!.textContent=`${selected.name} · ${period==='today'?words.forecastToday:words.forecastSevenDays} · ${selected.next_session_date||words.forecastAwaiting}`;
+    }
+    board.addEventListener('click',event=>{
+      const button=(event.target as HTMLElement).closest<HTMLButtonElement>('button');
+      if(!button)return;
+      if(button.dataset.indicator){selected=data.indicators.find((row:any)=>row.id===button.dataset.indicator);render();}
+      if(button.dataset.historyPeriod){period=button.dataset.historyPeriod;render();}
+      if(button.dataset.highlightModel){
+        const active=button.getAttribute('aria-pressed')!=='true', id=button.dataset.highlightModel;
+        panel.querySelectorAll<HTMLElement>('[data-highlight-model]').forEach(row=>{row.setAttribute('aria-pressed',String(active&&row.dataset.highlightModel===id));});
+        panel.querySelectorAll<SVGElement>('[data-forecast-mark]').forEach(mark=>mark.classList.toggle('is-dim',active&&mark.dataset.forecastMark!==id));
+      }
+    });
+    board.querySelector('[data-indicator-select]')?.addEventListener('change',event=>{selected=data.indicators.find((row:any)=>row.id===(event.target as HTMLSelectElement).value);render();});
+    let previousWidth=0;
+    new ResizeObserver(()=>{
+      const current=width();if(Math.abs(current-previousWidth)<2||!selected)return;previousWidth=current;
+      const plot=panel.querySelector('.forecast-plot');if(plot)plot.innerHTML=chartMarkup(selected,period,locale,words,current);
+      const highlighted=panel.querySelector<HTMLElement>('[data-highlight-model][aria-pressed="true"]')?.dataset.highlightModel;
+      if(highlighted)panel.querySelectorAll<SVGElement>('[data-forecast-mark]').forEach(mark=>mark.classList.toggle('is-dim',mark.dataset.forecastMark!==highlighted));
+    }).observe(panel);
+    render();
+    setInterval(()=>{if(selected&&asViewed(selected).status!==selected.status)render();},60000);
+    document.addEventListener('visibilitychange',()=>{if(!document.hidden)render();});
+  }
+</script>
