@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import {language, href, meta, read} from '../lib/data';
-const {locale, route, title} = Astro.props;
+const {locale, route, title, languageRoute = route} = Astro.props;
 const t = language(locale);
 const latest = read('latest');
 const card = route.startsWith('models') ? 'leaderboard' : route.startsWith('indicators') ? 'predictability' : route.startsWith('scorecard') ? 'scorecard' : 'board';
@@ -29,6 +29,7 @@ const otherLocale = locale === 'ko' ? 'en' : 'ko';
 </head>
 <body>
   {meta.fixture&&<div class="fixture-banner" role="status">SYNTHETIC FIXTURE · TEST ONLY · 실제 예측 기록이 아닙니다</div>}
+  {meta.diagnostic&&<div class="fixture-banner" role="status">LOCAL HISTORICAL DIAGNOSTIC · 실제 모델의 과거 진단 · 현재 예측이 아닙니다</div>}
   <a class="skip-link" href="#content">{t('skipContent')}</a>
   <header class="site-header">
     <div class="header-inner">
@@ -38,7 +39,7 @@ const otherLocale = locale === 'ko' ? 'en' : 'ko';
       </nav>
       <div class="header-tools"><a class="status-pill" href={href(locale,'/status')}><span></span>{t('shadow')}</a>
         <button class="icon-button" id="theme-toggle" aria-label={t('theme')} title={t('theme')}>◐</button>
-        <a id="language-switch" data-locale={otherLocale} class="locale-link" href={href(otherLocale,'/'+route)} aria-label={t('language')}>{otherLocale === 'ko' ? '한국어' : 'EN'}</a>
+        <a id="language-switch" data-locale={otherLocale} class="locale-link" href={href(otherLocale,'/'+languageRoute)} aria-label={`${t('language')}: ${otherLocale === 'ko' ? '한국어' : 'EN'}`}>{otherLocale === 'ko' ? '한국어' : 'EN'}</a>
       </div>
     </div>
   </header>

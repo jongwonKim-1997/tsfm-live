@@ -5,21 +5,31 @@ lock-ins, paired scoring, and an English/Korean static site. Public operator:
 **TSFM Live**. Data-permission and correction contact: **jdk12987@gmail.com**.
 
 The Python distribution and CLI are `tsfm-live`; imports use `tsfm_live`.
-The original implementation specification is in [SPEC.md](SPEC.md). Source,
+The owner's original implementation specification is retained privately. Source,
 model, mathematical, and operational decisions are documented under `docs/`.
 
 ## Current evidence and release status
 
-The application can build a truthful empty prospective view before any live
+The public preview is [tsfm-live.pages.dev](https://tsfm-live.pages.dev/).
+The homepage opens with a date-axis line plot: confirmed observations followed
+by a separate line to each model's next-session median. Today / last 7 days
+controls the observation history, and selecting a model emphasizes its line.
+Model values retain their 80% intervals and exact market target dates. Before
+the first public lock-in the chart honestly shows an unavailable state.
+Seven pinned TSFMs have completed real-weight CPU inference on this computer.
+A three-indicator historical integration took **254.18 seconds**, with 30
+successful outputs and zero failures; see [measured evidence](docs/integration-smoke.md).
+
+The application builds a truthful empty prospective view before any live
 record exists. Historical baseline/calendar validation is documented in
 [shadow-backtest.md](docs/shadow-backtest.md). It is not a live performance
 record or a complete TSFM backtest. Installing packages and passing unit tests
 do not establish weight-backed inference, deployment, 14 consecutive successful
 runs, or the required 90-calendar-day shadow-live period.
 
-`doctor` lists current launch blockers. Deployment requires the owner's public
-repository, hosting origin, cloud resources, credentials, and tested model
-runtimes. Disabled indicators and entrants retain explicit reasons. No sample
+`doctor` lists current launch blockers. Public daily operation still requires
+configured publication credentials and a validated operating procedure. Disabled
+indicators and entrants retain explicit reasons. No sample
 observations are inserted into the live ledger to make the interface look full.
 
 **Current operating mode: local execution only.** The owner deferred paid cloud
