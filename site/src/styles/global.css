@@ -24,6 +24,11 @@
 /* Daily model comparison leads the homepage. */
 .page:has(.forecast-board){padding-top:27px}
 .forecast-board{margin-bottom:28px}
+.forecast-provenance{display:flex;align-items:center;flex-wrap:wrap;gap:5px 20px;margin-bottom:16px;font-size:10px;color:var(--muted);border-left:2px solid var(--blue);padding:2px 12px}
+.forecast-provenance strong{color:var(--blue);font-size:11px;font-weight:600}
+.forecast-provenance time{color:var(--text);font-variant-numeric:tabular-nums}
+.forecast-provenance p{flex-basis:100%;font-size:9px;margin-top:2px}
+.forecast-provenance p b{font-weight:500}
 .forecast-heading{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:23px}
 .forecast-heading .eyebrow{font-size:9px;letter-spacing:1.5px;margin-bottom:9px}
 .forecast-heading h1{font-size:30px;letter-spacing:-.9px}

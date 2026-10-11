@@ -211,5 +211,19 @@
   "forecastSessionNote": "One session ahead follows each indicator’s calendar, including holidays. Only published values appear here.",
   "forecastActualTable": "View actual values",
   "forecastMedianLine": "Model median lines",
-  "forecastIntervalsBelow": "80% ranges below"
+  "forecastIntervalsBelow": "80% ranges below",
+  "forecastLocalMode": "Local zero-shot forecasts",
+  "forecastLocalTitle": "Collected actuals. Next-session forecasts.",
+  "forecastLocalReady": "Local forecasts ready",
+  "forecastLocalAwaiting": "Awaiting local forecasts",
+  "forecastLocalNoOutput": "Awaiting model outputs",
+  "forecastCollectedAt": "Collected",
+  "forecastGeneratedAt": "Report generated",
+  "forecastLocalEvidence": "Model outputs computed on this computer without additional training. Excluded from the publicly committed benchmark ledger and rankings.",
+  "forecastSnapshotStale": "This report is over 36 hours old. Check for a newer collection.",
+  "forecastLocalSessionNote": "Collection time and observation date can differ. On market holidays, the latest confirmed value and the next session for each indicator are shown.",
+  "forecastPublicLedgerLink": "Public commitment ledger",
+  "forecastSingleObservation": "A single confirmed daily value is shown as a point. Select Last 7 days to see the actual-value line.",
+  "forecastInputDate": "Final input observation",
+  "forecastComputedAt": "Inference time"
 }

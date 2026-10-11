@@ -14,8 +14,13 @@ The public preview is [tsfm-live.pages.dev](https://tsfm-live.pages.dev/).
 The homepage opens with a date-axis line plot: confirmed observations followed
 by a separate line to each model's next-session median. Today / last 7 days
 controls the observation history, and selecting a model emphasizes its line.
+The [local dashboard runner](docs/local-dashboard.md) now feeds that homepage
+with collected daily observations and real local zero-shot next-session outputs,
+explicitly labelled separately from public benchmark lock-ins. It also renders
+a standalone HTML line plot without requiring a web server.
 Model values retain their 80% intervals and exact market target dates. Before
-the first public lock-in the chart honestly shows an unavailable state.
+the first public lock-in the benchmark view remains unavailable; the separately
+labelled local dashboard can show actual collected observations and local forecasts.
 Seven pinned TSFMs have completed real-weight CPU inference on this computer.
 A three-indicator historical integration took **254.18 seconds**, with 30
 successful outputs and zero failures; see [measured evidence](docs/integration-smoke.md).
@@ -34,8 +39,10 @@ observations are inserted into the live ledger to make the interface look full.
 
 **Current operating mode: local execution only.** The owner deferred paid cloud
 deployment on 2026-10-08. Cloud templates remain available for a future decision;
-no Cloud Run job, cloud scheduler, or Windows scheduled task is enabled by the
-local launcher. Local diagnostic results do not create public prospective history.
+no Cloud Run job or cloud scheduler is enabled. On 2026-10-11 the local Windows
+dashboard task was registered at 06:10, 08:10 and 23:10 KST. It refreshes the local
+report and website source snapshot; public automatic publishing remains unconfigured.
+Local diagnostic results do not create public prospective history.
 
 ## Local setup
 
@@ -116,6 +123,17 @@ The PowerShell process preserves the pipeline's exit code. Historical dry-runs
 produce forecasts and a diagnostic manifest; they do not append scored live rows.
 
 ## Daily flow
+
+For the **actuals + next-session prediction graph**, collect and run the seven
+local zero-shot models using the real current time:
+
+```powershell
+.\ops\run-dashboard.ps1 -RuntimeEnvFile ..\..\work\model-smoke\runtime.env
+```
+
+See [dashboard operation](docs/local-dashboard.md) for the HTML report, the
+website JSON snapshot, market-date labels, and the separate scheduler mode.
+This flow has no morning-only start gate and does not write the benchmark ledger.
 
 For daily **local** collection, private forecast history, and evaluation of
 previously saved predictions, use the [local daily runner](docs/local-daily.md):

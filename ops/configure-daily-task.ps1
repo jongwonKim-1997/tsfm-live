@@ -4,7 +4,8 @@ Preview, explicitly install, or uninstall the user's local TSFM daily task.
 .DESCRIPTION
 Default Preview changes nothing. Installation is opt-in with -Action Install.
 Requires the Windows time zone Korea Standard Time and an interactive user login.
-Runs at 06:10 (collect/evaluate) and 08:10 (collect/forecast/evaluate), local KST.
+Benchmark runs at 06:10 and 08:10 KST. Dashboard runs at 06:10, 08:10 and 23:10
+and refreshes actuals plus next-session local zero-shot line plots.
 No passwords, cloud services or public publication are configured.
 .EXAMPLE
 .\ops\configure-daily-task.ps1 -RuntimeEnvFile ..\..\work\model-smoke\runtime.env
@@ -18,6 +19,8 @@ param(
     [string]$RuntimeEnvFile,
     [string]$StateDir,
     [switch]$SourceProbeNetwork,
+    [ValidateSet('Benchmark', 'Dashboard')]
+    [string]$Runner = 'Benchmark',
     [ValidatePattern('^[A-Za-z0-9_-]+$')]
     [string]$TaskName = 'TSFM-Local-Daily'
 )
@@ -34,18 +37,26 @@ if ((Get-TimeZone).Id -ne 'Korea Standard Time') {
 if (-not $RuntimeEnvFile) { throw 'RuntimeEnvFile is required for Preview or Install.' }
 $resolvedEnv = (Resolve-Path -LiteralPath $RuntimeEnvFile).Path
 $repoPath = Split-Path -Parent $PSScriptRoot
-$runner = Join-Path $PSScriptRoot 'run-daily.ps1'
-$arguments = '-NoProfile -NonInteractive -WindowStyle Hidden -File "' + $runner + '" -RuntimeEnvFile "' + $resolvedEnv + '"'
+$runnerScript = Join-Path $PSScriptRoot 'run-daily.ps1'
+if ($Runner -eq 'Dashboard') { $runnerScript = Join-Path $PSScriptRoot 'run-dashboard.ps1' }
+$arguments = '-NoProfile -NonInteractive -WindowStyle Hidden -File "' + $runnerScript + '" -RuntimeEnvFile "' + $resolvedEnv + '"'
 if ($StateDir) {
     $resolvedState = [System.IO.Path]::GetFullPath($StateDir)
     $arguments += ' -StateDir "' + $resolvedState + '"'
 }
+if ($SourceProbeNetwork -and $Runner -eq 'Dashboard') { throw 'SourceProbeNetwork applies only to the Benchmark runner.' }
 if ($SourceProbeNetwork) { $arguments += ' -SourceProbeNetwork' }
 $description = 'Private TSFM diagnostic loop. 06:10 KST evaluates prior outcomes; 08:10 KST also admits new on-time forecasts. No public publishing.'
+$times = @('06:10', '08:10')
+if ($Runner -eq 'Dashboard') {
+    $times = @('06:10', '08:10', '23:10')
+    $description = 'Local zero-shot line plots. Collect confirmed observations, predict the next market session, and refresh local HTML and site source JSON. No automatic public publishing.'
+}
 $definition = [ordered]@{
     TaskName = $TaskName
     Action = $Action
-    TimesKst = @('06:10', '08:10')
+    Runner = $Runner
+    TimesKst = $times
     Program = 'powershell.exe'
     Arguments = $arguments
     WorkingDirectory = $repoPath
@@ -62,7 +73,7 @@ if (Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue) {
 }
 if ($PSCmdlet.ShouldProcess($TaskName, 'Register twice-daily private TSFM task')) {
     $scheduledAction = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument $arguments -WorkingDirectory $repoPath
-    $triggers = @(New-ScheduledTaskTrigger -Daily -At '06:10'; New-ScheduledTaskTrigger -Daily -At '08:10')
+    $triggers = @($times | ForEach-Object { New-ScheduledTaskTrigger -Daily -At $_ })
     $settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -MultipleInstances IgnoreNew -ExecutionTimeLimit (New-TimeSpan -Hours 1)
     $principal = New-ScheduledTaskPrincipal -UserId ([System.Security.Principal.WindowsIdentity]::GetCurrent().Name) -LogonType Interactive -RunLevel Limited
     Register-ScheduledTask -TaskName $TaskName -Action $scheduledAction -Trigger $triggers -Settings $settings -Principal $principal -Description $description | Out-Null
