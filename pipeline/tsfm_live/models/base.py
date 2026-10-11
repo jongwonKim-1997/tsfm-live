@@ -36,6 +36,30 @@ class ForecastOutput:
             raise ValueError("insufficient_samples")
 
 
+@dataclass(frozen=True)
+class ForecastPathOutput:
+    """Per-step marginal distributions, not a simultaneous path interval."""
+    steps: list[ForecastOutput]
+
+    def __post_init__(self):
+        if not self.steps or not all(isinstance(step, ForecastOutput) for step in self.steps):
+            raise ValueError("invalid_forecast_path")
+
+
+def checked_horizon(horizon):
+    if isinstance(horizon, bool) or not isinstance(horizon, int) or not 1 <= horizon <= 128:
+        raise ValueError("horizon_must_be_integer_1_to_128")
+    return horizon
+
+
+def path_output(steps, horizon):
+    """Keep the established one-step return type exactly unchanged."""
+    horizon = checked_horizon(horizon)
+    if len(steps) != horizon:
+        raise ValueError("forecast_path_length_mismatch")
+    return steps[0] if horizon == 1 else ForecastPathOutput(steps)
+
+
 class Entrant(Protocol):
     id: str
     kind: Literal["baseline", "tsfm", "ensemble"]

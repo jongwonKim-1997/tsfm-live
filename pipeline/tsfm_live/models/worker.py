@@ -21,10 +21,18 @@ def main():
         with redirect_stdout(sys.stderr):
             import numpy as np
             from . import create_entrant
-            adapter = create_entrant(request["config"])
+            from .base import checked_horizon
+            horizon = checked_horizon(request.get("horizon", 1))
+            config = dict(request["config"])
+            interval = request.get("interval_seconds", 86400)
+            if isinstance(interval, bool) or not isinstance(interval, int) or interval not in {3600, 86400}:
+                raise ValueError("unsupported_time_interval")
+            config["time_interval_seconds"] = interval
+            adapter = create_entrant(config)
+            options = {} if horizon == 1 else {"horizon": horizon}
             result = adapter.predict(
                 np.asarray(request["context"], dtype=float),
-                request["quantiles"], int(request["seed"]),
+                request["quantiles"], int(request["seed"]), **options,
             )
         response = {"ok": True, "output": asdict(result)}
     except Exception as exc:

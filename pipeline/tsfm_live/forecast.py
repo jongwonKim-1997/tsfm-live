@@ -21,8 +21,12 @@ from .schemas import ForecastFile, ForecastRecord
 from .transforms import transform
 
 
-def model_predict(cfg, context, *, timeout=MODEL_TIMEOUT_S, seed=SEED):
+def model_predict(cfg, context, *, timeout=MODEL_TIMEOUT_S, seed=SEED, horizon=1, interval_seconds=86400):
+    from .models.base import ForecastOutput, ForecastPathOutput, checked_horizon
+    horizon = checked_horizon(horizon)
     if cfg["kind"] == "baseline":
+        if horizon != 1:
+            raise ValueError("baseline_path_not_supported")
         return create_entrant(cfg).predict(context.copy(), QUANTILES, seed)
     interpreter = os.environ.get(cfg.get("worker_env", ""))
     if not interpreter:
@@ -31,7 +35,8 @@ def model_predict(cfg, context, *, timeout=MODEL_TIMEOUT_S, seed=SEED):
     env.update(PYTHONPATH=str(Path(__file__).resolve().parents[1]), PYTHONIOENCODING="utf-8",
                HF_HUB_OFFLINE="1", TRANSFORMERS_OFFLINE="1", TOKENIZERS_PARALLELISM="false",
                CUBLAS_WORKSPACE_CONFIG=":4096:8")
-    request = {"config": cfg, "context": context.tolist(), "quantiles": QUANTILES, "seed": seed}
+    request = {"config": cfg, "context": context.tolist(), "quantiles": QUANTILES, "seed": seed,
+               "horizon": horizon, "interval_seconds": interval_seconds}
     result = subprocess.run([interpreter, "-m", "tsfm_live.models.worker"],
                             input=json.dumps(request), text=True, encoding="utf-8", capture_output=True,
                             timeout=timeout, env=env)
@@ -40,7 +45,11 @@ def model_predict(cfg, context, *, timeout=MODEL_TIMEOUT_S, seed=SEED):
     response = json.loads(result.stdout)
     if not response.get("ok"):
         raise RuntimeError(response.get("error_type", "worker_failed"))
-    from .models.base import ForecastOutput
+    if horizon != 1:
+        steps = [ForecastOutput(**step) for step in response["output"]["steps"]]
+        if len(steps) != horizon:
+            raise ValueError("forecast_path_length_mismatch")
+        return ForecastPathOutput(steps)
     return ForecastOutput(**response["output"])
 
 

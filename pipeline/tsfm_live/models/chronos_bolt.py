@@ -1,8 +1,9 @@
-from .base import ModelAdapter, checked_context, output_from_quantiles, seed_torch
+from .base import ModelAdapter, checked_context, checked_horizon, output_from_quantiles, path_output, seed_torch
 
 
 class ChronosBoltAdapter(ModelAdapter):
-    def predict(self, context, quantiles, seed):
+    def predict(self, context, quantiles, seed, *, horizon=1):
+        horizon = checked_horizon(horizon)
         x = checked_context(context)
         torch = seed_torch(seed)
         if self._model is None:
@@ -14,7 +15,8 @@ class ChronosBoltAdapter(ModelAdapter):
             )
         with torch.inference_mode():
             q, _ = self._model.predict_quantiles(
-                torch.tensor(x, dtype=torch.float32), prediction_length=1,
+                torch.tensor(x, dtype=torch.float32), prediction_length=horizon,
                 quantile_levels=list(self._model.quantiles),
             )
-        return output_from_quantiles(self._model.quantiles, q[0, 0], quantiles)
+        return path_output([output_from_quantiles(self._model.quantiles, q[0, step], quantiles)
+                            for step in range(horizon)], horizon)

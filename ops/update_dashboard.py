@@ -1,4 +1,4 @@
-"""Collect confirmed daily observations and render real local zero-shot forecasts.
+"""Collect completed hourly observations and render local zero-shot trajectories.
 
 This dashboard is separate from the fixed-time public benchmark ledger. The
 clock is always real; a weekend forecast targets the next actual market session.
@@ -38,11 +38,29 @@ def render_report(root, payload_path, output_path):
                    text=True, timeout=60)
 
 
-def update_dashboard(root, state_dir, *, clock=utcnow, fetch=None, build=build_dashboard,
+def public_projection(view, indicators):
+    """Never export personal-use source values or derived forecasts to the site."""
+    if view.get("frequency") != "1h":
+        return view
+    allowed = {cfg["id"] for cfg in indicators if cfg.get("public_export") is True}
+    public = {key: value for key, value in view.items() if key != "indicators"}
+    public["indicators"] = [row for row in view["indicators"] if row["id"] in allowed]
+    if not public["indicators"]:
+        public.update(collection_ts_utc=None, collected_ts_utc=None, forecast_generated_ts_utc=None,
+                      empty_reason="public_hourly_source_pending")
+    return public
+
+
+def update_dashboard(root, state_dir, *, clock=utcnow, fetch=None, build=None,
                      runtime_check=lambda: None, render=render_report,
-                     observations_only=False, write_site=True, retries=2):
+                     observations_only=False, write_site=True, retries=2, frequency="1h",
+                     report_output=None):
     """Keep an immutable private run and atomically replace the current projection."""
     root, state_dir = Path(root).resolve(), private_path(Path(state_dir), Path(root).resolve())
+    if frequency not in {"1h", "1d"}:
+        raise ValueError("unsupported_frequency")
+    if report_output is not None:
+        report_output = private_path(Path(report_output), root)
     state_dir.mkdir(parents=True, exist_ok=True)
     lock = FileLock(state_dir / ".dashboard.lock")
     try:
@@ -56,8 +74,15 @@ def update_dashboard(root, state_dir, *, clock=utcnow, fetch=None, build=build_d
               "published": False, "stages": {}}
     try:
         config_dir = root / "pipeline/tsfm_live/config"
-        indicators = load_indicators(config_dir / "indicators.yaml")
+        indicators = load_indicators(config_dir / ("hourly_indicators.yaml" if frequency == "1h" else "indicators.yaml"))
         models = load_models(config_dir / "models.yaml")
+        if build is None:
+            if frequency == "1h":
+                from tsfm_live.hourly_dashboard import build_hourly_dashboard
+                build = build_hourly_dashboard
+            else:
+                build = build_dashboard
+        report["frequency"] = frequency
         options = {"now": clock, "attempts": retries}
         if fetch is not None:
             options["fetch"] = fetch
@@ -100,9 +125,17 @@ def update_dashboard(root, state_dir, *, clock=utcnow, fetch=None, build=build_d
         atomic_json(output / "latest.json", view, replace=True)
         render(root, output / "latest.json", output / "index.html")
         report["stages"]["render"] = "ok"
+        if report_output is not None:
+            report_output.parent.mkdir(parents=True, exist_ok=True)
+            temporary = report_output.with_name(report_output.name + "." + uuid.uuid4().hex + ".tmp")
+            temporary.write_bytes((output / "index.html").read_bytes())
+            temporary.replace(report_output)
+            report["exported_report_path"] = str(report_output)
         if write_site:
-            atomic_json(root / "site/public/api/v1/local_dashboard.json", view, replace=True)
+            public = public_projection(view, indicators)
+            atomic_json(root / "site/public/api/v1/local_dashboard.json", public, replace=True)
             report["site_snapshot_written"] = True
+            report["public_indicator_count"] = len(public["indicators"])
         report["report_path"] = str(output / "index.html")
         report["snapshot_path"] = str(output / "latest.json")
         report["status"] = "partial" if any(value in {"partial", "failed"}
@@ -127,9 +160,13 @@ def main(argv=None):
     parser.add_argument("--observations-only", action="store_true")
     parser.add_argument("--no-site", action="store_true")
     parser.add_argument("--check-only", action="store_true")
+    parser.add_argument("--frequency", choices=("1h", "1d"), default="1h")
+    parser.add_argument("--report-output", type=Path)
     args = parser.parse_args(argv)
     root = Path(__file__).resolve().parents[1]
-    state_dir = args.state_dir or root.parents[1] / "work/tsfm-local-dashboard"
+    state_dir = args.state_dir or root.parents[1] / ("work/tsfm-hourly-dashboard" if args.frequency == "1h"
+                                                  else "work/tsfm-local-dashboard")
+    report_output = args.report_output or root.parent / "tsfm-live-dashboard.html"
     original_env = dict(os.environ)
     try:
         state_dir = private_path(state_dir, root)
@@ -155,7 +192,8 @@ def main(argv=None):
         print(json.dumps({"event": "dashboard_started", "mode": "local_zero_shot",
                           "observations_only": args.observations_only}), flush=True)
         report, code = update_dashboard(root, state_dir, runtime_check=runtime_check,
-            observations_only=args.observations_only, write_site=not args.no_site)
+            observations_only=args.observations_only, write_site=not args.no_site,
+            frequency=args.frequency, report_output=report_output)
         print(json.dumps({"event": "dashboard_complete", **report}, ensure_ascii=False), flush=True)
         return code
     except Exception as exc:

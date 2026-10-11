@@ -1,8 +1,9 @@
-from .base import ModelAdapter, checked_context, output_from_samples, seed_torch
+from .base import ModelAdapter, checked_context, checked_horizon, output_from_samples, path_output, seed_torch
 
 
 class TotoAdapter(ModelAdapter):
-    def predict(self, context, quantiles, seed):
+    def predict(self, context, quantiles, seed, *, horizon=1):
+        horizon = checked_horizon(horizon)
         x = checked_context(context)
         torch = seed_torch(seed)
         from toto.data.util.dataset import MaskedTimeseries
@@ -18,11 +19,12 @@ class TotoAdapter(ModelAdapter):
         inputs = MaskedTimeseries(
             series=series, padding_mask=torch.ones_like(series, dtype=torch.bool),
             id_mask=torch.zeros_like(series), timestamp_seconds=torch.zeros_like(series),
-            time_interval_seconds=torch.full((1,), 86400, device=series.device),
+            time_interval_seconds=torch.full((1,), self.config.get("time_interval_seconds", 86400), device=series.device),
         )
         n = max(1000, self.config.get("n_samples") or 1000)
         with torch.inference_mode():
             forecast = TotoForecaster(self._model.model).forecast(
-                inputs, prediction_length=1, num_samples=n, samples_per_batch=50,
+                inputs, prediction_length=horizon, num_samples=n, samples_per_batch=50,
             )
-        return output_from_samples(forecast.samples[0, 0, 0, :], quantiles)
+        return path_output([output_from_samples(forecast.samples[0, 0, step, :], quantiles)
+                            for step in range(horizon)], horizon)

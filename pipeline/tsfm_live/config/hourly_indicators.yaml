@@ -1,0 +1,34 @@
+- id: btckrw
+  name: Bitcoin / KRW (Upbit)
+  group: crypto
+  source: {adapter: upbit_hourly, params: {market: KRW-BTC, interval_minutes: 60}}
+  calendar: 24/7
+  tz: Asia/Seoul
+  frequency: 1h
+  target_transform: level
+  display_policy: level
+  unit: KRW
+  decimals: 0
+  min_history: 300
+  context_length: 512
+  public_export: false
+  license_note: docs/hourly-data-sources.md
+  attribution: "Source: Upbit KRW-BTC, completed 1-hour candles. Personal local analysis; no redistribution. Model outputs by TSFM Live."
+  enabled: true
+- id: ethkrw
+  name: Ethereum / KRW (Upbit)
+  group: crypto
+  source: {adapter: upbit_hourly, params: {market: KRW-ETH, interval_minutes: 60}}
+  calendar: 24/7
+  tz: Asia/Seoul
+  frequency: 1h
+  target_transform: level
+  display_policy: level
+  unit: KRW
+  decimals: 0
+  min_history: 300
+  context_length: 512
+  public_export: false
+  license_note: docs/hourly-data-sources.md
+  attribution: "Source: Upbit KRW-ETH, completed 1-hour candles. Personal local analysis; no redistribution. Model outputs by TSFM Live."
+  enabled: true

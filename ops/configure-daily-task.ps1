@@ -4,8 +4,8 @@ Preview, explicitly install, or uninstall the user's local TSFM daily task.
 .DESCRIPTION
 Default Preview changes nothing. Installation is opt-in with -Action Install.
 Requires the Windows time zone Korea Standard Time and an interactive user login.
-Benchmark runs at 06:10 and 08:10 KST. Dashboard runs at 06:10, 08:10 and 23:10
-and refreshes actuals plus next-session local zero-shot line plots.
+Benchmark runs at 06:10 and 08:10 KST. Dashboard runs hourly at minute 05
+and refreshes completed hourly actuals plus 24-hour local zero-shot line plots.
 No passwords, cloud services or public publication are configured.
 .EXAMPLE
 .\ops\configure-daily-task.ps1 -RuntimeEnvFile ..\..\work\model-smoke\runtime.env
@@ -47,6 +47,7 @@ if ($Runner -eq 'Dashboard') {
     $program = Join-Path $repoPath 'pipeline\.venv\Scripts\pythonw.exe'
     if (-not (Test-Path -LiteralPath $program -PathType Leaf)) { throw 'The installed Python GUI runtime is missing.' }
     $arguments = '-X utf8 "' + (Join-Path $PSScriptRoot 'update_dashboard.py') + '" --runtime-env-file "' + $resolvedEnv + '"'
+    $arguments += ' --frequency 1h'
 }
 if ($StateDir) {
     $resolvedState = [System.IO.Path]::GetFullPath($StateDir)
@@ -58,8 +59,8 @@ if ($SourceProbeNetwork) { $arguments += ' -SourceProbeNetwork' }
 $description = 'Private TSFM diagnostic loop. 06:10 KST evaluates prior outcomes; 08:10 KST also admits new on-time forecasts. No public publishing.'
 $times = @('06:10', '08:10')
 if ($Runner -eq 'Dashboard') {
-    $times = @('06:10', '08:10', '23:10')
-    $description = 'Local zero-shot line plots. Collect confirmed observations, predict the next market session, and refresh local HTML and site source JSON. No automatic public publishing.'
+    $times = @(0..23 | ForEach-Object { '{0:D2}:05' -f $_ })
+    $description = 'Hourly local zero-shot line plots at minute 05. Completed 1-hour candles and next 24 hourly values. Personal-use data stays local. No automatic public publishing.'
 }
 $definition = [ordered]@{
     TaskName = $TaskName
@@ -80,7 +81,7 @@ if ($Action -ne 'Install') { return }
 if (Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue) {
     throw 'A task with this name already exists. Review and explicitly uninstall it before replacing it.'
 }
-if ($PSCmdlet.ShouldProcess($TaskName, 'Register twice-daily private TSFM task')) {
+if ($PSCmdlet.ShouldProcess($TaskName, 'Register private TSFM task')) {
     $scheduledAction = New-ScheduledTaskAction -Execute $program -Argument $arguments -WorkingDirectory $repoPath
     $triggers = @($times | ForEach-Object { New-ScheduledTaskTrigger -Daily -At $_ })
     $settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -MultipleInstances IgnoreNew -ExecutionTimeLimit (New-TimeSpan -Hours 1)
