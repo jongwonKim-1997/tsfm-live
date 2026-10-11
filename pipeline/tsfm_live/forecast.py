@@ -17,6 +17,7 @@ from .models import create_entrant
 from .models.base import derive_seed
 from .models.baselines import ewma_sigma, regime_flag
 from .models.ensemble import ensemble
+from .processes import background_process_options
 from .schemas import ForecastFile, ForecastRecord
 from .transforms import transform
 
@@ -39,7 +40,7 @@ def model_predict(cfg, context, *, timeout=MODEL_TIMEOUT_S, seed=SEED, horizon=1
                "horizon": horizon, "interval_seconds": interval_seconds}
     result = subprocess.run([interpreter, "-m", "tsfm_live.models.worker"],
                             input=json.dumps(request), text=True, encoding="utf-8", capture_output=True,
-                            timeout=timeout, env=env)
+                            timeout=timeout, env=env, **background_process_options())
     if result.returncode:
         raise RuntimeError("worker_failed")
     response = json.loads(result.stdout)

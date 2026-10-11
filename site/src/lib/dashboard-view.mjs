@@ -10,7 +10,8 @@ export function validLocalDashboard(data,now=Date.now()) {
     && Date.parse(data.generated_ts_utc)<=now+300000 && Date.parse(data.run_ts_utc)<=Date.parse(data.generated_ts_utc)
     && Array.isArray(data.indicators) && (data.indicators.length>0||data.frequency==='1h')
     && data.indicators.every(row=>row && typeof row.id==='string' && typeof row.name==='string'
-      && Array.isArray(row.entrants) && row.history && Array.isArray(row.history.today) && Array.isArray(row.history.last7days)
+      && Array.isArray(row.entrants) && row.entrants.every(entry=>entry&&typeof entry.id==='string'&&typeof entry.name==='string')
+      && row.history && Array.isArray(row.history.today) && Array.isArray(row.history.last7days)
       && (!row.last_observation||validPoint(row.last_observation))
       && [...row.history.today,...row.history.last7days].every(validPoint));
 }
@@ -72,6 +73,19 @@ export function dashboardEmptyMarkup(data,words) {
   return `<div class="forecast-empty" role="status">${escapeHTML(words[data.empty_reason==='public_hourly_source_pending'?'forecastHourlyPublicEmpty':'forecastHourlyEmpty'])}</div>`;
 }
 
+export function dashboardMarketMarkup(data,locale,words,selected) {
+  if(!selected)return '';
+  const e=escapeHTML,t=key=>e(words[key]||key),hourly=data.frequency==='1h';
+  const indicators=data.indicators,featured=indicators.filter(row=>row.enabled).slice(0,3);
+  return `<div class="forecast-market-bar"><div class="forecast-featured" role="group" aria-label="${t('forecastChooseIndicator')}">${featured.map(row=>`<button type="button" class="forecast-market" data-indicator="${e(row.id)}" aria-pressed="${row.id===selected.id}"><span>${e(row.name)}</span><strong>${e(formatValue(row.last_observation?.value,locale,row.decimals??3))}<small>${e(row.unit_label||row.unit)} · ${e(hourly?hourLabel(row.last_observation?.close_ts):row.last_observation?.session_date||'—')}</small></strong></button>`).join('')}</div><label class="forecast-all-indicators"><span>${t('forecastAllIndicators')}</span><select data-indicator-select aria-label="${t('forecastChooseIndicator')}">${indicators.map(row=>`<option value="${e(row.id)}"${row.id===selected.id?' selected':''}>${e(row.name)}${!row.enabled?' · '+t('disabled'):''}</option>`).join('')}</select></label></div>`;
+}
+
+export function newerDashboardSnapshot(candidate,current,now=Date.now()) {
+  return validLocalDashboard(candidate,now)&&candidate.frequency===current.frequency
+    && Date.parse(candidate.generated_ts_utc)>Date.parse(current.generated_ts_utc)
+    && Date.parse(candidate.run_ts_utc)>=Date.parse(current.run_ts_utc);
+}
+
 export function dashboardProvenance(data,locale,words,now=Date.now()) {
   if(data.mode!=='local_zero_shot')return '';
   const e=escapeHTML, t=key=>e(words[key]||key);
@@ -79,16 +93,16 @@ export function dashboardProvenance(data,locale,words,now=Date.now()) {
   return `<div class="forecast-provenance" data-dashboard-provenance><strong>${t('forecastLocalMode')}</strong><span>${t('forecastCollectedAt')} <time${data.collection_ts_utc?` datetime="${e(data.collection_ts_utc)}"`:''}>${e(dashboardTimestamp(data.collection_ts_utc,locale))}</time></span><span>${t('forecastGeneratedAt')} <time datetime="${e(data.generated_ts_utc)}">${e(dashboardTimestamp(data.generated_ts_utc,locale))}</time></span><p>${t('forecastLocalEvidence')}${stale?' <b class="forecast-expiry-note">'+t('forecastSnapshotStale')+'</b>':''}</p></div>`;
 }
 
-export function dashboardBoardMarkup(raw,locale,baseWords,{now=Date.now(),recordHref=null}={}) {
+export function dashboardBoardMarkup(raw,locale,baseWords,{now=Date.now(),recordHref=null,refresh=false}={}) {
   const data=prepareDashboard(raw,now), local=data.mode==='local_zero_shot',hourly=data.frequency==='1h';
   const words=dashboardWords(baseWords,local,hourly), e=escapeHTML, t=key=>e(words[key]||key);
-  const indicators=data.indicators, selected=chooseIndicator(indicators), featured=indicators.filter(row=>row.enabled).slice(0,3);
+  const indicators=data.indicators, selected=chooseIndicator(indicators);
   const period=hourly?'today':'last7days';
   const json=JSON.stringify(raw).replace(/</g,'\\u003c');
-  return `<section class="forecast-board" data-forecast-board data-selected="${e(selected?.id)}" data-period="${period}" data-mode="${e(data.mode||'public_ledger')}" aria-labelledby="forecast-title">
+  return `<section class="forecast-board" data-forecast-board data-dashboard-refresh="${refresh?'public':'off'}" data-selected="${e(selected?.id)}" data-period="${period}" data-mode="${e(data.mode||'public_ledger')}" aria-labelledby="forecast-title">
     <div class="forecast-heading"><div><span class="eyebrow"><span class="status-dot"></span>${t('forecastEyebrow')}</span><h1 id="forecast-title">${t('forecastTitle')}</h1></div><div class="forecast-history-control"><span>${t('forecastHistoryRange')}</span><div class="window-tabs" role="group" aria-label="${t('forecastHistoryRange')}"><button type="button" data-history-period="today" aria-pressed="${period==='today'}">${t('forecastToday')}</button><button type="button" data-history-period="last7days" aria-pressed="${period==='last7days'}">${t('forecastSevenDays')}</button></div></div></div>
     ${dashboardProvenance(data,locale,words,now)}
-    ${selected?`<div class="forecast-market-bar"><div class="forecast-featured" role="group" aria-label="${t('forecastChooseIndicator')}">${featured.map(row=>`<button type="button" class="forecast-market" data-indicator="${e(row.id)}" aria-pressed="${row.id===selected?.id}"><span>${e(row.name)}</span><strong>${e(formatValue(row.last_observation?.value,locale,row.decimals??3))}<small>${e(row.unit_label||row.unit)} · ${e(hourly?hourLabel(row.last_observation?.close_ts):row.last_observation?.session_date||'—')}</small></strong></button>`).join('')}</div><label class="forecast-all-indicators"><span>${t('forecastAllIndicators')}</span><select data-indicator-select aria-label="${t('forecastChooseIndicator')}">${indicators.map(row=>`<option value="${e(row.id)}"${row.id===selected?.id?' selected':''}>${e(row.name)}${!row.enabled?' · '+t('disabled'):''}</option>`).join('')}</select></label></div>`:''}
+    <div data-dashboard-market>${dashboardMarketMarkup(data,locale,words,selected)}</div>
     <div class="forecast-stage panel" data-forecast-panel>${selected?panelMarkup(selected,period,locale,words):dashboardEmptyMarkup(data,words)}</div>
     <div class="forecast-record-note"><span>${t('forecastSessionNote')}</span>${recordHref?`<a class="text-link" href="${e(recordHref)}">${t(local?'forecastPublicLedgerLink':'allQuantiles')} ↗</a>`:''}</div>
     <p class="sr-only" data-forecast-announcement aria-live="polite" aria-atomic="true"></p><script type="application/json" data-forecast-data>${json}</script></section>`;

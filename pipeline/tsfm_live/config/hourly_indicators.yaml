@@ -14,7 +14,8 @@
   public_export: false
   license_note: docs/hourly-data-sources.md
   attribution: "Source: Upbit KRW-BTC, completed 1-hour candles. Personal local analysis; no redistribution. Model outputs by TSFM Live."
-  enabled: true
+  enabled: false
+  disabled_reason: Private Upbit source retained; public hourly dashboard uses Coin Metrics Community.
 - id: ethkrw
   name: Ethereum / KRW (Upbit)
   group: crypto
@@ -31,4 +32,49 @@
   public_export: false
   license_note: docs/hourly-data-sources.md
   attribution: "Source: Upbit KRW-ETH, completed 1-hour candles. Personal local analysis; no redistribution. Model outputs by TSFM Live."
+  enabled: false
+  disabled_reason: Private Upbit source retained; public hourly dashboard uses Coin Metrics Community.
+- id: btcusd
+  name: Bitcoin / USD (Coin Metrics)
+  group: crypto
+  source: {adapter: coinmetrics_hourly, params: {asset: btc, metric: ReferenceRateUSD, frequency: 1h}}
+  source_name: Coin Metrics Community Data
+  source_url: https://docs.coinmetrics.io/packages/coin-metrics-community-data
+  observation_kind: reference_rate
+  calendar: 24/7
+  tz: Asia/Seoul
+  frequency: 1h
+  target_transform: level
+  display_policy: level
+  unit: USD
+  decimals: 2
+  min_history: 128
+  context_length: 512
+  public_export: true
+  license_id: CC-BY-NC-4.0
+  license_url: https://creativecommons.org/licenses/by-nc/4.0/
+  license_note: docs/hourly-data-sources.md
+  attribution: "Source: Coin Metrics Community Data, hourly USD Reference Rates, CC BY-NC 4.0. Reference calculation times, not exchange candle closes. Display rounding and time-zone conversion; predictions by TSFM Live. Noncommercial use only."
+  enabled: true
+- id: ethusd
+  name: Ethereum / USD (Coin Metrics)
+  group: crypto
+  source: {adapter: coinmetrics_hourly, params: {asset: eth, metric: ReferenceRateUSD, frequency: 1h}}
+  source_name: Coin Metrics Community Data
+  source_url: https://docs.coinmetrics.io/packages/coin-metrics-community-data
+  observation_kind: reference_rate
+  calendar: 24/7
+  tz: Asia/Seoul
+  frequency: 1h
+  target_transform: level
+  display_policy: level
+  unit: USD
+  decimals: 2
+  min_history: 128
+  context_length: 512
+  public_export: true
+  license_id: CC-BY-NC-4.0
+  license_url: https://creativecommons.org/licenses/by-nc/4.0/
+  license_note: docs/hourly-data-sources.md
+  attribution: "Source: Coin Metrics Community Data, hourly USD Reference Rates, CC BY-NC 4.0. Reference calculation times, not exchange candle closes. Display rounding and time-zone conversion; predictions by TSFM Live. Noncommercial use only."
   enabled: true

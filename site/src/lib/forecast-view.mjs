@@ -1,6 +1,22 @@
 /** Shared static/browser rendering. All data text is escaped before HTML output. */
 export const escapeHTML = value => String(value ?? '').replace(/[&<>"']/g, character => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character]));
 const numeric = value => typeof value === 'number' && Number.isFinite(value);
+export function sourceAttributionMarkup(indicator,words) {
+  const e=escapeHTML,t=key=>e(words[key]||key);
+  const safeURL=value=>{try{const url=new URL(value);return url.protocol==='https:'&&!url.username&&!url.password?url.href:null;}catch{return null;}};
+  const sourceURL=safeURL(indicator.source_url),licenceURL=safeURL(indicator.license_url);
+  const source=indicator.source_name||indicator.attribution;
+  if(!source&&!indicator.license_id)return '';
+  const sourceLabel=sourceURL?`<a href="${e(sourceURL)}" target="_blank" rel="noopener noreferrer">${e(source)}</a>`:e(source);
+  const licence=indicator.license_id==='CC-BY-NC-4.0'?'CC BY-NC 4.0':indicator.license_id;
+  const licenceLabel=licenceURL?`<a href="${e(licenceURL)}" target="_blank" rel="noopener noreferrer">${e(licence)}</a>`:e(licence);
+  return `<div class="forecast-source-attribution"><p>${t('source')}: ${sourceLabel}${licence?` · ${licenceLabel}`:''}${indicator.license_id==='CC-BY-NC-4.0'?` · ${t('forecastNoncommercial')}`:''}</p>${indicator.observation_kind==='reference_rate'?`<p>${t('forecastReferenceNote')} ${t('forecastSourceFormatting')} ${t('forecastModelOrigin')}</p>`:''}</div>`;
+}
+
+export function observationWords(indicator,words) {
+  return indicator.observation_kind==='reference_rate'?{...words,forecastLatestActual:words.forecastReferenceLatest,
+    forecastActualZone:words.forecastReferenceZone,forecastObserved:words.forecastReferenceObserved}:words;
+}
 export const formatValue = (value, locale, decimals = 3) => numeric(value)
   ? new Intl.NumberFormat(locale === 'ko' ? 'ko-KR' : 'en-US', {minimumFractionDigits: Math.min(decimals, 2), maximumFractionDigits: decimals}).format(value) : '—';
 const validBand = row => [row.lower,row.median,row.upper].every(numeric)&&row.lower<=row.median&&row.median<=row.upper;
@@ -43,6 +59,7 @@ const dateLabel = value => value ? String(value).slice(5).replace('-', '/') : '�
 const dot = (x,y,r,attrs='') => `<circle cx="${x}" cy="${y}" r="${r}" ${attrs}/>`;
 
 export function chartMarkup(indicator, period, locale, words, width = 1040) {
+  words=observationWords(indicator,words);
   const t=key=>escapeHTML(words[key]||key), e=escapeHTML;
   const hourly=indicator.frequency==='1h';
   const rows=indicator.entrants||[], history=historyFor(indicator,period);
@@ -118,6 +135,7 @@ export function highlightForecast(panel, id) {
   });
 }
 export function panelMarkup(indicator, period, locale, words, width=1040) {
+  words=observationWords(indicator,words);
   const t=key=>escapeHTML(words[key]||key), e=escapeHTML;
   const hourly=indicator.frequency==='1h';
   const latest=indicator.last_observation;
@@ -137,10 +155,11 @@ export function panelMarkup(indicator, period, locale, words, width=1040) {
   const nextForecast=valid.flatMap(forecastPath).sort((a,b)=>Date.parse(a.close_ts)-Date.parse(b.close_ts))[0];
   const computed=indicator.mode==='local_zero_shot'&&valid.length>0&&indicator.forecast_generated_ts_utc
     ? `<p class="forecast-computation-note">${t('forecastInputDate')} <time>${e(hourly?hourLabel(indicator.forecast_anchor?.close_ts||latest?.close_ts,true):indicator.forecast_anchor?.session_date||latest?.session_date||'—')}</time> · ${t('forecastComputedAt')} <time>${e(indicator.forecast_generated_ts_utc)}</time></p>`:'';
+  const context=Number.isInteger(indicator.context_length)&&indicator.context_length>0?`<p class="forecast-context-note">${t('forecastContextLength')}: ${e(indicator.context_length)} ${t(hourly?'forecastContextHours':'forecastContextObservations')}</p>`:'';
   const actualTable=observations.length?`<details class="forecast-actual-table"><summary>${t('forecastActualTable')} · ${observations.length}</summary><table><caption class="sr-only">${e(indicator.name)} · ${t('forecastObserved')}</caption><thead><tr><th scope="col">${t('date')}</th><th scope="col">${e(unit)}</th><th scope="col">${t('source')}</th></tr></thead><tbody>${observations.map(row=>`<tr><th scope="row">${e(hourly?hourLabel(row.close_ts,true):row.session_date)}</th><td>${e(formatValue(row.value,locale,indicator.decimals??3))}</td><td>${t(row.origin==='issued_context_anchor'?'forecastAnchor':'forecastObserved')}${row.corrected?' · '+t('corrected'):''}</td></tr>`).join('')}</tbody></table></details>`:'';
   return `<div class="forecast-panel-heading"><div><div class="forecast-instrument-title"><h2>${e(indicator.name)}</h2><span class="forecast-state ${indicator.status==='expired'?'is-expired':''}">${t(status)}</span></div><div class="forecast-last-value">${e(formatValue(latest?.value,locale,indicator.decimals??3))}<span>${e(unit)}</span></div><p>${t('forecastLatestActual')} <time>${e(hourly?hourLabel(latest?.close_ts,true):latest?.session_date||'—')}</time>${latest?.origin==='issued_context_anchor'?` · ${t('forecastAnchor')}`:''}</p></div><div class="forecast-target"><span>${t('forecastNextSession')}</span><strong>${e(hourly?hourLabel(finalForecast?.close_ts):indicator.next_session_date||'—')}</strong><small>${hourly?`${e(hourLabel(nextForecast?.close_ts))} → ${e(hourLabel(finalForecast?.close_ts))} KST`:e(indicator.next_session_timezone||'')} · ${valid.length} ${t('forecastAvailableModels')}</small></div></div>
     <div class="forecast-plot">${chartMarkup(indicator,period,locale,words,width)}</div>
     <div class="forecast-chart-key" id="forecast-legend-note"><span><i class="forecast-actual-key"></i>${t('forecastObserved')}</span><span><i class="forecast-prediction-key"></i>${t('forecastMedianLine')}<span class="forecast-interval-note">${t('forecastIntervalsBelow')}</span></span><span class="forecast-chart-unit">${e(unit)}</span></div>
     <div class="forecast-model-grid" aria-label="${t('forecastModelLegend')}">${rows}</div>
-    <div class="forecast-footnote"><p>${t(period==='last7days'?'forecastSevenNote':'forecastTodayNote')} ${t('forecastSameSession')}</p>${observations.length===1?`<p>${t('forecastSingleObservation')}</p>`:''}${computed}${indicator.attribution?`<p class="forecast-source-attribution">${t('source')}: ${e(indicator.attribution)}</p>`:''}${indicator.status==='expired'?`<p class="forecast-expiry-note">${t('forecastExpiredNote')}</p>`:''}${indicator.status==='disabled'?`<p>${t('forecastDisabledNote')}</p>`:''}${actualTable}</div>`;
+    <div class="forecast-footnote"><p>${t(period==='last7days'?'forecastSevenNote':'forecastTodayNote')} ${t('forecastSameSession')}</p>${observations.length===1?`<p>${t('forecastSingleObservation')}</p>`:''}${computed}${context}${sourceAttributionMarkup(indicator,words)}${indicator.status==='expired'?`<p class="forecast-expiry-note">${t('forecastExpiredNote')}</p>`:''}${indicator.status==='disabled'?`<p>${t('forecastDisabledNote')}</p>`:''}${actualTable}</div>`;
 }

@@ -85,6 +85,7 @@ button.forecast-model:hover,button.forecast-model[aria-pressed=true]{background:
 .forecast-model-unavailable .forecast-model-value,.forecast-model-unavailable .forecast-model-name{color:var(--muted)}
 .forecast-model-unavailable .forecast-model-key{border-color:var(--line);color:var(--muted)}
 .forecast-footnote{padding:12px 24px;font-size:10px;line-height:1.7}
+.forecast-source-attribution{margin-top:7px}.forecast-source-attribution a{color:var(--blue);text-decoration:underline;text-underline-offset:2px}.forecast-source-attribution p+p{margin-top:3px}.forecast-context-note{margin-top:3px}
 .forecast-expiry-note{color:#e3ba79;margin-top:3px}
 .forecast-actual-table{margin-top:8px}.forecast-actual-table summary{color:var(--blue);font-size:10px;display:list-item;width:fit-content;padding:3px 0}.forecast-actual-table table{border-collapse:collapse;margin-top:8px;min-width:280px;max-width:100%;font-size:10px;text-align:left;font-variant-numeric:tabular-nums}.forecast-actual-table th,.forecast-actual-table td{padding:6px 16px 6px 0;border-bottom:1px solid var(--line);font-weight:400}.forecast-actual-table thead{color:var(--muted)}
 .forecast-record-note{display:flex;justify-content:space-between;align-items:center;gap:20px;font-size:10px;color:var(--muted);padding:0 3px}

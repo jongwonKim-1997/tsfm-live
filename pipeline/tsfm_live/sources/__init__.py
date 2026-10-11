@@ -28,9 +28,10 @@ def get_source(cfg, cache_dir):
     from .ecos import ECOSSource
     from .ustreasury import USTreasurySource
     from .upbit_hourly import UpbitHourlySource
+    from .coinmetrics_hourly import CoinMetricsHourlySource
 
     registry = {cls.id: cls for cls in (BinanceSource, CboeSource, ECBSource, ECOSSource, USTreasurySource,
-                                      UpbitHourlySource)}
+                                      UpbitHourlySource, CoinMetricsHourlySource)}
     adapter = cfg["source"]["adapter"]
     if adapter not in registry:
         raise SourceError(f"no verified adapter for {adapter}")
