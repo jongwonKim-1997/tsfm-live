@@ -90,7 +90,7 @@ test('hourly standalone controls, 5-minute refresh and display-time stale hiding
     document.querySelector('[data-history-period="last7days"]').click();
     assert.equal(document.querySelectorAll('.forecast-observation,.forecast-endpoint').length,0);
     assert.ok(document.querySelector('.forecast-empty'));
-    assert.equal(document.querySelector('.forecast-market-bar').hidden,true);
+    assert.equal(document.querySelector('.forecast-market-bar'),null);
     assert.deepEqual(errors,[]);
   }finally{dom.window.close();}
 });

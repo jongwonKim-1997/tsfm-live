@@ -40,7 +40,9 @@ export function checkCopy(directory='src'){
     const source=fs.readFileSync(file,'utf8');
     // Technical identifiers are not rendered product copy. Check literal text nodes
     // and human strings; word boundaries do not match e.g. strokeWidth or longitude.
-    for(const phrase of violations(source.replace(/\/\*[\s\S]*?\*\//g,'').replace(/^\s*\/\/.*$/gm,'')))errors.push(`${file}: ${phrase}`);
+    const copy=source.replace(/\/\*[\s\S]*?\*\//g,'').replace(/^\s*\/\/.*$/gm,'')
+      .replace(/\bsignal\s*:\s*controller\.signal\b/g,''); // Standard Fetch AbortSignal option.
+    for(const phrase of violations(copy))errors.push(`${file}: ${phrase}`);
   }
   for(const relative of ['docs/methodology.md','docs/methodology.ko.md']){
     const file=path.join(repoRoot,relative);

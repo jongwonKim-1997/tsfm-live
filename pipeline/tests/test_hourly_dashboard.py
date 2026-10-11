@@ -203,3 +203,29 @@ def test_default_one_step_return_contract_is_unchanged():
         path_output(output().steps, True)
     _, state = hourly_history(CFG, history(), now=NOW)
     assert state["eligible"]
+
+
+def test_short_free_hourly_history_uses_only_real_available_context(tmp_path):
+    cfg = {**CFG, "min_history": 128, "context_length": 512,
+           "observation_kind": "reference_rate", "license_id": "CC-BY-NC-4.0",
+           "license_url": "https://creativecommons.org/licenses/by-nc/4.0/",
+           "source_url": "https://docs.coinmetrics.io/packages/coin-metrics-community-data"}
+    frame = history().tail(169)
+    calls = []
+    def predict(model, context, **kwargs):
+        calls.append(context)
+        return output()
+    view, raw = build(tmp_path, cfg=cfg, data=frame, predict=predict)
+    assert len(calls[0]) == 169
+    assert raw["records"][0]["context_len"] == 169
+    row = view["indicators"][0]
+    assert row["context_length"] == 169 and row["visible"]
+    assert row["observation_kind"] == "reference_rate" and row["license_id"] == "CC-BY-NC-4.0"
+    _, state = hourly_history(cfg, frame.tail(127), now=NOW)
+    assert state["reason"] == "insufficient_history"
+
+
+@pytest.mark.parametrize("minimum", [0, 127, 513, True, "128"])
+def test_invalid_short_history_minimum_is_rejected(minimum):
+    _, state = hourly_history({**CFG, "min_history": minimum}, history(), now=NOW)
+    assert state["reason"] == "invalid_min_history"

@@ -6,7 +6,7 @@ import {chooseDashboardData,dashboardBoardMarkup} from '../lib/dashboard-view.mj
 const {locale}=Astro.props;
 const words=locale==='ko'?ko:en;
 const data=chooseDashboardData(readOptional('local_dashboard'),read('forecast_view'));
-const markup=dashboardBoardMarkup(data,locale,words,{recordHref:href(locale,data.mode==='local_zero_shot'?'/ledger':'/today')});
+const markup=dashboardBoardMarkup(data,locale,words,{recordHref:href(locale,data.mode==='local_zero_shot'?'/ledger':'/today'),refresh:true});
 ---
 <Fragment set:html={markup}/>
 <script>

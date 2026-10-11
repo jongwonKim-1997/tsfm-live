@@ -1,0 +1,142 @@
+{
+  "run_id": "20261011T092916411724Z-7765bbbf",
+  "mode": "local_zero_shot",
+  "frequency": "1h",
+  "public_ledger_eligible": false,
+  "source": "Coin Metrics Community ReferenceRateUSD",
+  "source_license": "CC-BY-NC-4.0",
+  "source_url": "https://docs.coinmetrics.io/packages/coin-metrics-community-data",
+  "license_url": "https://creativecommons.org/licenses/by-nc/4.0/",
+  "started_ts_utc": "2026-10-11T09:29:16.411724Z",
+  "completed_ts_utc": "2026-10-11T09:31:21.647539Z",
+  "duration_seconds": 125.235815,
+  "assets": [
+    "btcusd",
+    "ethusd"
+  ],
+  "source_rows": {
+    "btcusd": 169,
+    "ethusd": 169
+  },
+  "successful_model_paths": 14,
+  "hourly_forecast_points": 336,
+  "model_runs": [
+    {
+      "indicator_id": "btcusd",
+      "entrant_id": "chronos-2",
+      "status": "ok",
+      "context_len": 169,
+      "inference_seconds": 7.61
+    },
+    {
+      "indicator_id": "btcusd",
+      "entrant_id": "chronos-bolt-base",
+      "status": "ok",
+      "context_len": 169,
+      "inference_seconds": 7.531
+    },
+    {
+      "indicator_id": "btcusd",
+      "entrant_id": "timesfm-2.5-200m",
+      "status": "ok",
+      "context_len": 169,
+      "inference_seconds": 4.656
+    },
+    {
+      "indicator_id": "btcusd",
+      "entrant_id": "moirai-2.0-r-small",
+      "status": "ok",
+      "context_len": 169,
+      "inference_seconds": 5.578
+    },
+    {
+      "indicator_id": "btcusd",
+      "entrant_id": "toto-open-base-1.0",
+      "status": "ok",
+      "context_len": 169,
+      "inference_seconds": 16.547
+    },
+    {
+      "indicator_id": "btcusd",
+      "entrant_id": "tirex",
+      "status": "ok",
+      "context_len": 169,
+      "inference_seconds": 4.391
+    },
+    {
+      "indicator_id": "btcusd",
+      "entrant_id": "sundial-base-128m",
+      "status": "ok",
+      "context_len": 169,
+      "inference_seconds": 14.953
+    },
+    {
+      "indicator_id": "ethusd",
+      "entrant_id": "chronos-2",
+      "status": "ok",
+      "context_len": 169,
+      "inference_seconds": 7.485
+    },
+    {
+      "indicator_id": "ethusd",
+      "entrant_id": "chronos-bolt-base",
+      "status": "ok",
+      "context_len": 169,
+      "inference_seconds": 8.578
+    },
+    {
+      "indicator_id": "ethusd",
+      "entrant_id": "timesfm-2.5-200m",
+      "status": "ok",
+      "context_len": 169,
+      "inference_seconds": 4.625
+    },
+    {
+      "indicator_id": "ethusd",
+      "entrant_id": "moirai-2.0-r-small",
+      "status": "ok",
+      "context_len": 169,
+      "inference_seconds": 5.594
+    },
+    {
+      "indicator_id": "ethusd",
+      "entrant_id": "toto-open-base-1.0",
+      "status": "ok",
+      "context_len": 169,
+      "inference_seconds": 16.578
+    },
+    {
+      "indicator_id": "ethusd",
+      "entrant_id": "tirex",
+      "status": "ok",
+      "context_len": 169,
+      "inference_seconds": 4.531
+    },
+    {
+      "indicator_id": "ethusd",
+      "entrant_id": "sundial-base-128m",
+      "status": "ok",
+      "context_len": 169,
+      "inference_seconds": 14.875
+    }
+  ],
+  "validation": {
+    "python_suite": "passed; two Windows-specific skips",
+    "frontend_tests": 33,
+    "real_html_jsdom": {
+      "assets": 2,
+      "today_points_each": 19,
+      "seven_day_points_each": 168,
+      "model_paths_each": 7,
+      "forecast_points_each": 168,
+      "script_errors": 0
+    }
+  },
+  "schedule": {
+    "task": "TSFM-Local-Dashboard",
+    "minute": 10,
+    "frequency": "hourly",
+    "next_run_kst_at_verification": "2026-10-11T19:10:00+09:00"
+  },
+  "automatic_public_upload": "not configured; KV namespace, binding and private credential required"
+}

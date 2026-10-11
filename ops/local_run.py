@@ -13,11 +13,14 @@ from zoneinfo import ZoneInfo
 
 import yaml
 
+from tsfm_live.processes import background_process_options
+
 
 MODEL_PYTHON = "3.11.17"
 CREDENTIAL_KEYS = {
     "GH_TOKEN", "GITHUB_TOKEN", "GH_ENTERPRISE_TOKEN", "GITHUB_ENTERPRISE_TOKEN",
     "GIT_PUSH_TOKEN", "WEBHOOK_URL", "ECOS_API_KEY", "HF_TOKEN", "HUGGING_FACE_HUB_TOKEN",
+    "CLOUDFLARE_API_TOKEN", "CLOUDFLARE_API_KEY", "CLOUDFLARE_ACCOUNT_ID", "CLOUDFLARE_KV_NAMESPACE_ID",
 }
 
 
@@ -87,6 +90,7 @@ def prepare(root: Path, env_file: Path, cache_dir: Path | None = None,
         completed = subprocess.run(
             [str(interpreter), "-I", "-c", "import platform; print(platform.python_version())"],
             capture_output=True, text=True, check=True, timeout=30,
+            stdin=subprocess.DEVNULL, **background_process_options(),
         )
         if completed.stdout.strip() != MODEL_PYTHON:
             raise ValueError(f"Model runtime {key} must use Python {MODEL_PYTHON}")
@@ -150,7 +154,8 @@ def main(argv=None) -> int:
             return 0
         command = [sys.executable, "-m", "tsfm_live.cli", "--root", str(root),
                    "run", "--dry-run", "--as-of", report["run_date"]]
-        return subprocess.run(command, cwd=root, env=child_env, check=False).returncode
+        return subprocess.run(command, cwd=root, env=child_env, check=False,
+                              **background_process_options()).returncode
     except (OSError, ValueError, subprocess.SubprocessError) as error:
         print(json.dumps({"event": "local_run_failed", "error_type": type(error).__name__,
                           "message": str(error)}), file=sys.stderr, flush=True)

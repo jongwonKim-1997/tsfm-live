@@ -4,7 +4,7 @@ Preview, explicitly install, or uninstall the user's local TSFM daily task.
 .DESCRIPTION
 Default Preview changes nothing. Installation is opt-in with -Action Install.
 Requires the Windows time zone Korea Standard Time and an interactive user login.
-Benchmark runs at 06:10 and 08:10 KST. Dashboard runs hourly at minute 05
+Benchmark runs at 06:10 and 08:10 KST. Dashboard runs hourly at minute 10
 and refreshes completed hourly actuals plus 24-hour local zero-shot line plots.
 No passwords, cloud services or public publication are configured.
 .EXAMPLE
@@ -59,8 +59,8 @@ if ($SourceProbeNetwork) { $arguments += ' -SourceProbeNetwork' }
 $description = 'Private TSFM diagnostic loop. 06:10 KST evaluates prior outcomes; 08:10 KST also admits new on-time forecasts. No public publishing.'
 $times = @('06:10', '08:10')
 if ($Runner -eq 'Dashboard') {
-    $times = @(0..23 | ForEach-Object { '{0:D2}:05' -f $_ })
-    $description = 'Hourly local zero-shot line plots at minute 05. Completed 1-hour candles and next 24 hourly values. Personal-use data stays local. No automatic public publishing.'
+    $times = @(0..23 | ForEach-Object { '{0:D2}:10' -f $_ })
+    $description = 'Hourly local zero-shot line plots at minute 10. Coin Metrics Community hourly reference rates and next 24 hourly values. No automatic public publishing without separate KV configuration.'
 }
 $definition = [ordered]@{
     TaskName = $TaskName

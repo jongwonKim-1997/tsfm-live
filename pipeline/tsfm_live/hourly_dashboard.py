@@ -97,10 +97,13 @@ def hourly_history(cfg, history, *, now, source_status=None):
         state["reason"] = "source_lag"
         return data, state
     context_length = cfg.get("context_length", 512)
-    if not isinstance(context_length, int) or not 300 <= context_length <= 512:
+    if type(context_length) is not int or not 128 <= context_length <= 512:
         state["reason"] = "invalid_context_length"
         return data, state
-    minimum = max(300, cfg.get("min_history", 300))
+    minimum = cfg.get("min_history", 300)
+    if type(minimum) is not int or not 128 <= minimum <= context_length:
+        state["reason"] = "invalid_min_history"
+        return data, state
     if len(data) < minimum:
         state["reason"] = "insufficient_history"
         return data, state
@@ -108,7 +111,7 @@ def hourly_history(cfg, history, *, now, source_status=None):
     if not needed["close_ts"].diff().dropna().eq(pd.Timedelta(hours=1)).all():
         state["reason"] = "history_gap"
         return data, state
-    state.update(eligible=True, reason=None, status="fresh")
+    state.update(eligible=True, reason=None, status="fresh", context_length=len(needed))
     return data, state
 
 
@@ -251,13 +254,16 @@ def build_hourly_dashboard(indicators, models, histories, *, now, cache_dir, pre
                          "source_id": cfg.get("source", {}).get("adapter"), "fetched_ts_utc": state["fetched_ts_utc"],
                          "expected_latest_close_ts": iso(hour_floor(completed)),
                          "next_update_due_ts_utc": state["next_update_due_ts_utc"]}})
+        rows[-1].update(source_url=cfg.get("source_url"), license_url=cfg.get("license_url"),
+                        license_id=cfg.get("license_id"), observation_kind=cfg.get("observation_kind", "candle_close"),
+                        context_length=state.get("context_length", 0))
     fetches = [state["fetched_ts_utc"] for state in states.values() if state["fetched_ts_utc"]]
     metadata = {"schema_version": "1.0", "mode": "local_zero_shot", "inference_mode": "zero_shot",
                 "public_ledger_eligible": False, "frequency": "1h", "interval_seconds": INTERVAL_SECONDS,
                 "horizon_steps": HORIZON, "forecast_basis": "direct_level", "interval_basis": "pointwise_marginal",
                 "interval_probability": 0.8, "run_id": run_id, "run_date": run_day, "run_ts_utc": iso(now),
                 "generated_ts_utc": iso(completed), "collection_ts_utc": max(fetches) if fetches else None,
-                "timezone": "Asia/Seoul", "history_calendar_days": 7, "history_basis": "confirmed_hourly_bars"}
+                "timezone": "Asia/Seoul", "history_calendar_days": 7, "history_basis": "confirmed_hourly_observations"}
     envelope = {**metadata, "inference_enabled": inference_enabled, "completed_ts_utc": iso(completed), "records": records}
     payload = {**metadata, "run_state": "local_zero_shot", "indicators": rows,
                "forecast_generated_ts_utc": iso(completed) if any(row["status"] == "available" for row in rows) else None}

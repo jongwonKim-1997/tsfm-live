@@ -219,7 +219,7 @@
   "forecastLocalNoOutput": "예측 결과 대기",
   "forecastCollectedAt": "수집 시각",
   "forecastGeneratedAt": "보고서 생성",
-  "forecastLocalEvidence": "이 컴퓨터에서 추가 학습 없이 실행한 모델 출력입니다. 공개 사전 고정 원장과 성능 순위에는 포함되지 않습니다.",
+  "forecastLocalEvidence": "운영자의 로컬 컴퓨터에서 추가 학습 없이 실행한 모델 출력입니다. 공개 사전 고정 원장과 성능 순위에는 포함되지 않습니다.",
   "forecastSnapshotStale": "마지막 보고서 생성 후 36시간이 지났습니다. 새 수집 결과를 확인하세요.",
   "forecastLocalSessionNote": "수집 시각과 실제 관측일은 다를 수 있습니다. 휴장일에는 최근 확정값과 지표별 다음 거래일을 표시합니다.",
   "forecastPublicLedgerLink": "공개 사전 기록 원장",
@@ -240,5 +240,16 @@
   "forecastHourlyStale": "최근 갱신 후 2시간이 지났습니다. 최신 시간별 데이터를 다시 수집해야 합니다.",
   "forecastHourlyExpired": "예측 시각 경과",
   "forecastHourlyEmpty": "현재 표시할 수 있는 최신 시간별 데이터가 없습니다.",
-  "forecastHourlyPublicEmpty": "공개 가능한 시간별 데이터 소스를 연결하는 중입니다. 로컬 보고서에서 수집·예측 결과를 확인할 수 있습니다."
+  "forecastHourlyPublicEmpty": "공개 가능한 시간별 데이터 소스를 연결하는 중입니다. 로컬 보고서에서 수집·예측 결과를 확인할 수 있습니다.",
+  "forecastNoncommercial": "비상업용 · 출처 표시",
+  "forecastReferenceLatest": "최근 정각 기준가격",
+  "forecastReferenceZone": "시간별 기준가격 · KST",
+  "forecastReferenceObserved": "실제 기준가격",
+  "forecastReferenceNote": "Coin Metrics의 정각 기준가격입니다.",
+  "forecastSourceFormatting": "원자료를 기간 선택, KST 시각 변환 및 소수점 반올림하여 표시합니다.",
+  "forecastModelOrigin": "예측 경로와 오차 평가는 TSFM Live가 생성한 결과이며 Coin Metrics가 제공한 예측이 아닙니다.",
+  "forecastContextLength": "이번 모델 입력",
+  "forecastContextHours": "개 시간 관측값",
+  "forecastContextObservations": "개 관측값",
+  "sourceLicencesFooter": "데이터 · 출처별 라이선스 적용"
 }

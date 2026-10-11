@@ -46,7 +46,7 @@ const otherLocale = locale === 'ko' ? 'en' : 'ko';
   <div class="utility-nav"><div><span>{t('tagline')}</span><nav>{['today','ledger','methodology','status','api','about'].map(key=><a href={href(locale,'/'+key)} aria-current={route === key ? 'page':undefined}>{t(key)}</a>)}</nav></div></div>
   <main id="content" class="page"><slot/></main>
   <footer class="site-footer"><div class="footer-top"><a class="brand" href={href(locale,'/')}>TSFM <b>Live</b></a><span>{meta.operator} · {t('researchOnly')}</span><a href={href(locale,'/methodology')}>{t('methodLink')} ↗</a></div>
-    <p class="disclaimer">{t('disclaimer')}</p><div class="footer-bottom"><span>Data · CC BY 4.0 &nbsp; Code · Apache-2.0</span><span>{t('privacy')}</span></div>
+    <p class="disclaimer">{t('disclaimer')}</p><div class="footer-bottom"><span>{t('sourceLicencesFooter')} &nbsp; Code · Apache-2.0</span><span>{t('privacy')}</span></div>
   </footer>
   <script is:inline>
     document.querySelector('#theme-toggle')?.addEventListener('click',()=>{

@@ -25,6 +25,7 @@ from local_run import CREDENTIAL_KEYS, prepare, private_path
 from tsfm_live.dashboard import build_dashboard
 from tsfm_live.ledger import iso, utcnow
 from tsfm_live.models import load_models
+from tsfm_live.processes import background_process_options
 from tsfm_live.sources import load_indicators
 
 
@@ -35,7 +36,8 @@ def render_report(root, payload_path, output_path):
     command = [node, str(root / "site/scripts/render-local-dashboard.mjs"),
                "--input", str(payload_path), "--output", str(output_path)]
     subprocess.run(command, cwd=root / "site", check=True, capture_output=True,
-                   text=True, timeout=60)
+                   text=True, timeout=60, stdin=subprocess.DEVNULL,
+                   **background_process_options())
 
 
 def public_projection(view, indicators):
@@ -54,7 +56,7 @@ def public_projection(view, indicators):
 def update_dashboard(root, state_dir, *, clock=utcnow, fetch=None, build=None,
                      runtime_check=lambda: None, render=render_report,
                      observations_only=False, write_site=True, retries=2, frequency="1h",
-                     report_output=None):
+                     report_output=None, publish=None):
     """Keep an immutable private run and atomically replace the current projection."""
     root, state_dir = Path(root).resolve(), private_path(Path(state_dir), Path(root).resolve())
     if frequency not in {"1h", "1d"}:
@@ -136,6 +138,14 @@ def update_dashboard(root, state_dir, *, clock=utcnow, fetch=None, build=None,
             atomic_json(root / "site/public/api/v1/local_dashboard.json", public, replace=True)
             report["site_snapshot_written"] = True
             report["public_indicator_count"] = len(public["indicators"])
+        if publish is not None:
+            try:
+                report["publication"] = publish(public_projection(view, indicators))
+                report["published"] = True
+                report["stages"]["publish"] = "ok"
+            except Exception as exc:
+                report["stages"]["publish"] = "failed"
+                report["publish_error_type"] = type(exc).__name__
         report["report_path"] = str(output / "index.html")
         report["snapshot_path"] = str(output / "latest.json")
         report["status"] = "partial" if any(value in {"partial", "failed"}
@@ -162,6 +172,8 @@ def main(argv=None):
     parser.add_argument("--check-only", action="store_true")
     parser.add_argument("--frequency", choices=("1h", "1d"), default="1h")
     parser.add_argument("--report-output", type=Path)
+    parser.add_argument("--publish-env-file", type=Path,
+                        help="Optional private Cloudflare KV configuration; publishes cleared hourly data only")
     args = parser.parse_args(argv)
     root = Path(__file__).resolve().parents[1]
     state_dir = args.state_dir or root.parents[1] / ("work/tsfm-hourly-dashboard" if args.frequency == "1h"
@@ -191,9 +203,15 @@ def main(argv=None):
 
         print(json.dumps({"event": "dashboard_started", "mode": "local_zero_shot",
                           "observations_only": args.observations_only}), flush=True)
+        publisher = None
+        if args.publish_env_file:
+            from publish_dashboard import publish_dashboard
+            publish_file = private_path(args.publish_env_file, root)
+            def publisher(view):
+                return publish_dashboard(view, root=root, env_file=publish_file)
         report, code = update_dashboard(root, state_dir, runtime_check=runtime_check,
             observations_only=args.observations_only, write_site=not args.no_site,
-            frequency=args.frequency, report_output=report_output)
+            frequency=args.frequency, report_output=report_output, publish=publisher)
         print(json.dumps({"event": "dashboard_complete", **report}, ensure_ascii=False), flush=True)
         return code
     except Exception as exc:
