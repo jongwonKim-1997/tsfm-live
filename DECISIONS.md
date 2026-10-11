@@ -1,6 +1,6 @@
 # Decisions
 
-Status: implementation and validation, not a completed live launch. Reviewed 2026-10-08.
+Status: implementation and validation, not a completed live launch. Reviewed 2026-10-11.
 
 | Decision | Adopted choice and evidence |
 |---|---|
@@ -19,5 +19,6 @@ Status: implementation and validation, not a completed live launch. Reviewed 202
 | PI scale | `PI_SCALE=0.20` remains provisional. Baseline/calendar checks across 365 days and one full TSFM integration are complete; the full 365-day multi-model replay and 90-day prospective review are not complete. No retrospective score is represented as live evidence. |
 | Hosting | Cloudflare Pages deployed from `main` to [tsfm-live.pages.dev](https://tsfm-live.pages.dev/), with `noindex` during the shadow period. Build root `site`, command `npm run build`, output `dist`, Node 24.21.0. GitHub App access is limited to [jongwonKim-1997/tsfm-live](https://github.com/jongwonKim-1997/tsfm-live), as explicitly approved by the owner. API responses have CORS `*` and a 300-second cache. |
 | Repository protection | Active `main-ledger-integrity` ruleset requires PRs and up-to-date `pipeline` and `site` checks from GitHub Actions, blocks deletions and force pushes, and has no bypass actors. The initial implementation passed both CI jobs before merging. |
+| Daily local iteration | The owner requested repeatable daily collection, prediction and evaluation in code. Keep execution on this computer, with private dated artifacts, duplicate-run protection and explicit late/missing-data outcomes. Local diagnostic records do not become public lock-ins. Source availability checks report technical access separately from permission to redistribute and do not automatically enable a provider or substitute a financial series. |
 
 Numerical definitions and edge cases are recorded in [math decisions](docs/math-decisions.md). The source of truth for constants is `pipeline/tsfm_live/config/settings.py`.
