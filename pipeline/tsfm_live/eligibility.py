@@ -42,7 +42,13 @@ def confirmed_history(history: pd.DataFrame, run_ts) -> pd.DataFrame:
                     (data["published_ts"].isna() | (data["published_ts"] <= run))].copy()
 
 
-def evaluate_eligibility(cfg, history: pd.DataFrame, run_ts) -> dict:
+def evaluate_eligibility(cfg, history: pd.DataFrame, run_ts, *, enforce_benchmark_window=True) -> dict:
+    """Validate the input and next session; benchmark timing stays on by default.
+
+    The separately labelled local dashboard can run outside the public lock-in
+    window, including weekends. It still requires the latest expected close and
+    a complete confirmed history and must never be used as a ledger receipt.
+    """
     cfg = as_dict(cfg)
     run = as_utc(run_ts)
     result = {"eligible": False, "skip_reason": None, "last_close_ts": None, "next_close_ts": None}
@@ -58,10 +64,10 @@ def evaluate_eligibility(cfg, history: pd.DataFrame, run_ts) -> dict:
     local_run = run.astimezone(ZoneInfo(settings.TZ))
     deadline = datetime.combine(local_run.date(), time.fromisoformat(settings.LOCKIN_DEADLINE_LOCAL),
                                 ZoneInfo(settings.TZ))
-    if local_run >= deadline:
+    if enforce_benchmark_window and local_run >= deadline:
         result["skip_reason"] = "deadline_missed"
         return result
-    if following - run > timedelta(hours=24):
+    if enforce_benchmark_window and following - run > timedelta(hours=24):
         result["skip_reason"] = "outside_horizon"
         return result
     if run in session_closes(cfg, run.date() - timedelta(days=1), run.date() + timedelta(days=1)):

@@ -1,0 +1,23 @@
+{
+  "mode": "local_zero_shot",
+  "public_ledger_eligible": false,
+  "started_ts_utc": "2026-10-11T07:43:09.793261Z",
+  "completed_ts_utc": "2026-10-11T07:47:38.884652Z",
+  "total_seconds": 269.091391,
+  "records": 21,
+  "successful": 21,
+  "failed": 0,
+  "observation_count": 15,
+  "cpu_only": true,
+  "training": false,
+  "scheduler": {
+    "task_name": "TSFM-Local-Dashboard",
+    "times_kst": [
+      "06:10",
+      "08:10",
+      "23:10"
+    ],
+    "registered": true,
+    "public_auto_publish": false
+  }
+}

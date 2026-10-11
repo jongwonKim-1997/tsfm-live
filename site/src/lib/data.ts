@@ -6,6 +6,9 @@ import ko from '../i18n/ko.json';
 
 const base = path.resolve(process.env.TSFM_API_DIR || 'public/api/v1');
 export const read = (name: string) => JSON.parse(fs.readFileSync(path.join(base, name + '.json'), 'utf8'));
+export const readOptional = (name: string) => {
+  try { return read(name); } catch { return null; }
+};
 export const meta = read('meta');
 export function language(locale: string) {
   const words: Record<string, string> = locale === 'ko' ? ko : en;

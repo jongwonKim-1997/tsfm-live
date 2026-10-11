@@ -6,7 +6,9 @@ import os
 import subprocess
 import time
 from dataclasses import asdict
+from datetime import timedelta
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 from .config.settings import CONTEXT_LEN, MODEL_TIMEOUT_S, QUANTILES, SEED
 from .eligibility import confirmed_history, evaluate_eligibility
@@ -42,12 +44,12 @@ def model_predict(cfg, context, *, timeout=MODEL_TIMEOUT_S, seed=SEED):
     return ForecastOutput(**response["output"])
 
 
-def build_forecasts(indicators, models, histories, run_ts, deadline, run_date, run_id, cache_dir,
-                    *, predict=model_predict, now=utcnow, dry_run=False):
+def _build_records(indicators, models, histories, run_ts, deadline, run_date, cache_dir,
+                   *, predict=model_predict, now=utcnow, dry_run=False, local_dashboard=False):
     records = []
     for cfg in indicators:
         history = histories.get(cfg["id"])
-        state = evaluate_eligibility(cfg, history, run_ts)
+        state = evaluate_eligibility(cfg, history, run_ts, enforce_benchmark_window=not local_dashboard)
         context = None
         last = None
         if state["eligible"]:
@@ -86,10 +88,9 @@ def build_forecasts(indicators, models, histories, run_ts, deadline, run_date, r
             if not state["eligible"] or not m.get("enabled", False):
                 records.append(rec)
                 continue
-            # Leave two minutes for the two-commit publication + CI. Never start work
-            # that is certain to exceed the current critical-path budget.
+            # Only public benchmark runs reserve time for two-commit publication.
             boundary = min(deadline, parse_ts(state["next_close_ts"]))
-            remaining = (boundary - now()).total_seconds() - 120
+            remaining = (boundary - now()).total_seconds() - (0 if local_dashboard else 120)
             if not dry_run and remaining <= 0:
                 reason = "deadline_missed" if now() >= deadline else "publication_budget_exhausted"
                 rec.update(status="void" if reason == "deadline_missed" else "skipped", skip_reason=reason)
@@ -136,6 +137,47 @@ def build_forecasts(indicators, models, histories, run_ts, deadline, run_date, r
             elif record["status"] == "ok" and completed_at >= parse_ts(record["next_close_ts"]):
                 record.update(status="void", skip_reason="target_already_closed", q={}, mean=None,
                               quantile_method=None, n_samples=None, contributors=[])
+    return records
+
+
+def build_forecasts(indicators, models, histories, run_ts, deadline, run_date, run_id, cache_dir,
+                    *, predict=model_predict, now=utcnow, dry_run=False):
+    records = _build_records(indicators, models, histories, run_ts, deadline, run_date, cache_dir,
+                             predict=predict, now=now, dry_run=dry_run)
     f = ForecastFile.model_validate({"run_id": run_id, "run_date": run_date, "run_ts_utc": iso(run_ts),
                                     "lockin_deadline_utc": iso(deadline), "records": records})
     return json.loads(canonical_bytes(f))
+
+
+def build_local_forecasts(indicators, models, histories, *, run_ts, cache_dir,
+                          predict=model_predict, now=utcnow):
+    """Real-clock zero-shot outputs, explicitly outside the benchmark ledger.
+
+    Only enabled TSFMs and level-authorized indicators are accepted. The current
+    timestamp is checked before inference; callers cannot supply a historical
+    issue date while presenting these outputs as a newly generated forecast.
+    """
+    run_ts = parse_ts(run_ts)
+    started = parse_ts(now())
+    if not 0 <= (started - run_ts).total_seconds() <= 30:
+        raise ValueError("local dashboard issue time must match the current clock")
+    configs = [cfg for cfg in indicators if cfg.get("enabled", True) and cfg["display_policy"] == "level"]
+    entrants = [model for model in models if model.get("enabled", False) and model["kind"] == "tsfm"]
+    run_date = run_ts.astimezone(ZoneInfo("Asia/Seoul")).date().isoformat()
+    run_id = "local-" + run_ts.strftime("%Y%m%dT%H%M%S%fZ")
+    records = _build_records(configs, entrants, histories, run_ts, run_ts + timedelta(hours=1), run_date,
+                             Path(cache_dir) / "local_dashboard" / run_id, predict=predict, now=now,
+                             local_dashboard=True)
+    completed = parse_ts(now())
+    if completed < started:
+        raise ValueError("local dashboard clock moved backwards")
+    # The final clock read may cross a close after the common record loop ends.
+    for record in records:
+        if record["status"] == "ok" and completed >= parse_ts(record["next_close_ts"]):
+            record.update(status="void", skip_reason="target_already_closed", q={}, mean=None,
+                          quantile_method=None, n_samples=None, contributors=[])
+    envelope = {"schema_version": "1.0", "mode": "local_zero_shot", "inference_mode": "zero_shot",
+                "public_ledger_eligible": False, "run_id": run_id, "run_date": run_date,
+                "run_ts_utc": iso(run_ts), "completed_ts_utc": iso(completed), "horizon_sessions": 1,
+                "records": [ForecastRecord.model_validate(record) for record in records]}
+    return json.loads(canonical_bytes(envelope))
