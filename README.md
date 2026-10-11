@@ -117,6 +117,22 @@ produce forecasts and a diagnostic manifest; they do not append scored live rows
 
 ## Daily flow
 
+For daily **local** collection, private forecast history, and evaluation of
+previously saved predictions, use the [local daily runner](docs/local-daily.md):
+
+```powershell
+.\ops\run-daily.ps1 -RuntimeEnvFile ..\..\work\model-smoke\runtime.env -CheckOnly
+.\ops\run-daily.ps1 -RuntimeEnvFile ..\..\work\model-smoke\runtime.env
+```
+
+This runner uses the actual clock. Late starts still collect and evaluate but
+do not manufacture a past forecast. Its private journal and reports stay outside
+the repository and are not public lock-ins. The guide includes the repeatable
+daily workflow and the separate requirements for publishing to the website.
+Source access and required keys/permissions were
+[rechecked on 2026-10-11](docs/data-sources-recheck.md), with a separate
+[Korean-source checklist](docs/korea-source-requirements.md).
+
 When public daily operation is explicitly enabled in the future, its scheduler
 starts at 08:10 Asia/Seoul every calendar day. The pipeline ingests
 confirmed data, applies source/calendar eligibility, and obtains next-session

@@ -53,7 +53,8 @@ def read_runtime_env(path: Path, allowed: set[str]) -> dict[str, str]:
 
 
 def prepare(root: Path, env_file: Path, cache_dir: Path | None = None,
-            as_of: str | None = None, *, today: date | None = None) -> tuple[dict, dict[str, str]]:
+            as_of: str | None = None, *, today: date | None = None,
+            verify_models: bool = True) -> tuple[dict, dict[str, str]]:
     root = root.resolve()
     today = today or datetime.now(ZoneInfo("Asia/Seoul")).date()
     if as_of is not None and not re.fullmatch(r"\d{4}-\d{2}-\d{2}", as_of):
@@ -77,7 +78,7 @@ def prepare(root: Path, env_file: Path, cache_dir: Path | None = None,
         raise ValueError("TSFM_TORCH_THREADS must be an integer from 1 through 64")
     if values.get("TSFM_DEVICE", "cpu") != "cpu":
         raise ValueError("The local launcher supports the verified CPU profile only")
-    for key in sorted(workers):
+    for key in sorted(workers) if verify_models else []:
         if key not in values:
             raise ValueError(f"Missing enabled model runtime: {key}")
         interpreter = Path(values[key]).expanduser().resolve()
@@ -91,7 +92,7 @@ def prepare(root: Path, env_file: Path, cache_dir: Path | None = None,
             raise ValueError(f"Model runtime {key} must use Python {MODEL_PYTHON}")
         values[key] = str(interpreter)
     snapshots = []
-    for model in enabled:
+    for model in enabled if verify_models else []:
         if not model.get("runtime_verified"):
             raise ValueError(f"Enabled model lacks recorded runtime verification: {model['id']}")
         revision = model["hf_revision"]
@@ -129,7 +130,8 @@ def prepare(root: Path, env_file: Path, cache_dir: Path | None = None,
     })
     report = {"mode": "local_dry_run", "run_date": day.isoformat(), "timezone": "Asia/Seoul",
               "device": "cpu", "threads": int(threads), "worker_profiles": len(workers),
-              "models": snapshots, "cache_dir": str(cache), "live_publication": False}
+              "models": snapshots, "runtime_verified": verify_models,
+              "cache_dir": str(cache), "live_publication": False}
     return report, child_env
 
 
