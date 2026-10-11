@@ -40,9 +40,18 @@ $repoPath = Split-Path -Parent $PSScriptRoot
 $runnerScript = Join-Path $PSScriptRoot 'run-daily.ps1'
 if ($Runner -eq 'Dashboard') { $runnerScript = Join-Path $PSScriptRoot 'run-dashboard.ps1' }
 $arguments = '-NoProfile -NonInteractive -WindowStyle Hidden -File "' + $runnerScript + '" -RuntimeEnvFile "' + $resolvedEnv + '"'
+$program = 'powershell.exe'
+if ($Runner -eq 'Dashboard') {
+    # Use the installed GUI Python executable for a quiet background task.
+    # Windows PowerShell script policy does not affect native Python execution.
+    $program = Join-Path $repoPath 'pipeline\.venv\Scripts\pythonw.exe'
+    if (-not (Test-Path -LiteralPath $program -PathType Leaf)) { throw 'The installed Python GUI runtime is missing.' }
+    $arguments = '-X utf8 "' + (Join-Path $PSScriptRoot 'update_dashboard.py') + '" --runtime-env-file "' + $resolvedEnv + '"'
+}
 if ($StateDir) {
     $resolvedState = [System.IO.Path]::GetFullPath($StateDir)
-    $arguments += ' -StateDir "' + $resolvedState + '"'
+    if ($Runner -eq 'Dashboard') { $arguments += ' --state-dir "' + $resolvedState + '"' }
+    else { $arguments += ' -StateDir "' + $resolvedState + '"' }
 }
 if ($SourceProbeNetwork -and $Runner -eq 'Dashboard') { throw 'SourceProbeNetwork applies only to the Benchmark runner.' }
 if ($SourceProbeNetwork) { $arguments += ' -SourceProbeNetwork' }
@@ -57,7 +66,7 @@ $definition = [ordered]@{
     Action = $Action
     Runner = $Runner
     TimesKst = $times
-    Program = 'powershell.exe'
+    Program = $program
     Arguments = $arguments
     WorkingDirectory = $repoPath
     UserMustBeLoggedIn = $true
@@ -72,7 +81,7 @@ if (Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue) {
     throw 'A task with this name already exists. Review and explicitly uninstall it before replacing it.'
 }
 if ($PSCmdlet.ShouldProcess($TaskName, 'Register twice-daily private TSFM task')) {
-    $scheduledAction = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument $arguments -WorkingDirectory $repoPath
+    $scheduledAction = New-ScheduledTaskAction -Execute $program -Argument $arguments -WorkingDirectory $repoPath
     $triggers = @($times | ForEach-Object { New-ScheduledTaskTrigger -Daily -At $_ })
     $settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -MultipleInstances IgnoreNew -ExecutionTimeLimit (New-TimeSpan -Hours 1)
     $principal = New-ScheduledTaskPrincipal -UserId ([System.Security.Principal.WindowsIdentity]::GetCurrent().Name) -LogonType Interactive -RunLevel Limited

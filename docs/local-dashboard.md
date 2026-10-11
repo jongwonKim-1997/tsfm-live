@@ -12,6 +12,12 @@
 .\ops\run-dashboard.ps1 -RuntimeEnvFile ..\..\work\model-smoke\runtime.env -ObservationsOnly
 ```
 
+Windows PowerShell에서 `.ps1` 실행이 제한된 경우에는 설치된 Python을 직접 실행합니다.
+
+```powershell
+.\pipeline\.venv\Scripts\python.exe ops\update_dashboard.py --runtime-env-file ..\..\work\model-smoke\runtime.env
+```
+
 `-CheckOnly`는 기존 환경과 가중치만 검사합니다. `-NoSite`는 웹사이트 소스 JSON을 쓰지 않고 개인 보고서만 생성합니다. `-StateDir`로 저장소 밖의 개인 기록 경로를 지정할 수 있습니다. 기본 기록 경로는 이 작업의 `work/tsfm-local-dashboard`입니다.
 
 - `reports/index.html`: 네트워크 없이 열 수 있는 실제값·예측 선 그래프.
@@ -41,6 +47,8 @@
 ```
 
 등록 시 매일 06:10·08:10·23:10 KST에 실행합니다. 현재 사용자가 로그인해 있고 컴퓨터가 실행 가능한 상태여야 합니다. UTC·서머타임·시장별 발표 지연 때문에 매 실행에 새 관측값이 생긴다고 보장하지 않습니다. 원자료가 늦으면 다음 실행에서 다시 수집합니다.
+
+그래프 작업은 설치된 `pythonw.exe`로 Python 실행기를 직접 호출합니다. 콘솔 창을 표시하지 않으며, Windows PowerShell의 스크립트 정책 변경이 필요하지 않습니다. 실제 작업과 같은 실행 파일·인수로 환경 검사를 수행해 종료 코드 0을 확인했습니다.
 
 이 작업은 로컬 보고서와 웹사이트 소스 파일을 갱신합니다. 공개 Cloudflare 주소를 매일 갱신하려면 변경된 스냅샷을 GitHub에 게시하고 사이트를 재배포하는 인증 경로가 추가로 필요합니다. 스크립트가 GitHub 인증 정보를 저장하거나 공개 게시를 자동 수행하지는 않습니다.
 
