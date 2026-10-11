@@ -1,16 +1,24 @@
-import {asViewed,panelMarkup,chartMarkup,highlightForecast} from './forecast-view.mjs';
-import {dashboardWords,dashboardProvenance} from './dashboard-view.mjs';
+import {asViewed,panelMarkup,chartMarkup,highlightForecast,chooseIndicator} from './forecast-view.mjs';
+import {dashboardWords,dashboardProvenance,prepareDashboard,dashboardEmptyMarkup} from './dashboard-view.mjs';
 
 export function initializeDashboard(board,locale,baseWords) {
   if(!board)return;
   const data=JSON.parse(board.querySelector('[data-forecast-data]').textContent);
-  const words=dashboardWords(baseWords,data.mode==='local_zero_shot');
+  const words=dashboardWords(baseWords,data.mode==='local_zero_shot',data.frequency==='1h');
   const panel=board.querySelector('[data-forecast-panel]');
   let selected=data.indicators.find(row=>row.id===board.dataset.selected);
   let period=board.dataset.period||'last7days', pinnedModel=null;
   const width=()=>Math.max(310,panel.clientWidth-40);
   function render(){
-    if(!selected)return;
+    const visible=prepareDashboard(data).indicators;
+    selected=visible.find(row=>row.id===selected?.id)||chooseIndicator(visible);
+    const ids=new Set(visible.map(row=>row.id));
+    board.querySelectorAll('[data-indicator]').forEach(button=>{button.hidden=!ids.has(button.dataset.indicator);});
+    board.querySelectorAll('[data-indicator-select] option').forEach(option=>{option.hidden=!ids.has(option.value);option.disabled=option.hidden;});
+    const marketBar=board.querySelector('.forecast-market-bar');if(marketBar)marketBar.hidden=!selected;
+    const provenance=board.querySelector('[data-dashboard-provenance]');
+    if(provenance)provenance.outerHTML=dashboardProvenance(data,locale,words);
+    if(!selected){panel.innerHTML=dashboardEmptyMarkup(data,words);return;}
     selected=asViewed(selected);
     panel.innerHTML=panelMarkup(selected,period,locale,words,width());
     let found=false;
@@ -21,8 +29,6 @@ export function initializeDashboard(board,locale,baseWords) {
     board.querySelector('[data-indicator-select]').value=selected.id;
     board.querySelectorAll('[data-history-period]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.historyPeriod===period)));
     board.querySelector('[data-forecast-announcement]').textContent=`${selected.name} · ${period==='today'?words.forecastToday:words.forecastSevenDays} · ${selected.next_session_date||words.forecastAwaiting}`;
-    const provenance=board.querySelector('[data-dashboard-provenance]');
-    if(provenance)provenance.outerHTML=dashboardProvenance(data,locale,words);
   }
   board.addEventListener('click',event=>{
     const button=event.target.closest('button');if(!button)return;

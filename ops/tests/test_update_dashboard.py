@@ -19,6 +19,7 @@ def dashboard(tmp_path):
     config = root / "pipeline/tsfm_live/config"
     config.mkdir(parents=True)
     (config / "indicators.yaml").write_text("[]")
+    (config / "hourly_indicators.yaml").write_text("[]")
     (config / "models.yaml").write_text("[]")
     state = tmp_path / "private"
     now = parse_ts("2026-10-11T09:00:00Z")
@@ -116,3 +117,31 @@ def test_observations_only_cli_does_not_require_model_environment(dashboard, mon
                         "--state-dir", str(tmp_path / "private"), "--observations-only"]) == 0
     assert reached == [True]
     assert module.os.environ["GITHUB_TOKEN"] == "not-a-real-token"
+
+
+def test_personal_hourly_prices_and_forecasts_never_enter_public_projection(dashboard):
+    module, _, _, _, _ = dashboard
+    view = {"frequency": "1h", "collection_ts_utc": "2026-10-11T09:00:00Z",
+            "forecast_generated_ts_utc": "2026-10-11T09:01:00Z",
+            "indicators": [{"id": "private", "price": 123, "entrants": [456]}]}
+    public = module.public_projection(view, [{"id": "private", "public_export": False}])
+    assert public["indicators"] == []
+    assert public["collection_ts_utc"] is None
+    assert public["forecast_generated_ts_utc"] is None
+    assert public["empty_reason"] == "public_hourly_source_pending"
+    assert view["indicators"][0]["price"] == 123
+
+
+def test_hourly_export_requires_explicit_permission_per_indicator(dashboard):
+    module, _, _, _, _ = dashboard
+    view = {"frequency": "1h", "indicators": [{"id": "unset"}, {"id": "allowed"}]}
+    assert module.public_projection(view, [{"id": "unset"}, {"id": "allowed", "public_export": True}])["indicators"] == [{"id": "allowed"}]
+
+
+def test_refreshes_user_facing_report_atomically(dashboard, tmp_path):
+    _, _, _, _, run = dashboard
+    report = tmp_path / "outputs/dashboard.html"
+    result, code = run(report_output=report)
+    assert code == 0
+    assert report.read_text() == "<html>line chart</html>"
+    assert result["exported_report_path"] == str(report)

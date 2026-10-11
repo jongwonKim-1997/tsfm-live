@@ -1,8 +1,9 @@
-from .base import ModelAdapter, checked_context, output_from_quantiles, seed_torch
+from .base import ModelAdapter, checked_context, checked_horizon, output_from_quantiles, path_output, seed_torch
 
 
 class TimesFMAdapter(ModelAdapter):
-    def predict(self, context, quantiles, seed):
+    def predict(self, context, quantiles, seed, *, horizon=1):
+        horizon = checked_horizon(horizon)
         x = checked_context(context)
         torch = seed_torch(seed)
         if self._model is None:
@@ -23,7 +24,9 @@ class TimesFMAdapter(ModelAdapter):
                 fix_quantile_crossing=True,
             ))
         with torch.inference_mode():
-            _, q = self._model.forecast(horizon=1, inputs=[x])
+            _, q = self._model.forecast(horizon=horizon, inputs=[x])
         # The first tuple element is the median (channel 5). The full head's
         # channel 0 is the separately trained mean; channels 1: are q0.1..q0.9.
-        return output_from_quantiles([i / 10 for i in range(1, 10)], q[0, 0, 1:], quantiles, mean=q[0, 0, 0])
+        return path_output([output_from_quantiles([i / 10 for i in range(1, 10)], q[0, step, 1:],
+                                                  quantiles, mean=q[0, step, 0])
+                            for step in range(horizon)], horizon)

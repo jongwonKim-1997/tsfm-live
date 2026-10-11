@@ -11,16 +11,17 @@ model, mathematical, and operational decisions are documented under `docs/`.
 ## Current evidence and release status
 
 The public preview is [tsfm-live.pages.dev](https://tsfm-live.pages.dev/).
-The homepage opens with a date-axis line plot: confirmed observations followed
-by a separate line to each model's next-session median. Today / last 7 days
-controls the observation history, and selecting a model emphasizes its line.
-The [local dashboard runner](docs/local-dashboard.md) now feeds that homepage
-with collected daily observations and real local zero-shot next-session outputs,
-explicitly labelled separately from public benchmark lock-ins. It also renders
-a standalone HTML line plot without requiring a web server.
-Model values retain their 80% intervals and exact market target dates. Before
-the first public lock-in the benchmark view remains unavailable; the separately
-labelled local dashboard can show actual collected observations and local forecasts.
+The [local dashboard runner](docs/local-dashboard.md) now collects completed
+one-hour candles and predicts the next 24 hourly values with each of seven
+zero-shot models. The standalone HTML opens with an actual-value line and
+model forecast paths. Today / last 7 days changes the historical segment;
+unavailable, stale and unverified-market indicators stay hidden.
+Hourly models forecast levels directly with per-time 80% marginal intervals.
+Upbit BTC/KRW and ETH/KRW are personal-use sources, so their observations and
+derived predictions stay in the local report, outside the public repository.
+The public homepage supports the same hourly interface and shows an empty
+source-connection state until an hourly source permits public display.
+See [hourly sources and requirements](docs/hourly-data-sources.md).
 Seven pinned TSFMs have completed real-weight CPU inference on this computer.
 A three-indicator historical integration took **254.18 seconds**, with 30
 successful outputs and zero failures; see [measured evidence](docs/integration-smoke.md).
@@ -40,8 +41,8 @@ observations are inserted into the live ledger to make the interface look full.
 **Current operating mode: local execution only.** The owner deferred paid cloud
 deployment on 2026-10-08. Cloud templates remain available for a future decision;
 no Cloud Run job or cloud scheduler is enabled. On 2026-10-11 the local Windows
-dashboard task was registered at 06:10, 08:10 and 23:10 KST. It refreshes the local
-report and website source snapshot; public automatic publishing remains unconfigured.
+dashboard task was changed to run hourly at minute 05 KST. It refreshes the local
+report and a permission-filtered website snapshot; public automatic publishing remains unconfigured.
 Local diagnostic results do not create public prospective history.
 
 ## Local setup

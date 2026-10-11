@@ -1,0 +1,132 @@
+{
+  "mode": "local_zero_shot",
+  "frequency": "1h",
+  "horizon_steps": 24,
+  "forecast_basis": "direct_level",
+  "public_ledger_eligible": false,
+  "public_data_exported": false,
+  "started_ts_utc": "2026-10-11T08:49:10.666544Z",
+  "completed_ts_utc": "2026-10-11T08:51:32.457557Z",
+  "duration_seconds": 141.791013,
+  "indicator_count": 2,
+  "source_rows_per_indicator": [
+    600,
+    600
+  ],
+  "actual_points_last7days": 336,
+  "successful_model_paths": 14,
+  "successful_hourly_forecast_points": 336,
+  "model_runs": [
+    {
+      "model": "chronos-2",
+      "status": "ok",
+      "context_length": 512,
+      "horizon_steps": 24,
+      "inference_seconds": 7.359
+    },
+    {
+      "model": "chronos-bolt-base",
+      "status": "ok",
+      "context_length": 512,
+      "horizon_steps": 24,
+      "inference_seconds": 7.297
+    },
+    {
+      "model": "timesfm-2.5-200m",
+      "status": "ok",
+      "context_length": 512,
+      "horizon_steps": 24,
+      "inference_seconds": 4.453
+    },
+    {
+      "model": "moirai-2.0-r-small",
+      "status": "ok",
+      "context_length": 512,
+      "horizon_steps": 24,
+      "inference_seconds": 5.422
+    },
+    {
+      "model": "toto-open-base-1.0",
+      "status": "ok",
+      "context_length": 512,
+      "horizon_steps": 24,
+      "inference_seconds": 25.062
+    },
+    {
+      "model": "tirex",
+      "status": "ok",
+      "context_length": 512,
+      "horizon_steps": 24,
+      "inference_seconds": 4.235
+    },
+    {
+      "model": "sundial-base-128m",
+      "status": "ok",
+      "context_length": 512,
+      "horizon_steps": 24,
+      "inference_seconds": 15.328
+    },
+    {
+      "model": "chronos-2",
+      "status": "ok",
+      "context_length": 512,
+      "horizon_steps": 24,
+      "inference_seconds": 7.265
+    },
+    {
+      "model": "chronos-bolt-base",
+      "status": "ok",
+      "context_length": 512,
+      "horizon_steps": 24,
+      "inference_seconds": 8.079
+    },
+    {
+      "model": "timesfm-2.5-200m",
+      "status": "ok",
+      "context_length": 512,
+      "horizon_steps": 24,
+      "inference_seconds": 4.421
+    },
+    {
+      "model": "moirai-2.0-r-small",
+      "status": "ok",
+      "context_length": 512,
+      "horizon_steps": 24,
+      "inference_seconds": 5.266
+    },
+    {
+      "model": "toto-open-base-1.0",
+      "status": "ok",
+      "context_length": 512,
+      "horizon_steps": 24,
+      "inference_seconds": 24.563
+    },
+    {
+      "model": "tirex",
+      "status": "ok",
+      "context_length": 512,
+      "horizon_steps": 24,
+      "inference_seconds": 4.406
+    },
+    {
+      "model": "sundial-base-128m",
+      "status": "ok",
+      "context_length": 512,
+      "horizon_steps": 24,
+      "inference_seconds": 16.11
+    }
+  ],
+  "schedule": {
+    "task_name": "TSFM-Local-Dashboard",
+    "state": "Ready",
+    "daily_trigger_count": 24,
+    "minute": 5,
+    "timezone": "Asia/Seoul",
+    "preflight_exit_code": 0
+  },
+  "validation": {
+    "python_suite": "passed; two Windows skips",
+    "frontend_real_dom": "two indicators; 18 today / 168 seven-day actual points each; seven model paths with 24 points each; zero JS errors"
+  },
+  "note": "Aggregate execution evidence only. No personal-use source prices, forecast values or charts are included."
+}

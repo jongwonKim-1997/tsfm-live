@@ -225,5 +225,20 @@
   "forecastPublicLedgerLink": "Public commitment ledger",
   "forecastSingleObservation": "A single confirmed daily value is shown as a point. Select Last 7 days to see the actual-value line.",
   "forecastInputDate": "Final input observation",
-  "forecastComputedAt": "Inference time"
+  "forecastComputedAt": "Inference time",
+  "forecastHourlyTitle": "Hourly actuals. The next 24 hours.",
+  "forecastHourlyActualZone": "Hourly actuals · KST",
+  "forecastHourlyModelZone": "Next 24 hours · KST",
+  "forecastHourlyTarget": "Final forecast time",
+  "forecastHourlyTodayNote": "Confirmed hourly observations since 00:00 today, shown in Korea Standard Time (KST).",
+  "forecastHourlySevenNote": "Confirmed actual observations from the last 168 hours. Missing hours are never filled.",
+  "forecastHourlyPathNote": "Dashed lines join each model’s hourly outputs. History controls leave the future path unchanged. The 80% intervals apply at each timestamp, not simultaneously to the whole path.",
+  "forecastHourlySessionNote": "Only open markets with verified recent hourly observations are shown. Forecast timestamps that have already passed are omitted.",
+  "forecastHourlyChartLabel": "Hourly actuals and model forecast paths for the next 24 hours, Korea Standard Time",
+  "forecastHourlySingleObservation": "One confirmed hourly observation is displayed as a point.",
+  "forecastHourlyIntervalsBelow": "Values below: final forecast timestamp · hourly 80% intervals in tooltips",
+  "forecastHourlyStale": "This snapshot is over 2 hours old. Collect fresh hourly data.",
+  "forecastHourlyExpired": "Forecast timestamps passed",
+  "forecastHourlyEmpty": "No verified recent hourly data is available to display.",
+  "forecastHourlyPublicEmpty": "An hourly source approved for public display is pending. Collected observations and model outputs are available in the local report."
 }

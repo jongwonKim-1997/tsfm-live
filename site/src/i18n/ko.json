@@ -225,5 +225,20 @@
   "forecastPublicLedgerLink": "공개 사전 기록 원장",
   "forecastSingleObservation": "일별 확정값이 한 개이면 점으로 표시됩니다. 실제값의 선은 최근 7일을 선택해 볼 수 있습니다.",
   "forecastInputDate": "모델 입력 마지막 관측일",
-  "forecastComputedAt": "추론 시각"
+  "forecastComputedAt": "추론 시각",
+  "forecastHourlyTitle": "시간별 실제값, 앞으로 24시간의 예측.",
+  "forecastHourlyActualZone": "시간별 실제 관측값 · KST",
+  "forecastHourlyModelZone": "앞으로 24시간 · KST",
+  "forecastHourlyTarget": "예측 마지막 시각",
+  "forecastHourlyTodayNote": "오늘 00시 이후 확정된 시간별 실제값입니다. 시각은 한국시간(KST)입니다.",
+  "forecastHourlySevenNote": "최근 168시간의 확정된 실제값입니다. 관측값이 없는 시간은 채우지 않습니다.",
+  "forecastHourlyPathNote": "점선은 모델별로 한 시간씩 예측한 경로입니다. 과거 표시 범위를 바꿔도 미래 경로는 유지됩니다. 80% 구간은 각 시점의 구간이며 전체 경로의 동시 포함률이 아닙니다.",
+  "forecastHourlySessionNote": "장이 열려 있고 최신 시간별 실제값이 확인된 지표만 표시합니다. 이미 지난 예측 시각은 표시하지 않습니다.",
+  "forecastHourlyChartLabel": "시간별 실제값과 앞으로 24시간의 모델별 예측 경로, 한국시간",
+  "forecastHourlySingleObservation": "확정된 시간별 실제값이 한 개이면 점으로 표시됩니다.",
+  "forecastHourlyIntervalsBelow": "아래 수치는 마지막 예측 시점 · 시점별 80% 구간은 툴팁",
+  "forecastHourlyStale": "최근 갱신 후 2시간이 지났습니다. 최신 시간별 데이터를 다시 수집해야 합니다.",
+  "forecastHourlyExpired": "예측 시각 경과",
+  "forecastHourlyEmpty": "현재 표시할 수 있는 최신 시간별 데이터가 없습니다.",
+  "forecastHourlyPublicEmpty": "공개 가능한 시간별 데이터 소스를 연결하는 중입니다. 로컬 보고서에서 수집·예측 결과를 확인할 수 있습니다."
 }

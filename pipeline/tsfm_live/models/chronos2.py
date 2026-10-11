@@ -1,8 +1,9 @@
-from .base import ModelAdapter, checked_context, output_from_quantiles, seed_torch
+from .base import ModelAdapter, checked_context, checked_horizon, output_from_quantiles, path_output, seed_torch
 
 
 class Chronos2Adapter(ModelAdapter):
-    def predict(self, context, quantiles, seed):
+    def predict(self, context, quantiles, seed, *, horizon=1):
+        horizon = checked_horizon(horizon)
         x = checked_context(context)
         torch = seed_torch(seed)
         if self._model is None:
@@ -16,8 +17,9 @@ class Chronos2Adapter(ModelAdapter):
             # Native head only: package interpolation clamps tails, whereas the
             # protocol requires linear tail extrapolation if outside its grid.
             q, _ = self._model.predict_quantiles(
-                [torch.tensor(x, dtype=torch.float32)], prediction_length=1,
+                [torch.tensor(x, dtype=torch.float32)], prediction_length=horizon,
                 quantile_levels=list(self._model.quantiles), cross_learning=False,
             )
         # Upstream calls a median "mean"; do not relabel it as an expectation.
-        return output_from_quantiles(self._model.quantiles, q[0][0, 0], quantiles)
+        return path_output([output_from_quantiles(self._model.quantiles, q[0][0, step], quantiles)
+                            for step in range(horizon)], horizon)
