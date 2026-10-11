@@ -159,6 +159,54 @@ def test_private_return_only_export_never_discloses_levels(daily):
     assert "last_close_value" not in (state / "reports/latest.json").read_text()
 
 
+def test_return_only_forecast_keeps_issued_policy_after_current_level_approval(daily):
+    module, root, state, clock, cfg, run, fetch, predict = daily
+    config_path = root / "pipeline/tsfm_live/config/indicators.yaml"
+    cfg["display_policy"] = "return_only"
+    config_path.write_text(json.dumps([cfg]))
+    run()
+    original = (state / "days/2026-10-12/forecast.json").read_bytes()
+    cfg["display_policy"] = "level"
+    config_path.write_text(json.dumps([cfg]))
+    report, code = run()
+    payload = json.loads((state / "reports/latest.json").read_bytes())
+    assert code == 0 and report["stages"]["export"]["status"] == "ok"
+    assert payload["observations"][0]["value_kind"] == "level"
+    forecast = payload["forecasts"][0]
+    assert forecast["value_kind"] == "change" and forecast["unit"] == "log return (%)"
+    assert forecast["median"] == 0 and forecast["metadata_basis"] == "issued_forecast"
+    assert (state / "days/2026-10-12/forecast.json").read_bytes() == original
+
+
+def test_removed_current_indicator_does_not_break_archived_forecast_export(daily):
+    module, root, state, clock, cfg, run, fetch, predict = daily
+    run()
+    (root / "pipeline/tsfm_live/config/indicators.yaml").write_text("[]")
+    report, code = run()
+    payload = json.loads((state / "reports/latest.json").read_bytes())
+    assert code == 0 and report["stages"]["export"]["status"] == "ok"
+    assert payload["observations"] == []
+    assert payload["forecasts"][0]["indicator_id"] == "eurusd"
+    assert payload["forecasts"][0]["median"] == 1.1
+    assert payload["forecasts"][0]["unit"] == "USD/EUR"
+
+
+def test_archived_target_date_keeps_issued_timezone_after_current_zone_changes(daily):
+    module, root, state, clock, cfg, run, fetch, predict = daily
+    config_path = root / "pipeline/tsfm_live/config/indicators.yaml"
+    cfg["tz"] = "Pacific/Kiritimati"
+    config_path.write_text(json.dumps([cfg]))
+    run()
+    cfg["tz"] = "America/New_York"
+    config_path.write_text(json.dumps([cfg]))
+    report, code = run()
+    payload = json.loads((state / "reports/latest.json").read_bytes())
+    assert code == 0 and report["stages"]["export"]["status"] == "ok"
+    assert payload["observations"][0]["today"][0]["date"] == "2026-10-09"
+    assert payload["forecasts"][0]["next_session_date"] == "2026-10-13"
+    assert payload["forecasts"][0]["next_session_timezone"] == "Pacific/Kiritimati"
+
+
 def test_revised_observation_is_flagged_without_changing_existing_score(daily):
     module, root, state, clock, cfg, run, fetch, predict = daily
     run()

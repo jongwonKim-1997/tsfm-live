@@ -160,10 +160,16 @@ def summary_scores(scores):
             for (indicator, entrant), rows in sorted(grouped.items())]
 
 
-def export_private(state_dir, indicators, histories, forecasts, scores, report, *, now):
-    """Daily values respect display_policy; no private context is exported."""
+def export_private(state_dir, indicators, histories, forecasts, scores, report, *, now, envelopes):
+    """Current observations use current metadata; archived predictions use issued metadata."""
     latest = forecasts[-1][1] if forecasts else None
-    configs = {cfg["id"]: cfg for cfg in indicators}
+    frozen_configs = {}
+    if latest:
+        matching = [item for item in envelopes if item["forecast"]["run_id"] == latest["run_id"]
+                    and item["forecast"]["run_date"] == latest["run_date"]]
+        if len(matching) != 1:
+            raise ValueError("missing_or_ambiguous_frozen_forecast_metadata")
+        frozen_configs = {cfg["id"]: cfg for cfg in matching[0]["indicators"]}
     observations = []
     for cfg in indicators:
         history = histories.get(cfg["id"])
@@ -193,8 +199,12 @@ def export_private(state_dir, indicators, histories, forecasts, scores, report, 
                              "today": rows[-1:] if rows else [], "last7days": rows})
     displayed = []
     for record in latest["records"] if latest else []:
-        cfg = configs[record["indicator_id"]]
+        cfg = frozen_configs[record["indicator_id"]]
         item = {k: record.get(k) for k in ("indicator_id", "entrant_id", "status", "skip_reason", "next_close_ts")}
+        item.update(unit=cfg.get("unit", "level") if cfg["display_policy"] == "level" else (
+                        "bp" if cfg["target_transform"] == "diff_bp" else "log return (%)"),
+                    value_kind="level" if cfg["display_policy"] == "level" else "change",
+                    next_session_timezone=cfg["tz"], metadata_basis="issued_forecast")
         item["availability"] = "unavailable"
         if record["status"] == "ok":
             item["availability"] = "expired" if parse_ts(record["next_close_ts"]) <= now else "available"
@@ -220,7 +230,8 @@ def export_private(state_dir, indicators, histories, forecasts, scores, report, 
     def cell(value):
         return html.escape(str(value))
     rows = "".join("<tr>" + "".join(f"<td>{cell(row.get(k, '—'))}</td>" for k in
-                   ("indicator_id", "entrant_id", "status", "availability", "next_session_date", "lower", "median", "upper"))
+                   ("indicator_id", "entrant_id", "status", "availability", "next_session_date",
+                    "next_session_timezone", "unit", "lower", "median", "upper"))
                    + "</tr>" for row in displayed)
     values = "".join(f"<li>{cell(row['id'])} ({cell(row['unit'])}): " +
                      cell(row["today"][0]["value"] if row["today"] else "관측값 없음") +
@@ -238,7 +249,7 @@ table{{border-collapse:collapse;width:100%;font-size:14px}}td,th{{padding:.5rem;
  · 예측 기준일: {cell(payload['forecast_run_date'])}</p><p><a href="latest.json">전체 상태·최근 7일 관측값·평가 JSON</a></p>
 <h2>최근 일별 실제 관측값</h2><p>오늘은 최신 이용 가능한 일별 관측값입니다. 장중 현재값이 아닙니다.</p><ul>{values}</ul>
 <h2>모델별 예측</h2><div class="scroll"><table><tr><th>지표</th><th>모델</th><th>상태</th><th>유효성</th>
-<th>목표일(지표 현지)</th><th>하위 10%</th><th>중앙값</th><th>상위 90%</th></tr>{rows}</table></div>
+<th>목표일(발행 당시 기준)</th><th>시간대</th><th>단위</th><th>하위 10%</th><th>중앙값</th><th>상위 90%</th></tr>{rows}</table></div>
 <h2>누적 로컬 평가</h2><p>지표별 목표 단위로 계산하며 지표 간 통합 순위를 만들지 않습니다.</p><div class="scroll"><table>
 <tr><th>지표</th><th>모델</th><th>표본</th><th>MAE</th><th>RMSE</th><th>CRPS</th><th>80% 포함률</th></tr>{metric_rows}</table></div>
 <p>Built with technology from NXAI · <a href="tirex-license.txt">TiRex license</a></p></html>'''
@@ -405,7 +416,8 @@ def run_daily(root, state_dir, *, now=utcnow, evaluate_only=False, fetch=ingest,
         if report.get("evaluation", {}).get("revisions_observed"):
             report["status"] = "partial"
         export_result = stage("export", lambda: export_private(state_dir, indicators, histories, forecasts,
-                                                               scores, report, now=now()), attempts=retries)
+                                                               scores, report, now=now(), envelopes=envelopes),
+                              attempts=retries)
         if export_result:
             report["export"] = export_result
         else:

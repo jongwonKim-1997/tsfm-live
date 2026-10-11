@@ -17,6 +17,7 @@ param(
     [string]$Action = 'Preview',
     [string]$RuntimeEnvFile,
     [string]$StateDir,
+    [switch]$SourceProbeNetwork,
     [ValidatePattern('^[A-Za-z0-9_-]+$')]
     [string]$TaskName = 'TSFM-Local-Daily'
 )
@@ -39,6 +40,7 @@ if ($StateDir) {
     $resolvedState = [System.IO.Path]::GetFullPath($StateDir)
     $arguments += ' -StateDir "' + $resolvedState + '"'
 }
+if ($SourceProbeNetwork) { $arguments += ' -SourceProbeNetwork' }
 $description = 'Private TSFM diagnostic loop. 06:10 KST evaluates prior outcomes; 08:10 KST also admits new on-time forecasts. No public publishing.'
 $definition = [ordered]@{
     TaskName = $TaskName
@@ -51,6 +53,7 @@ $definition = [ordered]@{
     StartWhenAvailable = $true
     MultipleInstances = 'IgnoreNew'
     LivePublication = $false
+    SourceProbeNetwork = [bool]$SourceProbeNetwork
 }
 $definition | ConvertTo-Json -Depth 3
 if ($Action -ne 'Install') { return }
