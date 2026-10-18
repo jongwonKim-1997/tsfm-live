@@ -1,0 +1,39 @@
+Daily public performance tables
+
+The production board remains daily, as requested on 2026-10-18. Hourly runs
+refresh actuals and publication; they do not imply hourly observation targets.
+
+The home page contains separate indicator/model performance and model ranking
+tables. They derive exclusively from genuinely issued daily forecasts and
+subsequently observed actuals in the public daily payload. No backtest or
+research benchmark records are substituted for live issued records.
+
+Evaluation window: available actuals overlapping the last 30 days of issues.
+Each model and target date counts once, using its first valid issue. Issuance
+must precede the target close; its anchor must have closed by issuance. The
+actual and target close timestamps must match, and the actual must have closed
+by both the snapshot generation time and display time. Future, invalid, or
+unsettled records do not count. Revised actuals can change measured performance.
+
+Indicator metrics:
+- Number of distinct settled targets.
+- Direction hit rate from the last input value, with hits and denominator.
+  Unchanged actuals are excluded; unchanged forecasts on moving actuals miss.
+- Mean absolute error in the indicator's unit (percentage points for yields).
+- Actual coverage of nominal 80% prediction intervals.
+No metric is presented as a calibrated probability of future success.
+
+Rankings use only common model/target cases with the same issue day and anchor.
+The anchor value, anchor date and anchor close must match. Each indicator's
+score is 1 - sum(model absolute error) / sum(persistence baseline error).
+The baseline holds the last input value constant. Overall scores give every
+indicator equal weight. Higher is better; negative means worse than baseline.
+The baseline denominator must be positive. Every indicator must have at least
+20 paired targets before ranks are displayed. Ties share a rank. These are
+provisional descriptive rankings, not claims of statistical superiority.
+If any indicator cannot be scored, the overall score is absent. Below the rank
+threshold, an available score can be shown but no ordinal rank is assigned.
+
+On launch (2026-10-18), all forecasts target unreleased future dates. Tables
+therefore correctly show zero evaluated cases and no success rates or ranks.
+As the daily public payload refreshes, settled results populate automatically.
