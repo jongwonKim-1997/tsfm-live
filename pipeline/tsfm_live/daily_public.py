@@ -69,6 +69,30 @@ def indicator_configs():
                 "not an individual bond closing yield. Forecasts calculated by TSFM Live.",
             )
         )
+    rows.append(
+        dict(
+            id="taiex",
+            name="TAIEX · Taiwan weighted stock index",
+            unit="points",
+            group="equity",
+            calendar="XTAI",
+            # Ad hoc typhoon closures absent from the pinned calendar release.
+            # Official evidence is recorded in docs/equity-source-review.txt.
+            calendar_excluded_dates=["2024-10-31", "2026-07-10"],
+            close_time_local="13:30",
+            tz="Asia/Taipei",
+            enabled=True,
+            history_days=800,
+            source={"adapter": "twse_open", "params": {}},
+            license_id="OGDL-Taiwan-1.0",
+            license_url="https://data.gov.tw/license",
+            attribution="Source: Taiwan Stock Exchange / Securities and Futures Bureau, "
+            "Financial Supervisory Commission, 2026. Weighted Stock Price Index Historical Data "
+            "(government open dataset 11755). Open Government Data License v1.0; reuse is "
+            "permitted subject to its conditions. https://data.gov.tw/en/datasets/11755 . "
+            "Daily closing index; forecasts calculated by TSFM Live, not by the source provider.",
+        )
+    )
     return rows
 
 
@@ -110,9 +134,10 @@ def forecast_targets(cfg, last_date, issue_day):
     return targets
 
 
-def read_issues(state, now):
+def read_issues(state, now, *, hourly=False):
     issues = []
-    for path in sorted((Path(state) / "issued").glob("*/*.json")):
+    folder = "issued-hourly" if hourly else "issued"
+    for path in sorted((Path(state) / folder).glob("*/*.json")):
         envelope = json.loads(path.read_bytes())
         item = envelope["forecast"]
         if hashlib.sha256(canonical_bytes(item)).hexdigest() != envelope["sha256"]:
@@ -120,10 +145,13 @@ def read_issues(state, now):
         issued = parse_ts(item["issued_at"])
         if issued > now or item["issue_date"] != issued.astimezone(KST).date().isoformat():
             raise ValueError("forecast_archive_invalid_issue_time")
-        if (
-            path.parent.name != item["issue_date"]
-            or path.stem != f"{item['indicator_id']}--{item['model_id']}"
-        ):
+        stem = f"{item['indicator_id']}--{item['model_id']}"
+        if hourly:
+            slot = issued.astimezone(KST).strftime("%Y-%m-%dT%H")
+            if item.get("issue_slot") != slot:
+                raise ValueError("forecast_archive_invalid_issue_slot")
+            stem = slot[-2:] + "--" + stem
+        if path.parent.name != item["issue_date"] or path.stem != stem:
             raise ValueError("forecast_archive_identity_mismatch")
         if item["model_id"] not in MODEL_IDS or item["input_basis"] != "own_daily_levels_only":
             raise ValueError("forecast_archive_invalid_model")
@@ -133,11 +161,25 @@ def read_issues(state, now):
     return issues
 
 
-def build_daily(configs, models, histories, state, *, now, save, clock=utcnow, predict=model_predict):
+def build_daily(
+    configs,
+    models,
+    histories,
+    state,
+    *,
+    now,
+    save,
+    clock=utcnow,
+    predict=model_predict,
+    issue_hourly=False,
+):
     now = parse_ts(now)
     day = now.astimezone(KST).date()
     previous_day = (day - timedelta(days=1)).isoformat()
     issues = read_issues(state, now)
+    if issue_hourly:
+        issues += read_issues(state, now, hourly=True)
+    slot = now.astimezone(KST).strftime("%Y-%m-%dT%H")
     rows, failures = [], []
     for cfg in configs:
         iid = cfg["id"]
@@ -166,7 +208,7 @@ def build_daily(configs, models, histories, state, *, now, save, clock=utcnow, p
                 if any(
                     p["indicator_id"] == iid
                     and p["model_id"] == model["id"]
-                    and p["issue_date"] == day.isoformat()
+                    and (p.get("issue_slot") == slot if issue_hourly else p["issue_date"] == day.isoformat())
                     for p in issues
                 ):
                     continue
@@ -181,6 +223,8 @@ def build_daily(configs, models, histories, state, *, now, save, clock=utcnow, p
                     finished = parse_ts(clock())
                     if finished.astimezone(KST).date() != day:
                         raise ValueError("issue_date_changed_during_inference")
+                    if issue_hourly and finished.astimezone(KST).strftime("%Y-%m-%dT%H") != slot:
+                        raise ValueError("issue_hour_changed_during_inference")
                     steps = [output] if len(targets) == 1 else output.steps
                     forecast = [
                         {
@@ -210,8 +254,13 @@ def build_daily(configs, models, histories, state, *, now, save, clock=utcnow, p
                         "anchor": last,
                         "points": forecast,
                     }
+                    folder = "issued-hourly" if issue_hourly else "issued"
+                    filename = f"{iid}--{model['id']}.json"
+                    if issue_hourly:
+                        item["issue_slot"] = slot
+                        filename = slot[-2:] + "--" + filename
                     save(
-                        Path(state) / "issued" / day.isoformat() / f"{iid}--{model['id']}.json",
+                        Path(state) / folder / day.isoformat() / filename,
                         {"forecast": item, "sha256": hashlib.sha256(canonical_bytes(item)).hexdigest()},
                     )
                     issues.append(item)
@@ -222,10 +271,19 @@ def build_daily(configs, models, histories, state, *, now, save, clock=utcnow, p
         except Exception as exc:
             error = str(exc) if isinstance(exc, ValueError) else type(exc).__name__
             failures.append({"indicator_id": iid, "error_type": type(exc).__name__, "reason": error})
-        relevant = [p for p in issues if p["indicator_id"] == iid]
-        current = [p for p in relevant if p["issue_date"] == day.isoformat()]
-        previous = [p for p in relevant if p["issue_date"] == previous_day]
-        archive = [p for p in relevant if p["issue_date"] >= (day - timedelta(days=30)).isoformat()]
+        relevant = sorted([p for p in issues if p["indicator_id"] == iid], key=lambda p: p["issued_at"])
+        # Daily comparison keeps the first genuinely issued forecast of each day.
+        # The current view shows the latest issue; all hourly issues remain private.
+        daily_first, latest = {}, {}
+        for item in relevant:
+            daily_first.setdefault((item["issue_date"], item["model_id"]), item)
+            if item["issue_date"] == day.isoformat():
+                latest[item["model_id"]] = item
+        current = list(latest.values())
+        previous = [p for p in daily_first.values() if p["issue_date"] == previous_day]
+        archive = [
+            p for p in daily_first.values() if p["issue_date"] >= (day - timedelta(days=30)).isoformat()
+        ]
         actual = next((p for p in points if p["date"] == day.isoformat()), None)
         closed = not session_closes(cfg, day, day)
         rows.append(
@@ -253,6 +311,7 @@ def build_daily(configs, models, histories, state, *, now, save, clock=utcnow, p
     return {
         "schema_version": "daily-public-v1",
         "frequency": "1d",
+        "issue_frequency": "1h" if issue_hourly else "1d",
         "run_id": "daily-" + now.strftime("%Y%m%dT%H%M%S%fZ"),
         "generated_ts_utc": iso(clock()),
         "date": day.isoformat(),

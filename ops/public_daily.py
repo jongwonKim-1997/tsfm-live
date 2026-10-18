@@ -1,6 +1,6 @@
 """Refresh official daily actuals, freeze one GPU forecast per Korean day, publish.
 
-Scheduled refreshes may run hourly; inference runs once per day after 08:10 KST.
+With --issue-hourly, inference issues every hour; observations and targets stay daily.
 Private model inputs, source receipts and credentials never enter the projection.
 """
 
@@ -24,6 +24,7 @@ from tsfm_live.ledger import iso, utcnow
 from tsfm_live.models import load_models
 from tsfm_live.processes import background_process_options
 from tsfm_live.sources import get_source
+from tsfm_live.sources.twse_open import TWSEOpenSource
 
 
 def configure_gpu(root, runtime_file):
@@ -79,9 +80,16 @@ def run(args):
             histories, source_errors = {}, []
             for cfg in configs:
                 try:
-                    source = get_source(cfg, state / "cache")
+                    source = (
+                        TWSEOpenSource(cfg, state / "cache")
+                        if cfg["source"]["adapter"] == "twse_open"
+                        else get_source(cfg, state / "cache")
+                    )
                     histories[cfg["id"]] = source.fetch_history(
-                        cfg, (utcnow() - timedelta(days=3 * 366)).date()
+                        cfg,
+                        (
+                            utcnow() - timedelta(days=cfg.get("history_days", 3 * 366))
+                        ).date(),
                     )
                 except Exception as exc:  # noqa: BLE001 -- isolate provider failures; never log response secrets
                     source_errors.append(
@@ -92,10 +100,16 @@ def run(args):
                 load_models(root / "pipeline/tsfm_live/config/models.yaml")
             )
             local = now.astimezone(KST)
-            if (local.hour, local.minute) < (8, 10):
+            if not args.issue_hourly and (local.hour, local.minute) < (8, 10):
                 models = []
             view, failures = build_daily(
-                configs, models, histories, state, now=now, save=atomic_json
+                configs,
+                models,
+                histories,
+                state,
+                now=now,
+                save=atomic_json,
+                issue_hourly=args.issue_hourly,
             )
             view["runtime"] = gpu
             atomic_json(state / "snapshots" / (view["run_id"] + ".json"), view)
@@ -106,6 +120,7 @@ def run(args):
                 )
             report.update(
                 run_id=view["run_id"],
+                issue_frequency=view["issue_frequency"],
                 gpu=gpu,
                 source_errors=source_errors,
                 failures=failures,
@@ -142,6 +157,11 @@ def main(argv=None):
     parser.add_argument("--publish-env-file", type=Path)
     parser.add_argument("--no-site", action="store_true")
     parser.add_argument("--check-only", action="store_true")
+    parser.add_argument(
+        "--issue-hourly",
+        action="store_true",
+        help="Issue each hour; source observations and prediction targets remain daily",
+    )
     args = parser.parse_args(argv)
     original = dict(os.environ)
     try:

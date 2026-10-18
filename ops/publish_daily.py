@@ -32,6 +32,7 @@ def validate(view):
         view.get("schema_version") != "daily-public-v1"
         or view.get("device") != "cuda"
         or view.get("frequency") != "1d"
+        or view.get("issue_frequency", "1d") not in {"1d", "1h"}
         or view.get("inference_mode") != "zero_shot"
         or view.get("input_basis") != "own_daily_levels_only"
         or view.get("public_ledger_eligible") is not False
