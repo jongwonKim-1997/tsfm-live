@@ -185,6 +185,7 @@ def test_uploaded_is_not_published_without_matching_readback(tmp_path):
         if request.get_method() == "PUT":
             return Response(b'{"success":true}')
         assert not request.has_header("Authorization")
+        assert request.get_header("User-agent").startswith("TSFM-Live-DailyPublisher/")
         return Response(b'{"run_id":"old"}')
 
     result = publish_daily(
