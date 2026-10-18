@@ -19,6 +19,7 @@ ENV_KEYS = {
     "CLOUDFLARE_API_TOKEN",
 }
 PUBLIC_URL = "https://tsfm-live.pages.dev/api/v1/daily_dashboard.json"
+USER_AGENT = "TSFM-Live-DailyPublisher/1.0 (+https://tsfm-live.pages.dev)"
 
 
 class NoRedirect(HTTPRedirectHandler):
@@ -115,6 +116,7 @@ def publish_daily(view, *, root, env_file, opener=None, sleep=time.sleep):
         headers={
             "Authorization": "Bearer " + token,
             "Content-Type": "application/json",
+            "User-Agent": USER_AGENT,
         },
     )
     try:
@@ -137,7 +139,11 @@ def publish_daily(view, *, root, env_file, opener=None, sleep=time.sleep):
             with open_request(
                 Request(
                     PUBLIC_URL + "?run=" + view["run_id"],
-                    headers={"Cache-Control": "no-cache"},
+                    headers={
+                        "Cache-Control": "no-cache",
+                        "User-Agent": USER_AGENT,
+                        "Accept": "application/json",
+                    },
                 ),
                 timeout=20,
             ) as response:
