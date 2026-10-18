@@ -89,7 +89,9 @@ def session_closes(cfg, start: date, end: date) -> list[datetime]:
     frame = _exchange_schedule(name, start, end)
     # Preserve real early/late closes. VIX uses the equity calendar plus 15 min.
     offset = timedelta(minutes=int(cfg.get("calendar_close_offset_minutes", 0)))
-    return [as_utc(ts) + offset for ts in frame["close"]]
+    excluded = {date.fromisoformat(d) for d in cfg.get("calendar_excluded_dates", [])}
+    return [as_utc(ts) + offset for ts in frame["close"]
+            if not excluded or as_utc(ts).astimezone(ZoneInfo(cfg["tz"])).date() not in excluded]
 
 
 def session_close_on_date(cfg, day: date) -> datetime | None:

@@ -17,6 +17,8 @@ from tsfm_live.ledger import parse_ts
 from tsfm_live.models import load_models
 from tsfm_live.models.base import ForecastOutput, ForecastPathOutput
 from tsfm_live.sources.ecb import ECBSource
+from tsfm_live.sources.twse_open import TWSEOpenSource
+from tsfm_live.sources.base import SourceError
 
 OPS = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(OPS))
@@ -56,7 +58,7 @@ def fake_predict(config, context, *, horizon, **kwargs):
     return values[0] if horizon == 1 else ForecastPathOutput(values)
 
 
-def build(tmp_path, now, predict=fake_predict, histories=None):
+def build(tmp_path, now, predict=fake_predict, histories=None, **kwargs):
     configs = indicator_configs()
     histories = (
         histories
@@ -72,6 +74,7 @@ def build(tmp_path, now, predict=fake_predict, histories=None):
         clock=lambda: now,
         predict=predict,
         save=atomic_json,
+        **kwargs,
     )
 
 
@@ -88,6 +91,60 @@ def test_freezes_once_without_recomputing_after_actual_changes(tmp_path):
     assert not errors
     assert first["indicators"][0]["forecasts"] == second["indicators"][0]["forecasts"]
     assert before == {p: p.read_bytes() for p in before}
+
+
+def test_hourly_issue_freezes_each_hour_and_preserves_daily_comparison(tmp_path):
+    now = parse_ts("2026-10-18T09:10:00Z")
+    daily, _ = build(tmp_path, now)
+    before = {p: p.read_bytes() for p in tmp_path.glob("issued/*/*.json")}
+    first, errors = build(tmp_path, now + timedelta(hours=1), issue_hourly=True)
+    assert not errors and first["issue_frequency"] == "1h"
+    assert first["frequency"] == "1d"
+    hourly_before = {p: p.read_bytes() for p in tmp_path.glob("issued-hourly/*/*.json")}
+    assert len(hourly_before) == 12
+
+    def forbidden(*a, **kw):
+        pytest.fail("same-hour issue was recomputed")
+
+    again, errors = build(
+        tmp_path,
+        now + timedelta(hours=1, minutes=10),
+        issue_hourly=True,
+        predict=forbidden,
+    )
+    assert (
+        not errors
+        and again["indicators"][0]["forecasts"] == first["indicators"][0]["forecasts"]
+    )
+    second, errors = build(tmp_path, now + timedelta(hours=2), issue_hourly=True)
+    assert not errors and len(list(tmp_path.glob("issued-hourly/*/*.json"))) == 24
+    assert second["indicators"][0]["forecasts"][0]["issue_slot"] == "2026-10-18T20"
+    assert before == {p: p.read_bytes() for p in before}
+    assert hourly_before == {p: p.read_bytes() for p in hourly_before}
+    tomorrow, errors = build(tmp_path, now + timedelta(days=1), issue_hourly=True)
+    assert not errors
+    assert (
+        tomorrow["indicators"][0]["previous_forecasts"]
+        == daily["indicators"][0]["forecasts"]
+    )
+
+
+def test_hourly_issue_cannot_be_backdated_across_hour_boundary(tmp_path):
+    now = parse_ts("2026-10-18T09:59:59Z")
+    configs = indicator_configs()[:1]
+    view, errors = build_daily(
+        configs,
+        public_models(load_models()),
+        {configs[0]["id"]: frame(configs[0], now)},
+        tmp_path,
+        now=now,
+        clock=lambda: now + timedelta(seconds=2),
+        predict=fake_predict,
+        save=atomic_json,
+        issue_hourly=True,
+    )
+    assert errors and not view["indicators"][0]["forecasts"]
+    assert not list(tmp_path.glob("issued-hourly/*/*.json"))
 
 
 def test_yesterday_matches_target_date_and_real_actual(tmp_path):
@@ -153,6 +210,30 @@ def test_ecb_krw_cross_uses_same_dated_cube(tmp_path):
     body = b'<root><Cube time="2026-10-16"><Cube currency="USD" rate="1.2"/><Cube currency="KRW" rate="1800"/></Cube></root>'
     data = source.parse(body, cfg, date(2026, 10, 16), parse_ts("2026-10-18T00:00:00Z"))
     assert data.iloc[0]["value"] == 1500
+
+
+def test_twse_open_dataset_roc_date_daily_close_and_schema(tmp_path):
+    cfg = next(c for c in indicator_configs() if c["id"] == "taiex")
+    assert not session_closes(cfg, date(2024, 10, 31), date(2024, 10, 31))
+    assert not session_closes(cfg, date(2026, 7, 10), date(2026, 7, 10))
+    source = TWSEOpenSource(cfg, tmp_path)
+    header = "日期,開盤指數,最高指數,最低指數,收盤指數\r\n"
+    body = (
+        header + '"1151016","46995.03","47520.60","46995.03","47111.26"\r\n'
+    ).encode("utf-8-sig")
+    frame = source.parse(body, cfg, date(2026, 10, 1), parse_ts("2026-10-18T00:00:00Z"))
+    assert frame.iloc[0].value == 47111.26
+    assert frame.iloc[0].close_ts == pd.Timestamp("2026-10-16T05:30:00Z")
+    assert source.parse(
+        header.encode(), cfg, date(2026, 11, 1), parse_ts("2026-11-01T00:00:00Z")
+    ).empty
+    assert source.parse(
+        body, cfg, date(2026, 10, 1), parse_ts("2026-10-16T05:00:00Z")
+    ).empty
+    with pytest.raises(SourceError, match="schema"):
+        source.parse(b"<html>error</html>", cfg, date(2026, 10, 1))
+    with pytest.raises(SourceError, match="calendar"):
+        source.parse(body.replace(b"1151016", b"1151018"), cfg, date(2026, 10, 1))
 
 
 def test_uploaded_is_not_published_without_matching_readback(tmp_path):

@@ -1,0 +1,112 @@
+Equity index source review — 2026-10-18
+
+Required: free access, commercial forecasting, public chart/API redistribution,
+and for genuine hourly forecasting, historical intraday observations.
+Outcome: TAIEX daily history is eligible for commercial reuse and public display
+with attribution; no hourly benchmark-index feed was verified.
+No unverified equity data has been added to production. Free API access, an SDK
+licence, a government portal listing, or attribution alone does not grant
+third-party index redistribution rights.
+
+0. APPROVED: TAIEX daily historical open dataset
+https://data.gov.tw/en/datasets/11755
+https://data.gov.tw/license
+https://www.twse.com.tw/en/terms/use.html
+Dataset 11755 explicitly designates free Open Government Data License v1.0.
+The licence grants royalty-free reproduction, distribution, public transmission
+and adaptation for any purpose, subject to the stated attribution. TWSE's own
+website terms section 8 expressly excepts materials authorised via Government
+Open Data Platform. The specific linked CSV resource, not unrelated website
+content, is used:
+https://www.twse.com.tw/indicesReport/MI_5MINS_HIST?response=open_data
+Official API schema corroborates the daily fields Date and ClosingIndex:
+https://openapi.twse.com.tw/v1/swagger.json
+Resource is daily OHLC despite the historical endpoint name containing 5MINS.
+This approval is for the open daily dataset, not paid intraday/delayed feeds,
+index-linked financial products, trademark rights or provider endorsement.
+Attribution names TWSE/FSC, dataset title/ID, 2026, licence/version and URL;
+forecasts are explicitly our derived output. Historical month responses are
+cached with integrity hashes; ongoing runs retrieve the current month only.
+
+1. Financial Services Commission / Korea open-data portal, index quotations
+https://www.data.go.kr/data/15094807/openapi.do
+https://www.data.go.kr/catalog/15094807/openapi.json
+Current dataset metadata (updated 2026-09-07) specifies KOGL type 4:
+attribution, non-commercial, no derivatives. Description also prohibits
+unauthorised third-party provision/redistribution and directs commercial users
+to KRX. Excluded. The general FSC FAQ explicitly makes rights dataset-specific.
+https://www.fsc.go.kr/in060501
+
+2. FRED / S&P 500
+https://fred.stlouisfed.org/series/SP500
+https://www.stlouisfed.org/publications/page-one-economics/2021/10/15/ethical-use-of-data-with-fred
+S&P series is copyrighted third-party data, daily close. FRED says commercial
+redistribution of copyrighted series requires the owner's authorisation.
+Excluded from public production without that grant.
+
+3. Nasdaq Global Index Data Service
+https://www.nasdaqtrader.com/TraderNews.aspx?id=DN2024-5
+Notice effective August 2024 requires direct licensing for feed recipients
+of end-of-day/historical data and prior approval for redistribution. The old
+claim that post-18:30 index data needs no licence is expressly superseded.
+Excluded without a compatible licence.
+
+4. Twelve Data
+https://twelvedata.com/terms
+https://support.twelvedata.com/en/articles/5332349-commercial-and-personal-usage
+Free-tier commercial use is prohibited in the terms. External display and
+redistribution depend on plan, exchange permissions and agreements. Excluded.
+
+5. Tiingo IEX
+https://www.tiingo.com/products/iex-api
+Free/internal and paid display-redistribution tiers are separate. The product
+is equity quotes, not a free licence for the named benchmark indices. Excluded.
+
+6. OHLC
+https://ohlc.io/pricing
+Free tier is personal use; commercial display and redistribution are separate
+paid tiers. It does not supply a free benchmark-index display grant. Excluded.
+
+7. Convex
+https://convextrade.com/open-data
+https://convextrade.com/terms
+Open-data page explicitly permits attribution-based commercial reuse of its
+own CONVEX_* computed series (CC BY 4.0), but source data retains original
+provider licences. Its proprietary macro composites are not KOSPI/S&P/Nasdaq
+stock indices; listed updates are daily or slower. General terms also restrict
+commercial redistribution absent authorisation. Not a verified replacement.
+
+8. OECD share prices
+https://www.oecd.org/en/data/indicators/share-prices.html
+https://www.oecd.org/en/about/terms-conditions.html
+Published indicator is monthly averages, not hourly quotes. OECD terms permit
+commercial data reuse except where third-party/additional restrictions apply
+and require checking source metadata. No blanket pass-through grant for the
+underlying exchange index has been established. Not connected as intraday data.
+
+9. Dukascopy XML
+https://www.dukascopy.com/plugins/cont.php?ref_id=1273
+Specific XML licence is non-commercial and restricts redistribution. It cannot
+serve as a commercial-public grant for index quotes or other feed products.
+
+Stooq official pages https://stooq.com/db/h/ and https://stooq.com/t/ were not
+readable through this research tool, so no positive reuse conclusion was made.
+
+Implemented: TAIEX daily-source adapter and opt-in hourly issuance of daily-target forecasts.
+This preserves daily source resolution and immutable historical issues. It is
+not an hourly market-price model. A compatible data licence/source remains
+necessary to activate KOSPI/S&P/Nasdaq or genuine intraday forecasts.
+
+
+TAIEX calendar corrections (explicit, not inferred from missing prices)
+The pinned XTAI calendar omitted two typhoon closures in the fetched context:
+2024-10-31: TWSE official closure notice (Kong-Rey):
+https://www.twse.com.tw/staticFiles/news/news/tsecnews/8a8216d69236c2e30192dd523eb10329.pdf
+2026-07-10: Taiwan Securities Association's operational notice explicitly says
+the centralised market was closed for Typhoon Bavi and moves its underwriting
+settlement deadlines to 2026-07-13:
+https://www.twsa.org.tw/F01/F011.html
+Corroborating exchange notice for derivatives and postponed TAIEX expiries:
+https://www.taifex.com.tw/enl/eng11/newsDetail.do?idx=10470&thetype=2
+Only these documented dates are excluded. Unknown missing sessions still fail
+closed; no observations are fabricated or carried forward over market closures.

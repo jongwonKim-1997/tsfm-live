@@ -1,7 +1,7 @@
 # Daily public forecasts from local GPU
 
 The home page compares yesterday-issued forecasts for today's observation date,
-today's released actual, and today's forecasts for tomorrow (or the next source
+today's released actual, and the latest forecasts for tomorrow (or the next source
 session). It never synthesizes an earlier issue date. On launch day the previous
 forecast is absent. Release days use each source's local calendar; issue dates and
 the operating schedule use Asia/Seoul. A U.S. observation may arrive the following
@@ -11,11 +11,12 @@ Korean morning. Closed sessions and unreleased observations are explicitly absen
 
 | Indicator | Official source | Public reuse basis |
 | --- | --- | --- |
+| TAIEX | TWSE/FSC government open dataset 11755, daily close | Open Government Data License (Taiwan) v1.0 with attribution |
 | EUR/USD | ECB reference rate | ECB reuse conditions with attribution |
 | USD/JPY, USD/KRW | Cross rates calculated from the same dated ECB EUR quotes | ECB reuse conditions; calculation disclosed |
 | U.S. Treasury 2Y, 10Y | Treasury daily fitted par yield | U.S. federal government statistical work; 17 USC 105 |
 
-These are daily reference rates and fitted par yields, not intraday quotes or
+These are daily index closes, reference rates and fitted par yields, not intraday quotes or
 executable prices. The ECB KRW cross is distinct from the Seoul-market USD/KRW
 closing series in the research configuration.
 
@@ -57,7 +58,7 @@ Using the pipeline environment's Python:
 ```powershell
 python ops/public_daily.py --runtime-env-file <private-runtime.env> --check-only
 python ops/public_daily.py --runtime-env-file <private-runtime.env>
-python ops/public_daily.py --runtime-env-file <private-runtime.env> --publish-env-file <private-publish.env> --no-site
+python ops/public_daily.py --runtime-env-file <private-runtime.env> --publish-env-file <private-publish.env> --no-site --issue-hourly
 ```
 
 Private state defaults to the workspace's `work/tsfm-daily-public`. Each
@@ -80,15 +81,13 @@ upload token. The public endpoint is `/api/v1/daily_dashboard.json`.
 
 A PUT success alone is not publication success: the runner reads the public
 endpoint without credentials and verifies the complete payload. A static snapshot
-is the fallback; the page polls once per minute and labels data over 30 hours old.
+is the fallback; the page polls once per minute and labels hourly-mode snapshots over two hours old (30 hours in legacy daily mode).
 Failed refreshes keep the dated snapshot rather than inventing fresh results.
 
 After a successful GPU run and public readback, preview then apply
-`ops/configure-public-daily.ps1` with the two private file paths. It backs up the
+`ops/configure-public-daily.ps1 -IssueHourly` with the two private file paths. It backs up the
 existing Windows task XML, changes only the action, and preserves its 24 hourly
-triggers, principal and settings. From 08:10 KST the first successful run issues
-the day's forecast; later runs refresh actuals and publication. Before 08:10,
-only observations and existing history are refreshed. The PC and network must be
+triggers, principal and settings. With `--issue-hourly`, every scheduled run can issue a new forecast for its Korean hour, including before 08:10. Without this flag, legacy once-daily issuance after 08:10 remains available. The PC and network must be
 available; sleep/offline periods can delay execution. Failures are recorded in
 private `latest-run.json` and return a nonzero task exit code. No external alert
 service is configured.
@@ -96,3 +95,29 @@ service is configured.
 To roll back scheduling, register the saved task XML under its original name.
 To roll back the UI, revert the deployment commit through a normal pull request.
 Retain the private issued archive so previously published forecasts are not lost.
+
+
+## Hourly issuance, daily observations
+
+`--issue-hourly` changes issue cadence, not source resolution or target cadence.
+TAIEX closes, ECB reference rates and Treasury par yields are daily observations. We do not
+forward-fill them into invented hourly observations or label daily model steps
+as one-hour forecasts. There is no newly approved intraday equity-index source.
+TAIEX uses only the specifically licensed daily open dataset. See `equity-source-review.txt` for the source-specific rights review and official links.
+
+Hourly issues are immutable at `issued-hourly/YYYY-MM-DD/HH--indicator--model.json`.
+The saved `issue_slot` must match the genuine completion time in Asia/Seoul.
+An inference crossing an hour boundary is rejected and may retry next run.
+Same-hour retries cannot overwrite successful issues. Every hour uses only
+confirmed source observations; missing completed source sessions block fresh
+inference. Thus hourly scheduling does not guarantee a fresh issue if a source
+is delayed, the PC is offline, or inference fails.
+
+The chart shows the latest issue and the first genuine issue from yesterday for
+comparison. Historical once-daily issues remain byte-for-byte intact. Daily
+comparison history retains one first issue per model and day; full hourly issue
+history stays in private storage. Unchanged daily inputs may produce unchanged
+forecasts. The page shows the actual issuance timestamp separately from refresh
+time. Hourly price-path forecasting requires a source with real intraday
+observations and commercial public-display rights, and is not implemented by
+this cadence flag.

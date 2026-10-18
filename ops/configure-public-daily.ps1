@@ -5,6 +5,7 @@ param(
     [ValidateSet('Preview', 'Apply')][string]$Action = 'Preview',
     [Parameter(Mandatory = $true)][string]$RuntimeEnvFile,
     [Parameter(Mandatory = $true)][string]$PublishEnvFile,
+    [switch]$IssueHourly,
     [string]$TaskName = 'TSFM-Local-Dashboard'
 )
 $ErrorActionPreference = 'Stop'
@@ -37,8 +38,9 @@ if (@($task.Actions).Count -ne 1 -or $task.Actions[0].Execute -ine $program -or
     throw 'Expected this repository''s existing hourly pythonw task; nothing changed.'
 }
 $arguments = '-X utf8 "' + $script + '" --runtime-env-file "' + $runtime + '" --publish-env-file "' + $publish + '" --no-site'
+if ($IssueHourly) { $arguments += ' --issue-hourly' }
 [ordered]@{ Mode=$Action; Task=$TaskName; Program=$program; Arguments=$arguments;
-    Preserved=@('Triggers','Principal','Settings','Description'); DailyInference='08:10 KST or next run';
+    Preserved=@('Triggers','Principal','Settings','Description'); Inference=$(if ($IssueHourly) {'Every hour; daily targets'} else {'08:10 KST or next run'});
     ActualRefresh='Existing hourly schedule' } | ConvertTo-Json -Depth 3
 if ($Action -ne 'Apply') { return }
 $receiptPath = Join-Path $workspace 'work\tsfm-daily-public\latest-run.json'
@@ -46,6 +48,7 @@ $receipt = Get-Content -LiteralPath $receiptPath -Raw | ConvertFrom-Json
 if ($receipt.status -ne 'ok' -or -not $receipt.published -or -not $receipt.publication.readback_verified) {
     throw 'A successful GPU run and matching public readback are required before scheduling.'
 }
+if ($IssueHourly -and $receipt.issue_frequency -ne '1h') { throw 'A verified hourly-issuance run is required.' }
 if ($PSCmdlet.ShouldProcess($TaskName, 'Back up XML and replace the action with the daily GPU publisher')) {
     $xml = Export-ScheduledTask -TaskName $TaskName -TaskPath '\'
     $backupDir = Join-Path $workspace 'work\scheduled-task-backups'
