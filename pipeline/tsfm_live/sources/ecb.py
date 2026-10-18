@@ -27,21 +27,22 @@ class ECBSource(BaseSource):
         closes = {ts.astimezone(ZoneInfo("Europe/Berlin")).date(): ts
                   for ts in session_closes(cfg, min(dates), max(dates))}
         pair = cfg["source"]["params"]["pair"]
-        if pair not in {"EURUSD", "USDJPY"}:
+        if pair not in {"EURUSD", "USDJPY", "USDKRW"}:
             raise SourceError("unsupported ECB pair")
+        cross = {"USDJPY": "JPY", "USDKRW": "KRW"}.get(pair)
         rows = []
         for node, day in zip(dated, dates):
             if day < start:
                 continue
             rates = {child.attrib["currency"]: float(child.attrib["rate"])
                      for child in node if "currency" in child.attrib and "rate" in child.attrib}
-            if "USD" not in rates or (pair == "USDJPY" and "JPY" not in rates):
+            if "USD" not in rates or (cross and cross not in rates):
                 raise SourceError("ECB required currency missing")
-            if rates["USD"] <= 0 or (pair == "USDJPY" and rates["JPY"] <= 0):
+            if rates["USD"] <= 0 or (cross and rates[cross] <= 0):
                 raise SourceError("ECB rate must be positive")
             if day not in closes:
                 raise SourceError("ECB date does not match TARGET calendar")
-            value = rates["USD"] if pair == "EURUSD" else rates["JPY"] / rates["USD"]
+            value = rates["USD"] if pair == "EURUSD" else rates[cross] / rates["USD"]
             rows.append({"close_ts": closes[day], "value": value, "published_ts": None})
         return normalized(rows, fetched_ts)
 
