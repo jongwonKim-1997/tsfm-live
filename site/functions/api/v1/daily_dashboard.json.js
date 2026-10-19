@@ -22,7 +22,7 @@ export async function onRequestGet(context) {
       || data.indicators.some(r => r.public_export !== true || !Object.hasOwn(sources,r.id) || sources[r.id] !== r.source_id
         || r.license_id !== licenses[r.source_id]
         || ['forecasts','previous_forecasts','forecast_history'].some(key => !Array.isArray(r[key])
-          || r[key].some(f => !['chronos-2','chronos-bolt-base'].includes(f.model_id) || f.model_license !== 'apache-2.0')))) {
+          || r[key].some(f => !['chronos-2','chronos-bolt-base','timesfm-2.5-200m','toto-open-base-1.0','timer-base-84m'].includes(f.model_id) || f.model_license !== 'apache-2.0')))) {
       return new Response('Invalid daily dashboard', {status:503});
     }
     return new Response(body, {headers:{'Content-Type':'application/json; charset=utf-8',

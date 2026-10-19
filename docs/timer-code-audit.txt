@@ -1,0 +1,29 @@
+Timer remote-code review — 2026-10-19
+
+Repository: https://huggingface.co/thuml/timer-base-84m
+Pinned revision: 70077a71acce1b4c00d98332fcaabc694255d8e5
+License: Apache-2.0 (official model card).
+Scope: read the complete three Python modules before executing the pinned model.
+The reviewed modules implement configuration, PyTorch layers and time-series
+generation. No network requests, subprocess launches, dynamic eval/exec or
+application file access were found in these three modules. This is a bounded
+source review, not a guarantee about the entire dependency supply chain.
+
+SHA-256:
+modeling_timer.py
+A625DA46370E044609F1CD601EB2899AAF8A8E2DD5966BCFADC9D7F89A5092AD
+configuration_timer.py
+BEC2D7ED868B57D7046F097CAD166D8E935920AA082CC6E9BB2CC53B9B626173
+ts_generation_mixin.py
+357D4AA6FD24F107BEF5665F82FE2C7DF278F4FF151C4493DBAA9F43655B55A1
+
+Controls: both model revision and code_revision are pinned. The adapter rejects
+unreviewed revisions and context lengths that would silently drop partial
+96-point patches. Model execution is offline, excludes credentials from its
+environment, uses safetensors weights, requires CUDA, and rejects nonfinite
+outputs. The official transformers 4.40.1 generation implementation is loaded
+from an isolated runtime. Updating remote code requires another review.
+
+Outputs are univariate point forecasts, not quantiles or a predictive
+distribution. No confidence/coverage numbers are manufactured. A synthetic
+480-input, 24-output GPU smoke test succeeded; see gpu-model-smoke-20261019.json.

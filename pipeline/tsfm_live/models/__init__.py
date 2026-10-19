@@ -39,6 +39,7 @@ def create_entrant(config):
         "toto-open-base-1.0": ("toto", "TotoAdapter"),
         "tirex": ("tirex", "TiRexAdapter"),
         "sundial-base-128m": ("sundial", "SundialAdapter"),
+        "timer-base-84m": ("timer", "TimerAdapter"),
     }
     if name not in adapters:
         raise ValueError(f"unsupported_entrant:{name}")

@@ -21,7 +21,7 @@ from .ledger import canonical_bytes, iso, parse_ts, utcnow
 from .models.base import derive_seed
 
 KST = ZoneInfo("Asia/Seoul")
-MODEL_IDS = {"chronos-2", "chronos-bolt-base"}
+MODEL_IDS = {"chronos-2", "chronos-bolt-base", "timesfm-2.5-200m", "toto-open-base-1.0", "timer-base-84m"}
 ECB_TERMS = "https://www.ecb.europa.eu/services/using-our-site/disclaimer/html/index.en.html"
 TREASURY_TERMS = "https://www.copyright.gov/title17/92chap1.html#105"
 
@@ -98,7 +98,9 @@ def indicator_configs():
 
 def public_models(models):
     result = [
-        dict(m, device="cuda", worker_env="TSFM_PYTHON_DAILY_GPU") for m in models if m["id"] in MODEL_IDS
+        dict(m, device="cuda", worker_env=("TSFM_PYTHON_TIMER_GPU" if m["id"] == "timer-base-84m"
+                                          else "TSFM_PYTHON_DAILY_GPU"))
+        for m in models if m["id"] in MODEL_IDS
     ]
     if {m["id"] for m in result} != MODEL_IDS or any(m["license"] != "apache-2.0" for m in result):
         raise ValueError("commercial_model_configuration_mismatch")
@@ -196,8 +198,13 @@ def build_daily(
             # completed source session or fill holidays with invented levels.
             if expected and parse_ts(last["close_ts"]) < expected[-1]:
                 raise ValueError("awaiting_latest_source_release")
-            context = np.array([p["value"] for p in points[-512:]])
-            dates = [p["date"] for p in points[-512:]]
+            # Timer uses 96-point patches. Give every model the same whole-patch
+            # history, rather than letting one model silently discard observations.
+            context_count = min(480, len(points) // 96 * 96)
+            if context_count < 128:
+                raise ValueError("insufficient_common_model_history")
+            context = np.array([p["value"] for p in points[-context_count:]])
+            dates = [p["date"] for p in points[-context_count:]]
             expected_context = session_closes(
                 cfg, date.fromisoformat(dates[0]), date.fromisoformat(dates[-1])
             )
@@ -230,9 +237,12 @@ def build_daily(
                         {
                             "date": t.astimezone(ZoneInfo(cfg["tz"])).date().isoformat(),
                             "close_ts": iso(t),
-                            "median": float(v.quantiles["0.5"]),
-                            "lower": float(v.quantiles["0.1"]),
-                            "upper": float(v.quantiles["0.9"]),
+                            # Legacy field name; forecast_type distinguishes Timer's
+                            # point estimate from a model distribution's median.
+                            "median": float(v.point if v.quantile_method == "point" else v.quantiles["0.5"]),
+                            "lower": v.quantiles.get("0.1"),
+                            "upper": v.quantiles.get("0.9"),
+                            "forecast_type": "point" if v.quantile_method == "point" else "distribution",
                         }
                         for t, v in zip(targets, steps)
                         if t > finished
@@ -248,6 +258,7 @@ def build_daily(
                         "issue_date": day.isoformat(),
                         "issued_at": iso(finished),
                         "device": "cuda",
+                        "output_type": model["output"],
                         "input_basis": "own_daily_levels_only",
                         "input_count": len(context),
                         "input_sha256": hashlib.sha256(canonical_bytes(context.tolist())).hexdigest(),
@@ -271,7 +282,8 @@ def build_daily(
         except Exception as exc:
             error = str(exc) if isinstance(exc, ValueError) else type(exc).__name__
             failures.append({"indicator_id": iid, "error_type": type(exc).__name__, "reason": error})
-        relevant = sorted([p for p in issues if p["indicator_id"] == iid], key=lambda p: p["issued_at"])
+        relevant = sorted([p for p in issues if p["indicator_id"] == iid],
+                          key=lambda p: (p["issued_at"], p["model_id"]))
         # Daily comparison keeps the first genuinely issued forecast of each day.
         # The current view shows the latest issue; all hourly issues remain private.
         daily_first, latest = {}, {}

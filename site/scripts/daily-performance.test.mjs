@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {dailyPerformance,performanceMarkup,settledDaily,MIN_RANK_TARGETS} from '../src/lib/daily-performance.mjs';
+import {dailyPerformance,performanceMarkup,settledDaily,MIN_RANK_TARGETS,DAILY_MODELS} from '../src/lib/daily-performance.mjs';
 import {dailyMarkup} from '../src/lib/daily-view.mjs';
 
 const now=Date.parse('2026-10-18T18:00:00Z');
@@ -52,11 +52,28 @@ test('unchanged actuals are excluded from direction denominator, unchanged forec
 
 test('ranking requires matched issue day and input anchor',()=>{
   for(const other of [{...forecast('chronos-bolt-base'),issue_date:'2026-10-16'}, {...forecast('chronos-bolt-base'),anchor:{...forecast().anchor,value:99}}]){
-    const stats=dailyPerformance(data([row([forecast(),other])]),now);
+    const stats=dailyPerformance(data([row([forecast(),other,...DAILY_MODELS.slice(2).map(([id])=>forecast(id))])]),now);
     assert.equal(stats.indicators[0].models[1].n,1);
     assert.equal(stats.ranking[0].n,0);
     assert.equal(stats.ranking[0].rank,null);
   }
+});
+
+test('Timer contributes point error and direction but never interval coverage',()=>{
+  const f=forecast('timer-base-84m');
+  f.points=f.points.map(p=>({...p,lower:null,upper:null,forecast_type:'point'}));
+  const stats=dailyPerformance(data([row([f])]),now).indicators[0].models.find(m=>m.id==='timer-base-84m');
+  assert.equal(stats.n,1);assert.equal(stats.mae,1);assert.equal(stats.direction,1);assert.equal(stats.coverage,null);
+  const html=dailyMarkup(data([row([f])]),{now});
+  assert.match(html,/Timer/);assert.match(html,/제공 안 함/);assert.doesNotMatch(html,/NaN|Infinity/);
+});
+
+test('ranking requires every model and the identical input history',()=>{
+  const all=DAILY_MODELS.map(([id])=>({...forecast(id),input_sha256:'same',input_count:480}));
+  assert.equal(dailyPerformance(data([row(all)]),now).ranking[0].n,1);
+  assert.equal(dailyPerformance(data([row(all.slice(0,-1))]),now).ranking[0].n,0);
+  all.at(-1).input_sha256='different';
+  assert.equal(dailyPerformance(data([row(all)]),now).ranking[0].n,0);
 });
 
 function series(id,count,multiplier=1,flat=false){
@@ -65,7 +82,7 @@ function series(id,count,multiplier=1,flat=false){
     const anchorDay=new Date(Date.UTC(2026,8,20+i)).toISOString().slice(0,10);
     const targetDay=new Date(Date.UTC(2026,8,21+i)).toISOString().slice(0,10);
     history.push({date:targetDay,close_ts:targetDay+'T14:00:00Z',value:(flat?100:102)*multiplier});
-    for(const [id,median] of [['chronos-2',101],['chronos-bolt-base',99]])issues.push({model_id:id,issue_date:anchorDay,issued_at:anchorDay+'T16:00:00Z',anchor:{date:anchorDay,close_ts:anchorDay+'T14:00:00Z',value:100*multiplier},points:[{date:targetDay,close_ts:targetDay+'T14:00:00Z',median:median*multiplier,lower:98*multiplier,upper:103*multiplier}]});
+    for(const [id,median] of [['chronos-2',101],['chronos-bolt-base',99],['timesfm-2.5-200m',101],['toto-open-base-1.0',101],['timer-base-84m',100]])issues.push({model_id:id,issue_date:anchorDay,issued_at:anchorDay+'T16:00:00Z',anchor:{date:anchorDay,close_ts:anchorDay+'T14:00:00Z',value:100*multiplier},points:[{date:targetDay,close_ts:targetDay+'T14:00:00Z',median:median*multiplier,lower:98*multiplier,upper:103*multiplier}]});
   }
   return {...row(issues,history),id};
 }
@@ -73,7 +90,7 @@ function series(id,count,multiplier=1,flat=false){
 test('ranks paired baseline-relative errors across equally weighted indicators only after threshold',()=>{
   let stats=dailyPerformance(data([series('a',MIN_RANK_TARGETS),series('b',MIN_RANK_TARGETS,1000)]),now);
   assert.equal(stats.rankReady,true);
-  assert.deepEqual(stats.ranking.map(m=>[m.id,m.rank,m.skill]),[['chronos-2',1,.5],['chronos-bolt-base',2,-.5]]);
+  assert.deepEqual(stats.ranking.map(m=>[m.id,m.rank,m.skill]),[['chronos-2',1,.5],['timesfm-2.5-200m',1,.5],['toto-open-base-1.0',1,.5],['timer-base-84m',4,0],['chronos-bolt-base',5,-.5]]);
   assert.equal(stats.ranking[0].n,40);
   stats=dailyPerformance(data([series('a',20),series('b',19)]),now);
   assert.equal(stats.rankReady,false);assert.equal(stats.ranking[0].rank,null);assert.equal(stats.ranking[0].eligibleIndicators,1);
@@ -84,7 +101,7 @@ test('ranks paired baseline-relative errors across equally weighted indicators o
 test('ranking ties share rank and metric labels escape source text',()=>{
   const r=series('a',20);
   r.forecast_history.forEach(f=>{f.points[0].median=101;});
-  assert.deepEqual(dailyPerformance(data([r]),now).ranking.map(m=>m.rank),[1,1]);
+  assert.deepEqual(dailyPerformance(data([r]),now).ranking.map(m=>m.rank),[1,1,1,1,1]);
   const html=performanceMarkup(data([{...r,id:'<script>',unit:'<img>'}]),{now});
   assert.doesNotMatch(html,/<script>|<img>/);
   assert.match(performanceMarkup(data([r]),{now,locale:'en'}),/not future success probabilities/);

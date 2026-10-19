@@ -41,7 +41,12 @@ def frame(cfg, now):
 
 def fake_predict(config, context, *, horizon, **kwargs):
     assert context.ndim == 1
+    assert len(context) % 96 == 0 and len(context) <= 480
     assert config["device"] == "cuda"
+    if config["id"] == "timer-base-84m":
+        points = [ForecastOutput({}, None, "point", None, point=float(context[-1] + i * .001))
+                  for i in range(horizon)]
+        return points[0] if horizon == 1 else ForecastPathOutput(points)
     values = [
         ForecastOutput(
             {
@@ -93,6 +98,18 @@ def test_freezes_once_without_recomputing_after_actual_changes(tmp_path):
     assert before == {p: p.read_bytes() for p in before}
 
 
+def test_point_model_is_published_without_invented_intervals(tmp_path):
+    view, failures = build(tmp_path, parse_ts("2026-10-19T00:00:00Z"))
+    assert not failures
+    for row in view["indicators"]:
+        timer = next(f for f in row["forecasts"] if f["model_id"] == "timer-base-84m")
+        assert timer["output_type"] == "point"
+        assert all(p["lower"] is None and p["upper"] is None and p["forecast_type"] == "point"
+                   for p in timer["points"])
+        assert len({(f["input_count"], f["input_sha256"]) for f in row["forecasts"]}) == 1
+    validate(view)
+
+
 def test_hourly_issue_freezes_each_hour_and_preserves_daily_comparison(tmp_path):
     now = parse_ts("2026-10-18T09:10:00Z")
     daily, _ = build(tmp_path, now)
@@ -101,7 +118,7 @@ def test_hourly_issue_freezes_each_hour_and_preserves_daily_comparison(tmp_path)
     assert not errors and first["issue_frequency"] == "1h"
     assert first["frequency"] == "1d"
     hourly_before = {p: p.read_bytes() for p in tmp_path.glob("issued-hourly/*/*.json")}
-    assert len(hourly_before) == 12
+    assert len(hourly_before) == len(indicator_configs()) * len(public_models(load_models()))
 
     def forbidden(*a, **kw):
         pytest.fail("same-hour issue was recomputed")
@@ -117,7 +134,7 @@ def test_hourly_issue_freezes_each_hour_and_preserves_daily_comparison(tmp_path)
         and again["indicators"][0]["forecasts"] == first["indicators"][0]["forecasts"]
     )
     second, errors = build(tmp_path, now + timedelta(hours=2), issue_hourly=True)
-    assert not errors and len(list(tmp_path.glob("issued-hourly/*/*.json"))) == 24
+    assert not errors and len(list(tmp_path.glob("issued-hourly/*/*.json"))) == 2 * len(indicator_configs()) * len(public_models(load_models()))
     assert second["indicators"][0]["forecasts"][0]["issue_slot"] == "2026-10-18T20"
     assert before == {p: p.read_bytes() for p in before}
     assert hourly_before == {p: p.read_bytes() for p in hourly_before}

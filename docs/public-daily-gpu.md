@@ -38,20 +38,39 @@ CoinMetrics noncommercial crypto data is not an input to this daily board.
 
 ## Runtime
 
-The daily runner uses only each indicator's own last 512 daily levels, without
-other indicators or future actuals. It requires at least 128 observations and
-rejects missing latest releases and calendar gaps. Chronos-2 and Chronos-Bolt use
-the pinned model revisions already in `models.yaml`, both Apache-2.0. The separate
+The daily runner uses only each indicator's own last 480 daily levels, without
+other indicators or future actuals. Shorter histories use complete 96-point
+patches shared by every model (at least 192 observations). It rejects missing
+latest releases and calendar gaps. Chronos-2, Chronos-Bolt, TimesFM 2.5, Toto and
+Timer use pinned model revisions in `models.yaml`, all Apache-2.0. Timer provides
+point forecasts only: interval bounds are null and coverage is not evaluated.
+It participates in point-error and direction metrics. Rankings require at least
+20 matched targets per indicator across all five models, with matching input hashes.
+Existing immutable issues are preserved, including older 512-point inputs; these
+do not form matched comparisons against newer 480-point inputs. The separate
 CUDA runtime changes neither the existing research model settings nor their CPU
 environments. There is no CPU fallback. GPU arithmetic is checked before each run.
 
 Create a Python 3.11 virtual environment outside the repository. Install
 `torch==2.7.0` from the official PyTorch cu126 index, then the packages in
 `ops/daily-gpu-requirements.txt`. The complete tested dependency pins are in
-`ops/daily-gpu-lock.txt`. Download the two pinned model revisions to a private
+`ops/daily-gpu-lock.txt`. Download the five pinned model revisions to a private
 Hugging Face cache before running; execution is offline. Keep a private
 runtime file with `TSFM_PYTHON_DAILY_GPU`, `HF_HOME`, and optionally
-`HF_HUB_CACHE` and `TSFM_TORCH_THREADS=4`.
+`HF_HUB_CACHE` and `TSFM_TORCH_THREADS=4`. Add `TSFM_PYTHON_TIMER_GPU` pointing to
+a separate Python 3.11 runtime with the same CUDA PyTorch and
+`transformers==4.40.1`, `tokenizers==0.19.1`. Timer's official custom generation
+code is incompatible with the main runtime's transformers version. The tested
+Windows Timer runtime shares the main runtime's site-packages through a `.pth`
+file, with those two packages installed locally using `--ignore-installed --no-deps`;
+local packages take precedence. Keep the referenced main runtime available.
+
+Timer remote code is pinned and reviewed in `timer-code-audit.txt`. Model downloads
+are a separate provisioning step; inference runs offline in isolated processes
+and releases VRAM between models. `gpu-model-smoke-20261019.json` records a
+480-point synthetic-input, 24-step CUDA execution check on an RTX 3070 Ti. These
+timings establish runtime compatibility, not predictive accuracy or hourly data
+availability. Actual public targets still follow each source's daily sessions.
 
 Using the pipeline environment's Python:
 
