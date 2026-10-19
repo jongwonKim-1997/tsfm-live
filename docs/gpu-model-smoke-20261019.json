@@ -1,0 +1,50 @@
+{
+  "fixture": "synthetic, not accuracy evidence",
+  "results": [
+    {
+      "model": "chronos-2",
+      "status": "ok",
+      "horizon": 24,
+      "context": 480,
+      "device": "cuda",
+      "quantile_method": "interpolated",
+      "seconds": 25.64
+    },
+    {
+      "model": "chronos-bolt-base",
+      "status": "ok",
+      "horizon": 24,
+      "context": 480,
+      "device": "cuda",
+      "quantile_method": "interpolated",
+      "seconds": 11.0
+    },
+    {
+      "model": "timesfm-2.5-200m",
+      "status": "ok",
+      "horizon": 24,
+      "context": 480,
+      "device": "cuda",
+      "quantile_method": "interpolated",
+      "seconds": 6.44
+    },
+    {
+      "model": "toto-open-base-1.0",
+      "status": "ok",
+      "horizon": 24,
+      "context": 480,
+      "device": "cuda",
+      "quantile_method": "sampled",
+      "seconds": 14.72
+    },
+    {
+      "model": "timer-base-84m",
+      "status": "ok",
+      "horizon": 24,
+      "context": 480,
+      "device": "cuda",
+      "quantile_method": "point",
+      "seconds": 8.59
+    }
+  ]
+}

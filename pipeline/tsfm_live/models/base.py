@@ -1,4 +1,4 @@
-"""Uniform, finite one-session distributions; no package imports at module load."""
+"""Finite point/distribution outputs; no package imports at module load."""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -16,10 +16,18 @@ import numpy as np
 class ForecastOutput:
     quantiles: dict[str, float]
     mean: float | None
-    quantile_method: Literal["native", "sampled", "interpolated"]
+    quantile_method: Literal["native", "sampled", "interpolated", "point"]
     n_samples: int | None
+    point: float | None = None
 
     def __post_init__(self):
+        if self.quantile_method == "point":
+            if (self.quantiles or self.mean is not None or self.n_samples is not None
+                    or self.point is None or not np.isfinite(self.point)):
+                raise ValueError("invalid_point_forecast")
+            return
+        if self.point is not None:
+            raise ValueError("point_requires_point_method")
         levels = np.asarray([float(k) for k in self.quantiles])
         values = np.asarray(list(self.quantiles.values()), dtype=float)
         if not len(levels) or np.any((levels <= 0) | (levels >= 1)):
@@ -38,7 +46,7 @@ class ForecastOutput:
 
 @dataclass(frozen=True)
 class ForecastPathOutput:
-    """Per-step marginal distributions, not a simultaneous path interval."""
+    """Per-step outputs; marginal intervals are not a simultaneous path interval."""
     steps: list[ForecastOutput]
 
     def __post_init__(self):

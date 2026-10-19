@@ -1,7 +1,8 @@
 import {escapeHTML as esc} from './forecast-view.mjs';
-import {performanceMarkup} from './daily-performance.mjs';
+import {performanceMarkup,DAILY_MODELS} from './daily-performance.mjs';
 
-const palette=['#53a6ff','#5ce0cc'];
+const palette=['#53a6ff','#5ce0cc','#c6a3ff','#ff9b83','#d5e56c'];
+const modelColor=id=>palette[Math.max(0,DAILY_MODELS.findIndex(([model])=>model===id))];
 const text={ko:{title:'어제의 예측을 확인하고, 내일을 봅니다.',kicker:'DAILY FORECAST · LOCAL GPU',actual:'실제 관측값',previous:'어제 발행한 예측',next:'오늘 발행한 예측',today:'오늘 실제값',tomorrow:'내일 / 다음 발표일',pending:'아직 발표되지 않았습니다',closed:'휴장 · 발표 없음',noPrior:'어제 발행된 예측이 없습니다. 운영 시작 후 쌓입니다.',history:'실제값 기간',seven:'최근 7일',month:'최근 30일',basis:'기준일',updated:'최근 갱신',model:'모델',notReady:'예측 준비 중',stale:'갱신이 지연되었습니다. 아래 날짜를 확인하세요.',note:'지표 자신의 일별 과거값만 사용한 zero-shot 예측입니다. 실제값과 모델 출력을 구분하며, 과거 발행 예측은 보존합니다.',dates:'날짜는 각 지표의 원천 관측일입니다. 발행일과 실행 일정은 한국시간입니다. 주말·휴일은 다음 발표일로 이동합니다.',licence:'출처와 이용 조건',pendingIndex:'주가지수 연결 대기',indexNote:'KOSPI · S&P 500 · NASDAQ — 무료 상업 이용·공개 재배포를 모두 허용하는 소스가 아직 확인되지 않았습니다.',interval:'음영·세로선: 모델의 80% 주변 예측 구간. 정확도 보장이 아닙니다.',noData:'현재 수집된 데이터가 없습니다.',all:'모든 모델',one:'단일 지표의 과거만',comparison:'어제 발행 → 오늘 결과 / 오늘 발행 → 내일 결과'},en:{title:'Check yesterday. See tomorrow.',kicker:'DAILY FORECAST · LOCAL GPU',actual:'Observed actuals',previous:'Issued yesterday',next:'Issued today',today:'Today’s actual',tomorrow:'Tomorrow / next release',pending:'Not yet released',closed:'Closed / no release',noPrior:'No forecast was issued yesterday. History accumulates from launch.',history:'Actuals window',seven:'Last 7 days',month:'Last 30 days',basis:'As of',updated:'Last refreshed',model:'Model',notReady:'Forecast pending',stale:'Update delayed. Check the dates below.',note:'Zero-shot forecasts use only each indicator’s own daily history. Actuals and model outputs are separate; previously issued forecasts are preserved.',dates:'Dates refer to source observation days. Issue dates and schedules use Korea time. Weekends and holidays move to the next release.',licence:'Sources and reuse terms',pendingIndex:'Equity indices pending',indexNote:'KOSPI · S&P 500 · NASDAQ — no source verified yet for free commercial use and public redistribution.',interval:'Shading / whiskers: model 80% marginal intervals, not an accuracy guarantee.',noData:'No collected observations available.',all:'All models',one:'Own history only',comparison:'Issued yesterday → today / issued today → tomorrow'}};
 
 export function validDaily(data){return data?.schema_version==='daily-public-v1'&&data.frequency==='1d'&&Array.isArray(data.indicators)&&Number.isFinite(Date.parse(data.generated_ts_utc));}
@@ -18,19 +19,20 @@ export function dailyChart(row,data,{days=7,model='all',locale='ko'}={}){
   const dates=[...actuals.map(p=>p.date),data.date,...forecasts.flatMap(f=>[f.anchor.date,...f.points.map(p=>p.date)])].sort();
   if(!actuals.length&&!forecasts.length)return `<p class="daily-empty">${esc(w.noData)}</p>`;
   const start=Math.max(since,Date.parse(dates[0])),end=Math.max(start+86400000,Date.parse(dates.at(-1)));
-  const values=[...actuals.map(p=>p.value),...forecasts.flatMap(f=>[f.anchor.value,...f.points.flatMap(p=>[p.lower,p.upper])])].filter(Number.isFinite);
+  const values=[...actuals.map(p=>p.value),...forecasts.flatMap(f=>[f.anchor.value,...f.points.flatMap(p=>[p.median,p.lower,p.upper])])].filter(Number.isFinite);
   let low=Math.min(...values),high=Math.max(...values);const pad=Math.max((high-low)*.15,Math.abs(high)*.0006,.001);low-=pad;high+=pad;
   const x=d=>L+(Date.parse(d)-start)/(end-start)*(W-L-R), y=v=>T+(high-v)/(high-low)*(H-T-B);
   const path=points=>points.map((p,i)=>`${i?'L':'M'}${x(p.date).toFixed(2)},${y(p.value).toFixed(2)}`).join(' ');
   const dots=(points,color)=>points.map(p=>`<circle cx="${x(p.date)}" cy="${y(p.value)}" r="4" fill="${color}"><title>${esc(p.date)} · ${fmt(p.value,row.unit)} ${esc(row.unit)}</title></circle>`).join('');
   const grid=Array.from({length:5},(_,i)=>{const v=low+(high-low)*i/4;return `<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="#263348"/><text x="${L-12}" y="${y(v)+4}" text-anchor="end" fill="#9aaac0" font-size="12">${fmt(v,row.unit)}</text>`;}).join('');
   let marks='';
-  for(const [index,f] of today.entries()){
-    const c=palette[f.model_id==='chronos-bolt-base'?1:0]||palette[index%2];
+  for(const f of today){
+    const c=modelColor(f.model_id);
     const points=[{date:f.anchor.date,value:f.anchor.value},...f.points.map(p=>({date:p.date,value:p.median}))].filter(p=>Date.parse(p.date)>=start);
-    const band=[...f.points.map(p=>({date:p.date,value:p.lower})),...f.points.slice().reverse().map(p=>({date:p.date,value:p.upper}))];
-    marks+=`<path d="${path(band)} Z" fill="${c}" opacity=".13"/><path d="${path(points)}" fill="none" stroke="${c}" stroke-width="3"/>${dots(points,c)}`;
-    if(f.points.length===1){const p=f.points[0],px=x(p.date),lo=y(p.lower),hi=y(p.upper);marks+=`<path d="M${px},${lo} V${hi} M${px-5},${lo} h10 M${px-5},${hi} h10" fill="none" stroke="${c}" stroke-width="2" opacity=".7"><title>80%: ${fmt(p.lower,row.unit)} – ${fmt(p.upper,row.unit)}</title></path>`;}
+    const intervals=f.points.filter(p=>Number.isFinite(p.lower)&&Number.isFinite(p.upper));
+    const band=[...intervals.map(p=>({date:p.date,value:p.lower})),...intervals.slice().reverse().map(p=>({date:p.date,value:p.upper}))];
+    marks+=`${band.length?`<path d="${path(band)} Z" fill="${c}" opacity=".13"/>`:''}<path d="${path(points)}" fill="none" stroke="${c}" stroke-width="3"/>${dots(points,c)}`;
+    if(intervals.length===1){const p=intervals[0],px=x(p.date),lo=y(p.lower),hi=y(p.upper);marks+=`<path d="M${px},${lo} V${hi} M${px-5},${lo} h10 M${px-5},${hi} h10" fill="none" stroke="${c}" stroke-width="2" opacity=".7"><title>80%: ${fmt(p.lower,row.unit)} – ${fmt(p.upper,row.unit)}</title></path>`;}
   }
   for(const f of previous){const points=[{date:f.anchor.date,value:f.anchor.value},...f.points.map(p=>({date:p.date,value:p.median}))].filter(p=>Date.parse(p.date)>=start);marks+=`<path d="${path(points)}" fill="none" stroke="#f7b955" stroke-width="2" stroke-dasharray="7 5"/>${dots(points,'#f7b955')}`;}
   const labels=Array.from({length:5},(_,i)=>new Date(start+(end-start)*i/4).toISOString().slice(0,10));
@@ -50,7 +52,7 @@ export function dailyMarkup(data,{locale='ko',selected=null,days=7,model='all',n
   const latestIssued=row.forecasts.map(f=>f.issued_at).filter(Boolean).sort().at(-1);
   const selectedForecasts=row.forecasts.filter(f=>model==='all'||model===f.model_id);
   const tomorrow=selectedForecasts.flatMap(f=>f.points).filter(p=>p.date>data.date).sort((a,b)=>a.date.localeCompare(b.date))[0];
-  const allModels=[['chronos-2','Chronos-2'],['chronos-bolt-base','Chronos-Bolt']];
+  const allModels=DAILY_MODELS;
   const comparisons=allModels.filter(([id])=>model==='all'||model===id).map(([id,name])=>{
     const prev=row.previous_forecasts.find(f=>f.model_id===id)?.points.find(p=>p.date===data.date);
     const current=row.forecasts.find(f=>f.model_id===id);
@@ -61,10 +63,10 @@ export function dailyMarkup(data,{locale='ko',selected=null,days=7,model='all',n
   <div class="daily-tabs" role="group" aria-label="Indicators">${data.indicators.map(r=>`<button data-daily-indicator="${esc(r.id)}" aria-pressed="${r.id===row.id}">${esc(r.id.toUpperCase().replace('ECB-',''))}</button>`).join('')}</div>
   <article class="daily-card"><div class="daily-card-top"><div><span class="eyebrow">${esc(row.group.toUpperCase())} · ${esc(row.unit)}</span><h2>${esc(row.name)}</h2></div><div class="daily-controls"><select data-daily-model aria-label="${w.model}"><option value="all" ${model==='all'?'selected':''}>${w.all}</option>${allModels.map(([id,name])=>`<option value="${id}" ${model===id?'selected':''}>${name}</option>`).join('')}</select><div role="group" aria-label="${w.history}">${[7,30].map(d=>`<button data-daily-days="${d}" aria-pressed="${days===d}">${d===7?w.seven:w.month}</button>`).join('')}</div></div></div>
   <div class="daily-summary"><div><span>${w.today} · ${esc(data.date)}</span><strong>${esc(actual)}</strong></div><div><span>${w.tomorrow}</span><strong>${tomorrow?esc(tomorrow.date):w.notReady}</strong></div><div><span>${w.one}</span><strong>ZERO-SHOT <small>· CUDA</small></strong></div></div>
-  <div class="daily-legend"><span style="--swatch:#edf4ff">${w.actual}</span><span style="--swatch:#f7b955">${w.previous}</span><span style="--swatch:#53a6ff">Chronos-2 · ${w.next}</span><span style="--swatch:#5ce0cc">Chronos-Bolt · ${w.next}</span></div>
-  <div class="daily-plot">${dailyChart(row,data,{days,model,locale})}</div><p class="daily-hint">${w.interval}</p>${!row.previous_forecasts.length?`<p class="daily-hint">${w.noPrior}</p>`:''}${row.source_error?`<p class="daily-warning">${w.pending} · ${esc(row.source_error)}</p>`:''}
+  <div class="daily-legend"><span style="--swatch:#edf4ff">${w.actual}</span><span style="--swatch:#f7b955">${w.previous}</span>${allModels.filter(([id])=>model==='all'||model===id).map(([id,name])=>`<span style="--swatch:${modelColor(id)}">${name} · ${w.next}</span>`).join('')}</div>
+  <div class="daily-plot">${dailyChart(row,data,{days,model,locale})}</div><p class="daily-hint">${w.interval} ${locale==='ko'?'Timer는 점예측만 제공하며 예측구간은 제공하지 않습니다.':'Timer provides point forecasts only, without prediction intervals.'}</p>${!row.previous_forecasts.length?`<p class="daily-hint">${w.noPrior}</p>`:''}${row.source_error?`<p class="daily-warning">${w.pending} · ${esc(row.source_error)}</p>`:''}
   <div class="table-scroll"><table class="data-table"><thead><tr><th>${w.model}</th><th>${w.previous}</th><th>${w.today}</th><th>${w.tomorrow}</th></tr></thead><tbody>${comparisons}</tbody></table></div>
-  <p class="daily-hint">${w.dates}</p><details class="daily-source"><summary>${w.licence}</summary><p>${esc(row.attribution)}</p><a href="${esc(row.license_url)}" target="_blank" rel="noreferrer">${esc(row.license_id)} ↗</a><p>Chronos-2 · Chronos-Bolt: Apache-2.0. Model forecasts are not source-provider forecasts.</p></details></article>
+  <p class="daily-hint">${w.dates}</p><details class="daily-source"><summary>${w.licence}</summary><p>${esc(row.attribution)}</p><a href="${esc(row.license_url)}" target="_blank" rel="noreferrer">${esc(row.license_id)} ↗</a><p>Chronos-2 · Chronos-Bolt · TimesFM · Toto · Timer: Apache-2.0. Model forecasts are not source-provider forecasts.</p></details></article>
   ${performanceMarkup(data,{locale,now})}
   <div class="daily-pending"><span class="eyebrow">${w.pendingIndex}</span><p>${w.indexNote}</p></div>`;
 }

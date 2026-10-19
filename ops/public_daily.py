@@ -28,7 +28,7 @@ from tsfm_live.sources.twse_open import TWSEOpenSource
 
 
 def configure_gpu(root, runtime_file):
-    allowed = {"TSFM_PYTHON_DAILY_GPU", "HF_HOME", "HF_HUB_CACHE", "TSFM_TORCH_THREADS"}
+    allowed = {"TSFM_PYTHON_DAILY_GPU", "TSFM_PYTHON_TIMER_GPU", "HF_HOME", "HF_HUB_CACHE", "TSFM_TORCH_THREADS"}
     values = read_runtime_env(private_path(runtime_file, root), allowed)
     for key in ("TSFM_PYTHON_DAILY_GPU", "HF_HOME"):
         if key not in values:

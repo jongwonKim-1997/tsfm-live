@@ -44,6 +44,9 @@ def fixture_catalogs():
         indicators.append(cfg)
     models = []
     for original in load_models():
+        # This fixture exercises distribution scoring; point-only models have no quantiles.
+        if original["output"] == "point":
+            continue
         model = copy.deepcopy(original)
         model.update(name=f"Fixture {model['id']}", enabled=True, fixture=True,
                      runtime_verified=False, launch_ready=False, package="fixture-only",

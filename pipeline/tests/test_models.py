@@ -102,7 +102,7 @@ def test_seed_is_stable_and_isolated():
 def test_catalog_has_exact_revisions_and_distinguishes_runtime_validation():
     models = load_models()
     tsfms = [x for x in models if x["kind"] == "tsfm"]
-    assert len(tsfms) == 8
+    assert len(tsfms) == 9
     for model in tsfms:
         assert len(model["hf_revision"]) == 40 and "==" in model["package"]
         assert model["api_verified"] is True
@@ -122,6 +122,25 @@ def test_mutable_weight_revision_is_rejected():
     cfg["hf_revision"] = "main"
     with pytest.raises(ValueError, match="pinned_hf_revision"):
         create_entrant(cfg)
+
+
+def test_point_forecast_cannot_masquerade_as_quantiles():
+    assert ForecastOutput({}, None, "point", None, point=1.5).quantiles == {}
+    for q, mean, samples, point in [({"0.5": 1.5}, None, None, 1.5),
+                                    ({}, 1.5, None, 1.5), ({}, None, 1000, 1.5),
+                                    ({}, None, None, float("nan")), ({}, None, None, None)]:
+        with pytest.raises(ValueError, match="invalid_point"):
+            ForecastOutput(q, mean, "point", samples, point=point)
+
+
+def test_timer_rejects_silent_context_truncation_and_unaudited_code():
+    cfg = next(x for x in load_models() if x["id"] == "timer-base-84m")
+    assert cfg["enabled"] is False  # quantile benchmark excludes point-only models
+    with pytest.raises(ValueError, match="whole_96"):
+        create_entrant(cfg).predict(np.ones(512), QUANTILES, 1)
+    cfg["hf_revision"] = "0" * 40
+    with pytest.raises(RuntimeError, match="not_audited"):
+        create_entrant(cfg).predict(np.ones(480), QUANTILES, 1)
 
 
 def test_worker_real_baseline_roundtrip_and_error_protocol():

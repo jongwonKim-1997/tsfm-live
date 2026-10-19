@@ -22,6 +22,12 @@ test('chart escapes labels and plots both frozen and newly issued values',()=>{
   const html=dailyChart({...row,name:'<script>alert(1)</script>',forecasts:[f],previous_forecasts:[f]},data);
   assert.match(html,/<title>80%: 1.19 – 1.23<\/title>/);assert.match(html,/stroke-dasharray="7 5"/);assert.match(html,/#53a6ff/);assert.doesNotMatch(html,/<script>/);
 });
+
+test('Timer plots a point trajectory with no made-up band or whisker',()=>{
+  const f={model_id:'timer-base-84m',anchor:{date:'2026-10-16',value:1.2},points:[{date:'2026-10-19',median:1.21,lower:null,upper:null,forecast_type:'point'}]};
+  const html=dailyChart({...row,forecasts:[f]},data,{model:'timer-base-84m'});
+  assert.match(html,/#d5e56c/);assert.doesNotMatch(html,/80%:|opacity=".13"|NaN|Infinity/);
+});
 test('KV fallback, valid payload and invalid source',async()=>{
   const payload={...data,device:'cuda',input_basis:'own_daily_levels_only',inference_mode:'zero_shot',indicators:['eurusd','usdjpy','ecb-usdkrw','ust2y','ust10y'].map(id=>({...row,id,source_id:id.startsWith('ust')?'ustreasury':'ecb',license_id:id.startsWith('ust')?'US-government-work':'ECB-reuse',forecast_history:[]}))};
   assert.equal(await onRequestGet({env:{},next:()=> 'fallback'}),'fallback');

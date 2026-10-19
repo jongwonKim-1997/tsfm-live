@@ -1,6 +1,8 @@
 # Python 3.11; install torch separately from the official cu126 index.
 # python -m pip install torch==2.7.0 --index-url https://download.pytorch.org/whl/cu126
 chronos-forecasting==2.3.2
+timesfm[torch]==3.0.2
+toto-ts==0.2.0
 transformers==4.52.1
 numpy==1.26.4
 scipy==1.11.4
